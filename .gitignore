@@ -12,3 +12,5 @@
 hs_err_pid*
 /.idea/
 /out/
+/app/config/*.properties
+/var/

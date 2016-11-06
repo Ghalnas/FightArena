@@ -1,18 +1,24 @@
 package controller;
 
+import model.Observer;
 import listener.CharacterListener;
 import model.*;
 import model.Character;
-import view.*;
+import view.MyPanel;
 
 import javax.swing.*;
 
-public class Engine implements CharacterListener
+/**
+ * Class Engine
+ */
+public class Engine implements CharacterListener, Observer
 {
     private Character player;
     private Character bot;
     private Arena arena;
     private JPanel panel;
+
+    private static Logger LOGGER = Logger.getInstance();
 
     public Engine(int arenaWidth, int arenaHeight, int playerX, int playerY, int botX, int botY)
     {
@@ -35,6 +41,9 @@ public class Engine implements CharacterListener
 
     public void run()
     {
+        LOGGER.info("Logger info example");
+        LOGGER.warning("Logger warning example");
+        LOGGER.critical("Logger critical example");
         System.out.println("====================GAME STARTED====================");
         System.out.println("Player"+player.getPosition());
         System.out.println("Bot"+bot.getPosition());
@@ -81,5 +90,14 @@ public class Engine implements CharacterListener
             s += "\n";
         }
         return s;
+    }
+
+    /**
+     * Display new log
+     *
+     * @param str
+     */
+    public void update(String str) {
+        System.out.println(str);
     }
 }

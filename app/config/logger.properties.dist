@@ -1,0 +1,2 @@
+logger.path=var/log/fight_arena.log
+logger.datePattern=dd/MM/YYYY HH:mm:ss
