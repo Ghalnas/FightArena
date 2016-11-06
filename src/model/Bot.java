@@ -42,7 +42,8 @@ public class Bot extends Character implements Observer
     public void update(Observable o, Object arg) {
         if(arg instanceof Position) {
             if (position.distanceTo((Position)arg) < 100) {
-                System.out.println("Bot detected that player is close");
+                setChanged();
+                notifyObservers("Bot detected that player is close");
             }
         }
     }
