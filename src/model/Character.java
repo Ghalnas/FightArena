@@ -4,16 +4,18 @@ import listener.CharacterListener;
 
 import java.util.ArrayList;
 
-public class Character
+public abstract class Character
 {
 
     private int health, damage;
+    private final int maxHealth;
     protected Position position;
     private ArrayList<CharacterListener> listeners;
 
     public Character(Position position)
     {
-        this.health = 100;
+        this.maxHealth = 100;
+        this.health = 78;
         this.damage = 20;
         this.position = position;
         listeners = new ArrayList<CharacterListener>();
@@ -49,4 +51,15 @@ public class Character
         return "Character";
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
 }

@@ -25,7 +25,7 @@ public class Engine implements CharacterListener
 
         bot.addListener(this);
 
-        panel = new MyPanel(arenaWidth,arenaHeight, player, bot);
+        panel = new MyPanel(arena, player, bot);
         JFrame f = new JFrame();
         f.getContentPane().add(panel);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

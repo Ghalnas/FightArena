@@ -1,6 +1,8 @@
 package view;
 
+import model.Arena;
 import model.Character;
+import model.Player;
 import model.Position;
 
 import javax.swing.*;
@@ -11,11 +13,13 @@ import java.awt.event.KeyListener;
 public class MyPanel extends JPanel implements KeyListener {
     private Character player;
     private Character bot;
+    private Arena arena;
 
-    public MyPanel(int width, int height, Character player, Character bot) {
+    public MyPanel(Arena arena, Character player, Character bot) {
+        this.arena = arena;
         this.player = player;
         this.bot = bot;
-        this.setPreferredSize(new Dimension(width,height));
+        this.setPreferredSize(new Dimension(arena.getWidth(),arena.getHeight()));
         addKeyListener(this);
     }
 
@@ -25,10 +29,13 @@ public class MyPanel extends JPanel implements KeyListener {
     }
 
     public void paintComponent(Graphics g) {
-        g.setColor(Color.BLUE);
-        g.clearRect(0, 0, getWidth(), getHeight());
-        g.drawRect(player.getPosition().getX(),player.getPosition().getY(),15,30);
-        g.drawRect(bot.getPosition().getX(),bot.getPosition().getY(),15,30);
+        super.paintComponent(g);
+
+        g.setColor(Color.BLACK);
+        g.fillRect(0,0, getWidth(),getHeight());
+
+        paintCharacter(player,g);
+        paintCharacter(bot,g);
     }
 
     public void keyPressed(KeyEvent e) {
@@ -60,5 +67,20 @@ public class MyPanel extends JPanel implements KeyListener {
     public void keyTyped(KeyEvent e)
     {
 
+    }
+
+    private void paintCharacter(Character c, Graphics g)
+    {
+        int charWidth = 30;
+        int charHeight = 40;
+
+        int charRemainingHealth = (charWidth *c.getHealth())/c.getMaxHealth();
+        g.setColor(Color.GREEN);
+        g.fillRect(c.getPosition().getX(),c.getPosition().getY()-10,charRemainingHealth,3);
+        g.setColor(Color.RED);
+        g.fillRect(c.getPosition().getX()+charRemainingHealth,c.getPosition().getY()-10, charWidth -charRemainingHealth,3);
+        Color col = c instanceof Player ? Color.BLUE : Color.MAGENTA;
+        g.setColor(col);
+        g.fillRect(c.getPosition().getX(),c.getPosition().getY(), charWidth,charHeight);
     }
 }
