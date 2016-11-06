@@ -1,22 +1,20 @@
 package model;
 
-import listener.CharacterListener;
+import java.util.Observable;
 
-import java.util.ArrayList;
-
-public class Character
+public abstract class Character extends Observable
 {
 
     private int health, damage;
+    private final int maxHealth;
     protected Position position;
-    private ArrayList<CharacterListener> listeners;
 
     public Character(Position position)
     {
-        this.health = 100;
+        this.maxHealth = 100;
+        this.health = 78;
         this.damage = 20;
         this.position = position;
-        listeners = new ArrayList<CharacterListener>();
     }
 
     public Position getPosition()
@@ -26,27 +24,26 @@ public class Character
 
     public void setPosition(Position position)
     {
-        for (CharacterListener e : listeners) {
-            e.hasMoved(this);
-        }
-        this.position = position;
+        this.position.setX(position.getX());
+        this.position.setY(position.getY());
+        setChanged();
+        notifyObservers(this.position);
     }
 
 
-    public void addListener(CharacterListener e)
-    {
-        listeners.add(e);
-    }
-
-    public void removeListener(CharacterListener e)
-    {
-        listeners.remove(e);
-    }
 
     @Override
     public String toString()
     {
         return "Character";
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
 }

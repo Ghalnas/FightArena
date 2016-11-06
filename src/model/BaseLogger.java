@@ -8,18 +8,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Observer;
 
 /**
  * Class BaseLogger
  */
-abstract class BaseLogger implements Observable
+abstract class BaseLogger implements Observer
 {
     private static String whiteColor = "\033[37m";
     private static String blueColor = "\033[34m";
     private static String yellowColor = "\033[33m";
     private static String redColor = "\033[31m";
-
-    private ArrayList<Observer> listObserver = new ArrayList<Observer>();
 
     String path;
     String datePattern;
@@ -63,7 +62,7 @@ abstract class BaseLogger implements Observable
      */
     private void process(String message, String level, String color)
     {
-        notifyObserver(format(message, level, color));
+        System.out.println(format(message,level,color));
         persist(format(message, level, ""));
     }
 
@@ -133,32 +132,4 @@ abstract class BaseLogger implements Observable
         return false;
     }
 
-    /**
-     * Add observer
-     *
-     * @param observer
-     */
-    public void addObserver(Observer observer) {
-        this.listObserver.add(observer);
-    }
-
-    /**
-     * Notify observer
-     *
-     * @param str
-     */
-    public void notifyObserver(String str) {
-        if(str.matches("^0[0-9]+"))
-            str = str.substring(1, str.length());
-
-        for(Observer observer : listObserver)
-            observer.update(str);
-    }
-
-    /**
-     * Remove observer
-     */
-    public void removeObserver() {
-        listObserver = new ArrayList<Observer>();
-    }
 }

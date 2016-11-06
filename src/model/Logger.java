@@ -1,6 +1,7 @@
 package model;
 
 import java.io.*;
+import java.util.Observable;
 import java.util.Properties;
 
 /**
@@ -52,5 +53,14 @@ public class Logger extends BaseLogger
         }
 
         return INSTANCE;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof Player && arg instanceof Position) {
+            info(o+" moved to "+arg);
+        } else if (arg instanceof String) {
+            warning((String)arg);
+        }
     }
 }
