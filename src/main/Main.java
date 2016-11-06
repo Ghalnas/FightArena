@@ -22,7 +22,7 @@ public class Main
 
         try {
             //read properties
-            input = new FileInputStream("src/main/parameters.properties");
+            input = new FileInputStream("app/config/parameters.properties");
             prop.load(input);
             int arenaWidth = Integer.parseInt(prop.getProperty("arena_width"));
             int arenaHeight = Integer.parseInt(prop.getProperty("arena_height"));
@@ -35,9 +35,10 @@ public class Main
             Arena arena = new Arena(arenaWidth,arenaHeight);
             Character player = new Player(new Position(playerX,playerY));
             Character bot = new Bot(new Position(botX,botY));
+            Logger logger = Logger.getInstance();
 
             //instantiate game engine
-            Engine engine = new Engine(arena,player,(Bot)bot);
+            Engine engine = new Engine(player,(Bot)bot);
 
             //instanciate gui setting ui observers
             MyPanel panel = new MyPanel(arena.getWidth(),arena.getHeight());
@@ -47,12 +48,13 @@ public class Main
             // set logic observers
             player.addObserver((Bot)bot);
             player.addObserver(panel);
+            player.addObserver(logger);
             bot.addObserver(panel);
+            bot.addObserver(logger);
 
             //instanciate frame
             Window win = new Window(engine,panel);
             engine.run();
-
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
@@ -64,6 +66,5 @@ public class Main
                 }
             }
         }
-
     }
 }

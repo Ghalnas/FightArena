@@ -3,20 +3,20 @@ package controller;
 import model.*;
 import model.Character;
 
+/**
+ * Class Engine
+ */
 public class Engine
 {
-
     public enum Direction {
         UP,RIGHT,DOWN,LEFT;
     }
 
-    private Arena arena;
     private Character player;
     private Bot bot;
 
-    public Engine(Arena arena,Character player, Bot bot)
+    public Engine(Character player, Bot bot)
     {
-        this.arena = arena;
         this.player = player;
         this.bot = bot;
     }
