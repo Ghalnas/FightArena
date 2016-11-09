@@ -4,6 +4,14 @@ public class StrategyDumb implements Strategy
 {
     private int i = 0;
     private int direction = -1;
+    private Character player;
+    private Character bot;
+
+    public StrategyDumb(Character player, Character bot)
+    {
+        this.player = player;
+        this.bot = bot;
+    }
 
     @Override
     public Command getCommand() {
@@ -11,6 +19,12 @@ public class StrategyDumb implements Strategy
         if (i%30 == 0) {
             direction = -direction;
         }
-        return new Command(direction,0);
+        Command c;
+        if (player.getPosition().distanceTo(bot.getPosition()) < 100) {
+            c = new Command(0,direction);
+        } else {
+            c = new Command(direction,0);
+        }
+        return c;
     }
 }

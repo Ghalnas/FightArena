@@ -23,7 +23,7 @@ public class Engine implements Observer
     public void init()
     {
         System.out.println("====================GAME STARTED====================");
-        bot.setStrategy(new StrategyDumb());
+        bot.setStrategy(new StrategyDumb(player,bot));
     }
 
     public void run(Command c)
@@ -33,14 +33,9 @@ public class Engine implements Observer
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        if(arg instanceof Position) {
-            if (bot.getPosition().distanceTo(player.getPosition()) < 100) {
-                bot.setStrategy(new StrategyDumbTwo());
-            } else {
-                bot.setStrategy(new StrategyDumb());
-            }
-        }
+    public void update(Observable o, Object arg)
+    {
+        // some logic here
     }
 }
 
