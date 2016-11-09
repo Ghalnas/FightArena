@@ -31,15 +31,15 @@ $ git clone https://github.com/TataneInYourFace/FightArena.git
 The configuration is handled by the configuration files in `app/config/parameters.properties` and `app/config/logger.properties`.<br>
 Follow the parameters.properties.dist and logger.properties.dist files to fill them depending on your own configuration.<br>
 
-If you are on a Unix system, set right to fightArena.sh :
+If you are on a Unix system, set right to run.sh :
 ```bash
-$ chmod +x fightArena.sh
+$ chmod +x run.sh
 ```
 
 #### Launching
-Just launch fightArena.sh :
+Just launch run.sh :
 ```bash
-$ sh fightArena.sh
+$ sh run.sh
 ```
 
 ## Contributing
