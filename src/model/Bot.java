@@ -1,50 +1,28 @@
 package model;
 
-import java.util.Observable;
-import java.util.Observer;
-
-public class Bot extends Character implements Observer
+public class Bot extends Character
 {
+    private Strategy strategy;
 
     public Bot(Position position)
     {
         super(position);
+        speed = 3;
     }
 
-    public void loop()
+    public void move()
     {
-        while(true)
-        {
-            setPosition(new Position(getPosition().getX()-100,getPosition().getY()));
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        super.move(strategy.getCommand());
+    }
 
-            setPosition(new Position(getPosition().getX()+100,getPosition().getY()));
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
+    public void setStrategy(Strategy s)
+    {
+        strategy = s;
     }
 
     @Override
     public String toString()
     {
         return "Bot";
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if(arg instanceof Position) {
-            if (position.distanceTo((Position)arg) < 100) {
-                setChanged();
-                notifyObservers("Bot detected that player is close");
-            }
-        }
     }
 }

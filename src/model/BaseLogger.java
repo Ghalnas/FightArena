@@ -15,10 +15,10 @@ import java.util.Observer;
  */
 abstract class BaseLogger implements Observer
 {
-    private static String whiteColor = "\033[37m";
-    private static String blueColor = "\033[34m";
-    private static String yellowColor = "\033[33m";
-    private static String redColor = "\033[31m";
+    private final String whiteColor = "\033[37m";
+    private final String blueColor = "\033[34m";
+    private final String yellowColor = "\033[33m";
+    private final String redColor = "\033[31m";
 
     String path;
     String datePattern;
