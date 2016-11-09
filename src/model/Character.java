@@ -4,17 +4,16 @@ import java.util.Observable;
 
 public abstract class Character extends Observable
 {
-
     private int health, damage;
-    private final int maxHealth;
     protected Position position;
+    protected int speed;
 
     public Character(Position position)
     {
-        this.maxHealth = 100;
         this.health = 78;
         this.damage = 20;
         this.position = position;
+        this.speed = 10;
     }
 
     public Position getPosition()
@@ -22,15 +21,16 @@ public abstract class Character extends Observable
         return position;
     }
 
-    public void setPosition(Position position)
+    public void move(Command c)
     {
-        this.position.setX(position.getX());
-        this.position.setY(position.getY());
-        setChanged();
-        notifyObservers(this.position);
+        Position tmp = position.clone();
+        position.setX(position.getX() + speed * c.getX());
+        position.setY(position.getY() + speed * c.getY());
+        if (!position.equals(tmp)) {
+            setChanged();
+            notifyObservers(this.position);
+        }
     }
-
-
 
     @Override
     public String toString()
@@ -45,5 +45,5 @@ public abstract class Character extends Observable
     public void setHealth(int health) {
         this.health = health;
     }
-
 }
+

@@ -3,15 +3,14 @@ package controller;
 import model.*;
 import model.Character;
 
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  * Class Engine
  */
-public class Engine
+public class Engine implements Observer
 {
-    public enum Direction {
-        UP,RIGHT,DOWN,LEFT;
-    }
-
     private Character player;
     private Bot bot;
 
@@ -21,30 +20,27 @@ public class Engine
         this.bot = bot;
     }
 
-    public void run()
+    public void init()
     {
         System.out.println("====================GAME STARTED====================");
-        bot.loop();
+        bot.setStrategy(new StrategyDumb());
     }
 
-
-    public void movePlayer(Direction dir)
+    public void run(Command c)
     {
-        int currentX = player.getPosition().getX();
-        int currentY = player.getPosition().getY();
-        switch (dir) {
-            case UP:
-                player.setPosition(new Position(currentX,currentY-10));
-                break;
-            case RIGHT:
-                player.setPosition(new Position(currentX+10,currentY));
-                break;
-            case DOWN:
-                player.setPosition(new Position(currentX,currentY+10));
-                break;
-            case LEFT :
-                player.setPosition(new Position(currentX-10,currentY));
-                break;
+        player.move(c);
+        bot.move();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if(arg instanceof Position) {
+            if (bot.getPosition().distanceTo(player.getPosition()) < 100) {
+                bot.setStrategy(new StrategyDumbTwo());
+            } else {
+                bot.setStrategy(new StrategyDumb());
+            }
         }
     }
 }
+
