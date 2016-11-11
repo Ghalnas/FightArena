@@ -24,6 +24,7 @@ public class Engine implements Observer
     {
         System.out.println("====================GAME STARTED====================");
         bot.setStrategy(new StrategyDumb(player,bot));
+        player.setHealth(75);
     }
 
     public void run(Command c)
