@@ -6,7 +6,7 @@ public class Bot extends Character
 
     public Bot(Position position)
     {
-        super(position);
+        super(position,Direction.LEFT);
         speed = 3;
     }
 
