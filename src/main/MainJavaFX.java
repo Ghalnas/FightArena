@@ -52,7 +52,6 @@ public class MainJavaFX extends Application
             player.addObserver(engine);
             bot.addObserver(engine);
             player.addObserver(logger);
-            engine.init();
 
             // set window size
             stage.setWidth(arenaWidth);
@@ -74,6 +73,8 @@ public class MainJavaFX extends Application
 
             stage.setScene(scene);
             stage.show();
+
+            engine.init();
 
             AnimationTimer timer = new AnimationTimer() {
                 @Override public void handle(long l) {

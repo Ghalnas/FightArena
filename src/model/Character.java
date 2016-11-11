@@ -10,10 +10,10 @@ public abstract class Character extends Observable
 
     public Character(Position position)
     {
-        this.health = 78;
+        this.health = 100;
         this.damage = 20;
         this.position = position;
-        this.speed = 10;
+        this.speed = 5;
     }
 
     public Position getPosition()
