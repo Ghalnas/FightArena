@@ -55,7 +55,7 @@ public class MainJavaFX extends Application
             Engine engine = new Engine(player,(Bot)bot);
             player.addObserver(engine);
             bot.addObserver(engine);
-//            player.addObserver(logger);
+//          player.addObserver(logger);
             player.addObserver(playerObs);
             bot.addObserver(botObs);
 

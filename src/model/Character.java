@@ -13,7 +13,7 @@ public abstract class Character extends Observable
     public enum Direction { LEFT, RIGHT, UP, DOWN }
     public enum Event { MOVED, STOPPED }
 
-    private int health, damage;
+    private int health, dammage;
     protected Position position;
     private double speed;
     private Direction direction;
@@ -22,7 +22,7 @@ public abstract class Character extends Observable
     public Character(Position position, Direction direction, double speed)
     {
         this.health = 100;
-        this.damage = 20;
+        this.dammage = 20;
         this.position = position;
         this.direction = direction;
         this.speed = speed;
