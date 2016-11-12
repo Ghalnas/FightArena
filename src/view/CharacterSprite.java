@@ -8,29 +8,57 @@ import model.Player;
 
 public class CharacterSprite
 {
-    private static final int spriteWidth = 17;
-    private static final int spriteHeight = 26;
+    private final int spriteWidth;
+    private final int spriteHeight;
+    private final ImageView imageView;
+    private double cpt;
+    private double increment;
+    private Character character;
 
-    private static ImageView playerView = new ImageView(new Image("file:src/image/player-simple.png"));;
-    private static ImageView botView = new ImageView(new Image("file:src/image/bot-simple.png"));;
-
-    public static ImageView getCharacterSprite(Character c)
+    public CharacterSprite(Character c,int spriteWidth, int spriteHeight)
     {
-        ImageView charView = c instanceof Player ? playerView : botView;
-        switch (c.getDirection()) {
-            case LEFT:
-                charView.setViewport(new Rectangle2D(0, 0, spriteWidth, spriteHeight));
-                break;
-            case DOWN:
-                charView.setViewport(new Rectangle2D(spriteWidth, 0, spriteWidth, spriteHeight));
+        imageView = c instanceof Player ? new ImageView(new Image("file:src/image/player-simple.png")) : new ImageView(new Image("file:src/image/bot-simple.png"));
+        character = c;
+        cpt = 0;
+        increment = 0.1;
+        this.spriteWidth = spriteWidth;
+        this.spriteHeight = spriteHeight;
+    }
+
+    public ImageView getCharacterSprite()
+    {
+        cpt = 0;
+        increment = Math.abs(increment);
+        setImageViewPort(1);
+        return imageView;
+    }
+
+    public ImageView getMovingCharacterSprite()
+    {
+        cpt += increment;
+        if(cpt > 100 || cpt < 0) {
+            increment = -increment;
+        }
+        int multiplier = (int)Math.rint(cpt);
+        setImageViewPort(multiplier%3);
+        return imageView;
+    }
+
+    private void setImageViewPort(int multiplier)
+    {
+        switch (character.getDirection()) {
+            case UP:
+                imageView.setViewport(new Rectangle2D(multiplier*spriteWidth, 0, spriteWidth, spriteHeight));
                 break;
             case RIGHT:
-                charView.setViewport(new Rectangle2D(2*spriteWidth, 0, spriteWidth, spriteHeight));
+                imageView.setViewport(new Rectangle2D(multiplier*spriteWidth, spriteHeight, spriteWidth, spriteHeight));
                 break;
-            case UP:
-                charView.setViewport(new Rectangle2D(3*spriteWidth, 0, spriteWidth, spriteHeight));
+            case DOWN:
+                imageView.setViewport(new Rectangle2D(multiplier*spriteWidth, 2*spriteHeight, spriteWidth, spriteHeight));
+                break;
+            case LEFT:
+                imageView.setViewport(new Rectangle2D(multiplier*spriteWidth, 3*spriteHeight, spriteWidth, spriteHeight));
                 break;
         }
-        return charView;
     }
 }

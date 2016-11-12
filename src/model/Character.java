@@ -11,19 +11,22 @@ public abstract class Character extends Observable
     }
 
     public enum Direction { LEFT, RIGHT, UP, DOWN }
+    public enum Event { MOVED, STOPPED }
 
     private int health, damage;
     protected Position position;
-    protected int speed;
+    private double speed;
     private Direction direction;
+    private boolean isMoving;
 
-    public Character(Position position, Direction direction)
+    public Character(Position position, Direction direction, double speed)
     {
         this.health = 100;
         this.damage = 20;
         this.position = position;
         this.direction = direction;
-        this.speed = 5;
+        this.speed = speed;
+        isMoving = false;
     }
 
     public Position getPosition()
@@ -43,12 +46,16 @@ public abstract class Character extends Observable
             direction = Direction.UP;
         }
 
-        Position tmp = position.clone();
         position.setX(position.getX() + speed * c.getX());
-        position.setY(position.getY() + speed * c.getY());
-        if (!position.equals(tmp)) {
+        position.setY(position.getY() +  speed  * c.getY());
+        if (c.getY() != 0 || c.getX() != 0)  {
             setChanged();
-            notifyObservers(this.position);
+            notifyObservers(Event.MOVED);
+            isMoving = true;
+        } else if(isMoving) {
+            setChanged();
+            notifyObservers(Event.STOPPED);
+            isMoving = false;
         }
     }
 
@@ -58,5 +65,15 @@ public abstract class Character extends Observable
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public double getSpeed()
+    {
+        return speed;
+    }
+
+    public void setSpeed(double speed)
+    {
+        this.speed = speed;
     }
 }

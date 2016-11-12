@@ -3,6 +3,7 @@ package model;
 import java.io.*;
 import java.util.Observable;
 import java.util.Properties;
+import model.Character.Event;
 
 /**
  * Class Logger
@@ -57,8 +58,8 @@ public class Logger extends BaseLogger
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof Player && arg instanceof Position) {
-            info(o+" moved to "+arg);
+        if (o instanceof Player && arg instanceof Event) {
+            info(o+" moved to "+((Player) o).getPosition());
         } else if (arg instanceof String) {
             warning((String)arg);
         }

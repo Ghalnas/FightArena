@@ -2,7 +2,7 @@ package view;
 
 import javafx.scene.Node;
 
-public interface ObserverJavaFX
+public interface JavaFXPrinter
 {
     public Node getNode();
 }

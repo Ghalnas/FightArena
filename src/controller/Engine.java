@@ -29,6 +29,10 @@ public class Engine implements Observer
 
     public void run(Command c)
     {
+        if (Math.abs(c.getX()) + Math.abs(c.getY()) > 1.9) {
+            c.setX(Math.signum(c.getX()) * Math.PI/4);
+            c.setY(Math.signum(c.getY()) * Math.PI/4);
+        }
         player.move(c);
         bot.move();
     }
