@@ -19,7 +19,7 @@ public class CharacterSprite
     {
         imageView = c instanceof Player ? new ImageView(new Image("file:src/image/player-simple.png")) : new ImageView(new Image("file:src/image/bot-simple.png"));
         character = c;
-        cpt = 0;
+        cpt = 1;
         increment = 0.1;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
@@ -27,7 +27,7 @@ public class CharacterSprite
 
     public ImageView getCharacterSprite()
     {
-        cpt = 0;
+        cpt = 1;
         increment = Math.abs(increment);
         setImageViewPort(1);
         return imageView;
@@ -36,7 +36,7 @@ public class CharacterSprite
     public ImageView getMovingCharacterSprite()
     {
         cpt += increment;
-        if(cpt > 100 || cpt < 0) {
+        if(cpt > 100 || cpt < 1) {
             increment = -increment;
         }
         int multiplier = (int)Math.rint(cpt);
