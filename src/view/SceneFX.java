@@ -45,7 +45,7 @@ public class SceneFX extends Scene
 
     public Command getCommand()
     {
-        int vX = 0, vY =  0;
+        double vX = 0, vY =  0;
         if(left) vX += -1;
         if(right) vX += 1;
         if(up) vY += -1;

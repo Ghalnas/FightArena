@@ -4,15 +4,12 @@ import controller.Engine;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import model.*;
 import model.Character;
-import view.CharacterObserver;
-import view.JavaFXViewer;
-import view.SceneFX;
+import view.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -41,17 +38,26 @@ public class MainJavaFX extends Application
             int playerY = Integer.parseInt(prop.getProperty("player_start_y"));
             int botX = Integer.parseInt(prop.getProperty("bot_start_x"));
             int botY = Integer.parseInt(prop.getProperty("bot_start_y"));
+            int spriteWidth = Integer.parseInt(prop.getProperty("sprite_width"));
+            int spriteHeight = Integer.parseInt(prop.getProperty("sprite_height"));
+            double spriteScale = Double.parseDouble(prop.getProperty("sprite_scale"));
+            double characterSpeed = Double.parseDouble(prop.getProperty("character_speed"));
 
             Arena arena = new Arena(arenaWidth,arenaHeight);
-            Character player = new Player(new Position(playerX,playerY));
-            Character bot = new Bot(new Position(botX,botY));
+            Character player = new Player(new Position(playerX,playerY),characterSpeed);
+            Character bot = new Bot(new Position(botX,botY),characterSpeed);
             Logger logger = Logger.getInstance();
+
+            CharacterPrinter playerObs = new CharacterPrinter(player,spriteWidth,spriteHeight);
+            CharacterPrinter botObs = new CharacterPrinter(bot,spriteWidth,spriteHeight);
 
             //instantiate game engine and set Observers
             Engine engine = new Engine(player,(Bot)bot);
             player.addObserver(engine);
             bot.addObserver(engine);
-            player.addObserver(logger);
+//          player.addObserver(logger);
+            player.addObserver(playerObs);
+            bot.addObserver(botObs);
 
             // set window size
             stage.setWidth(arenaWidth);
@@ -59,9 +65,9 @@ public class MainJavaFX extends Application
             stage.setTitle("Fight Arena");
 
             // create panel and set its observers
-            JavaFXViewer viewer = new JavaFXViewer();
-            viewer.addObserverJavaFX(new CharacterObserver(player));
-            viewer.addObserverJavaFX(new CharacterObserver(bot));
+            JavaFXViewer viewer = new JavaFXViewer(spriteScale);
+            viewer.addObserverJavaFX(playerObs);
+            viewer.addObserverJavaFX(botObs);
 
             Group root = new Group();
             SceneFX scene = new SceneFX(root);
