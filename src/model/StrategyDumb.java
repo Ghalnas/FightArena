@@ -1,5 +1,7 @@
 package model;
 
+import model.Command.Action;
+
 public class StrategyDumb implements Strategy
 {
     private int i = 0;
@@ -16,14 +18,18 @@ public class StrategyDumb implements Strategy
     @Override
     public Command getCommand() {
         i += direction;
-        if (i%30 == 0) {
+        Action action = Action.NONE;
+        if(i%30 == 0) {
+            action = Action.SLASH;
+        }
+        if (i%50 == 0) {
             direction = -direction;
         }
         Command c;
         if (player.getPosition().distanceTo(bot.getPosition()) < 100) {
-            c = new Command(0,direction);
+            c = new Command(0,direction, action);
         } else {
-            c = new Command(direction,0);
+            c = new Command(direction,0, action);
         }
         return c;
     }

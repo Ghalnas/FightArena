@@ -42,17 +42,18 @@ public class MainJavaFX extends Application
             int spriteHeight = Integer.parseInt(prop.getProperty("sprite_height"));
             double spriteScale = Double.parseDouble(prop.getProperty("sprite_scale"));
             double characterSpeed = Double.parseDouble(prop.getProperty("character_speed"));
+            int slashFrames = Integer.parseInt(prop.getProperty("slash_frames"));
 
             Arena arena = new Arena(arenaWidth,arenaHeight);
             Character player = new Player(new Position(playerX,playerY),characterSpeed);
             Character bot = new Bot(new Position(botX,botY),characterSpeed);
             Logger logger = Logger.getInstance();
 
-            CharacterPrinter playerObs = new CharacterPrinter(player,spriteWidth,spriteHeight);
-            CharacterPrinter botObs = new CharacterPrinter(bot,spriteWidth,spriteHeight);
+            CharacterPrinter playerObs = new CharacterPrinter(player,spriteWidth,spriteHeight,slashFrames);
+            CharacterPrinter botObs = new CharacterPrinter(bot,spriteWidth,spriteHeight,slashFrames);
 
             //instantiate game engine and set Observers
-            Engine engine = new Engine(player,(Bot)bot);
+            Engine engine = new Engine(player,(Bot)bot, (int)Math.rint(slashFrames));
             player.addObserver(engine);
             bot.addObserver(engine);
 //          player.addObserver(logger);
