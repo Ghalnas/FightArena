@@ -1,7 +1,7 @@
 package model;
 
 import java.util.Observable;
-
+import model.Command.Action;
 
 public abstract class Character extends Observable
 {
@@ -11,13 +11,14 @@ public abstract class Character extends Observable
     }
 
     public enum Direction { LEFT, RIGHT, UP, DOWN }
-    public enum Event { MOVED, STOPPED }
+    public enum Event { MOVED, STOPPED, ASKSLASH }
 
     private int health, dammage;
     protected Position position;
     private double speed;
     private Direction direction;
-    private boolean isMoving;
+    private boolean isMoving, isSlashing;
+    private int slashCpt;
 
     public Character(Position position, Direction direction, double speed)
     {
@@ -27,6 +28,8 @@ public abstract class Character extends Observable
         this.direction = direction;
         this.speed = speed;
         isMoving = false;
+        slashCpt = 0;
+        isSlashing = false;
     }
 
     public Position getPosition()
@@ -36,6 +39,11 @@ public abstract class Character extends Observable
 
     public void move(Command c)
     {
+
+        if(c.getAction() == Action.SLASH) {
+            setChanged();
+            notifyObservers(Event.ASKSLASH);
+        }
         if (c.getX() == -1 && c.getY() == 0) {
             direction = Direction.LEFT;
         } else if (c.getX() == 1 && c.getY() == 0) {
@@ -48,22 +56,39 @@ public abstract class Character extends Observable
 
         position.setX(position.getX() + speed * c.getX());
         position.setY(position.getY() +  speed  * c.getY());
-        if (c.getY() != 0 || c.getX() != 0)  {
+        if ((c.getY() != 0 || c.getX() != 0) && slashCpt == 0 && !isSlashing)  {
             setChanged();
             notifyObservers(Event.MOVED);
             isMoving = true;
-        } else if(isMoving) {
+        } else if(isMoving && !isSlashing) {
             setChanged();
             notifyObservers(Event.STOPPED);
             isMoving = false;
         }
     }
 
-    public int getHealth() {
+    public void slash()
+    {
+        isSlashing = true;
+        setChanged();
+        notifyObservers(Action.SLASH);
+    }
+
+    public void endSlash()
+    {
+        isSlashing = false;
+        setChanged();
+        notifyObservers(Action.NONE);
+    }
+
+
+    public int getHealth()
+    {
         return health;
     }
 
-    public void setHealth(int health) {
+    public void setHealth(int health)
+    {
         this.health = health;
     }
 
