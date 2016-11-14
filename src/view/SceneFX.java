@@ -9,6 +9,8 @@ import javafx.scene.paint.Color;
 import model.Command;
 import model.Command.Action;
 
+import java.util.Objects;
+
 public class SceneFX extends Scene
 {
     private boolean left,right,up,down,slash,isSlashing;
@@ -27,11 +29,11 @@ public class SceneFX extends Scene
             @Override
             public void handle(KeyEvent event)
             {
-                if (event.getCode()== KeyCode.Q) left = true;
-                if (event.getCode()==KeyCode.D) right = true;
-                if (event.getCode()==KeyCode.Z) up = true;
-                if (event.getCode()==KeyCode.S) down = true;
-                if (event.getCode()==KeyCode.L && !slash) {
+                if (Objects.equals(event.getText(), "q")) left = true;
+                if (Objects.equals(event.getText(), "d")) right = true;
+                if (Objects.equals(event.getText(), "z")) up = true;
+                if (Objects.equals(event.getText(), "s")) down = true;
+                if (Objects.equals(event.getText(), "l") && !slash) {
                     slash = true;
                     isSlashing = false;
                 }
@@ -43,11 +45,11 @@ public class SceneFX extends Scene
             @Override
             public void handle(KeyEvent event)
             {
-                if (event.getCode()== KeyCode.Q) left = false;
-                if (event.getCode()==KeyCode.D) right = false;
-                if (event.getCode()==KeyCode.Z) up = false;
-                if (event.getCode()==KeyCode.S) down = false;
-                if (event.getCode()==KeyCode.L) {
+                if (Objects.equals(event.getText(), "q")) left = false;
+                if (Objects.equals(event.getText(), "d")) right = false;
+                if (Objects.equals(event.getText(), "z")) up = false;
+                if (Objects.equals(event.getText(), "s")) down = false;
+                if (Objects.equals(event.getText(), "l")) {
                     slash = false;
                     isSlashing = false;
                 }

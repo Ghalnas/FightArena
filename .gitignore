@@ -14,3 +14,4 @@ hs_err_pid*
 /out/
 /app/config/*.properties
 /var/
+.DS_Store
