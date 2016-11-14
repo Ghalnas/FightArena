@@ -22,9 +22,6 @@ public class SceneFX extends Scene
         down = false;
         slash = false;
         isSlashing = false;
-        this.setFill(Color.BLACK);
-
-
 
         this.setOnKeyPressed(new EventHandler<KeyEvent>(){
             @Override
