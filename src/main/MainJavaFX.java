@@ -3,7 +3,10 @@ package main;
 import controller.Engine;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -53,7 +56,7 @@ public class MainJavaFX extends Application
             CharacterPrinter botObs = new CharacterPrinter(bot,spriteWidth,spriteHeight,slashFrames);
 
             //instantiate game engine and set Observers
-            Engine engine = new Engine(player,(Bot)bot, (int)Math.rint(slashFrames));
+            Engine engine = new Engine(player,(Bot)bot, slashFrames, arenaWidth, arenaHeight);
             player.addObserver(engine);
             bot.addObserver(engine);
 //          player.addObserver(logger);
@@ -72,13 +75,11 @@ public class MainJavaFX extends Application
 
             Group root = new Group();
             SceneFX scene = new SceneFX(root);
-            Rectangle background = new Rectangle(arenaWidth,arenaHeight);
-            background.setFill(Color.BLACK);
 
-            root.getChildren().add(background);
             root.getChildren().add(viewer.getPanel());
 
             stage.setScene(scene);
+            stage.setResizable(false);
             stage.show();
 
             engine.init();

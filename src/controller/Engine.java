@@ -14,16 +14,19 @@ public class Engine implements Observer
     private Character player;
     private Bot bot;
     private int slash;
-    private Integer slashCptPlayer;
-    private Integer slashCptBot;
+    private int slashCptPlayer;
+    private int slashCptBot;
+    private int width,height;
 
-    public Engine(Character player, Bot bot, int slash)
+    public Engine(Character player, Bot bot, int slash, int width, int height)
     {
         this.player = player;
         this.bot = bot;
         this.slash = slash;
         this.slashCptPlayer = 0;
         this.slashCptBot = 0;
+        this.width = width;
+        this.height = height;
     }
 
     public void init()
@@ -64,6 +67,20 @@ public class Engine implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
+        if(arg == Character.Event.MOVED) {
+            if (((Character)o).getPosition().getX() < 5) {
+                ((Character) o).getPosition().setX(5);
+            }
+            if (((Character)o).getPosition().getX() > width-45) {
+                ((Character) o).getPosition().setX(width-45);
+            }
+            if (((Character)o).getPosition().getY() < 5) {
+                ((Character) o).getPosition().setY(5);
+            }
+            if (((Character)o).getPosition().getY() > height-80) {
+                ((Character) o).getPosition().setY(height-80);
+            }
+        }
         if(arg == Character.Event.ASKSLASH && slashCptPlayer == 0) {
             if(o instanceof Player) {
                 slashCptPlayer++;
