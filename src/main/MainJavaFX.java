@@ -56,7 +56,7 @@ public class MainJavaFX extends Application
             CharacterPrinter botObs = new CharacterPrinter(bot,spriteWidth,spriteHeight,slashFrames);
 
             //instantiate game engine and set Observers
-            Engine engine = new Engine(player,(Bot)bot, (int)Math.rint(slashFrames), arenaWidth, arenaHeight);
+            Engine engine = new Engine(player,(Bot)bot, slashFrames, arenaWidth, arenaHeight);
             player.addObserver(engine);
             bot.addObserver(engine);
 //          player.addObserver(logger);
