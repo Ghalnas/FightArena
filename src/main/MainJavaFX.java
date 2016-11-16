@@ -68,10 +68,14 @@ public class MainJavaFX extends Application
             viewer.addObserverJavaFX(playerObs);
             viewer.addObserverJavaFX(botObs);
 
+            LogViewer logViewer = new LogViewer();
+            logViewer.addObserver(logger);
+
             Group root = new Group();
             SceneFX scene = new SceneFX(root);
 
             root.getChildren().add(viewer.getPanel());
+            root.getChildren().add(logViewer.getPanel());
 
             stage.setScene(scene);
             stage.setResizable(false);
@@ -82,7 +86,10 @@ public class MainJavaFX extends Application
             AnimationTimer timer = new AnimationTimer() {
                 @Override public void handle(long l) {
                     engine.run(scene.getCommand());
-                    scene.setRoot(viewer.getPanel());
+                    Group group = new Group();
+                    group.getChildren().add(viewer.getPanel());
+                    group.getChildren().add(logViewer.getPanel());
+                    scene.setRoot(group);
                 }
             };
 
