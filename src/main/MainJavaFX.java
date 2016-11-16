@@ -50,7 +50,7 @@ public class MainJavaFX extends Application
             LogPrinter logPrinter = new LogPrinter(arenaWidth,(50f/100f)*arenaHeight,(25f/100f)*arenaWidth,(50f/100f)*arenaHeight);
             logger.addObserver(logPrinter);
 
-            ScorePrinter scorePrinter = new ScorePrinter((80f / 100f) * arenaWidth, (00f / 100f) * arenaHeight, (20f / 100f) * arenaWidth, (50f / 100f) * arenaHeight);
+            ScorePrinter scorePrinter = new ScorePrinter(arenaWidth,0, (25f/100f) * arenaWidth, (50f/100f) * arenaHeight);
 
             CharacterPrinter playerObs = new CharacterPrinter(player, spriteWidth, spriteHeight, slashFrames);
             CharacterPrinter botObs = new CharacterPrinter(bot, spriteWidth, spriteHeight, slashFrames);
