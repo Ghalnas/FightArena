@@ -16,9 +16,9 @@ public class Engine implements Observer
     private int slash;
     private int slashCptPlayer;
     private int slashCptBot;
-    private int width,height;
+    private double width,height;
 
-    public Engine(Character player, Bot bot, int slash, int width, int height)
+    public Engine(Character player, Bot bot, int slash, double width, double height)
     {
         this.player = player;
         this.bot = bot;

@@ -3,12 +3,7 @@ package main;
 import controller.Engine;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import model.*;
 import model.Character;
@@ -35,16 +30,16 @@ public class MainJavaFX extends Application
             //read properties
             input = new FileInputStream("app/config/parameters.properties");
             prop.load(input);
-            int arenaWidth = Integer.parseInt(prop.getProperty("arena_width"));
-            int arenaHeight = Integer.parseInt(prop.getProperty("arena_height"));
-            int playerX = Integer.parseInt(prop.getProperty("player_start_x"));
-            int playerY = Integer.parseInt(prop.getProperty("player_start_y"));
-            int botX = Integer.parseInt(prop.getProperty("bot_start_x"));
-            int botY = Integer.parseInt(prop.getProperty("bot_start_y"));
+            double arenaWidth = Integer.parseInt(prop.getProperty("arena_width"));
+            double arenaHeight = Integer.parseInt(prop.getProperty("arena_height"));
+            double playerX = (arenaWidth/800) * Double.parseDouble(prop.getProperty("player_start_x"));
+            double playerY = (arenaHeight/600) * Double.parseDouble(prop.getProperty("player_start_y"));
+            double botX = (arenaWidth/800) * Double.parseDouble(prop.getProperty("bot_start_x"));
+            double botY = (arenaHeight/600) * Double.parseDouble(prop.getProperty("bot_start_y"));
             int spriteWidth = Integer.parseInt(prop.getProperty("sprite_width"));
             int spriteHeight = Integer.parseInt(prop.getProperty("sprite_height"));
             double spriteScale = Double.parseDouble(prop.getProperty("sprite_scale"));
-            double characterSpeed = Double.parseDouble(prop.getProperty("character_speed"));
+            double characterSpeed = (arenaWidth/800) * Double.parseDouble(prop.getProperty("character_speed"));
             int slashFrames = Integer.parseInt(prop.getProperty("slash_frames"));
 
             Arena arena = new Arena(arenaWidth,arenaHeight);
@@ -59,7 +54,7 @@ public class MainJavaFX extends Application
             Engine engine = new Engine(player,(Bot)bot, slashFrames, arenaWidth, arenaHeight);
             player.addObserver(engine);
             bot.addObserver(engine);
-//          player.addObserver(logger);
+//            player.addObserver(logger);
             player.addObserver(playerObs);
             bot.addObserver(botObs);
 
@@ -69,7 +64,7 @@ public class MainJavaFX extends Application
             stage.setTitle("Fight Arena");
 
             // create panel and set its observers
-            JavaFXViewer viewer = new JavaFXViewer(spriteScale);
+            JavaFXViewer viewer = new JavaFXViewer(spriteScale,arenaWidth,arenaHeight);
             viewer.addObserverJavaFX(playerObs);
             viewer.addObserverJavaFX(botObs);
 

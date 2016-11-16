@@ -2,20 +2,20 @@ package model;
 
 public class Arena
 {
-    private int width,height;
+    private double width,height;
 
-    public Arena(int width, int height)
+    public Arena(double width, double height)
     {
         this.width = width;
         this.height = height;
     }
 
-    public int getWidth()
+    public double getWidth()
     {
         return width;
     }
 
-    public int getHeight()
+    public double getHeight()
     {
         return height;
     }
