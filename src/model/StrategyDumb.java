@@ -26,11 +26,11 @@ public class StrategyDumb implements Strategy
             direction = -direction;
         }
         Command c;
-        if (player.getPosition().distanceTo(bot.getPosition()) < 100) {
+//        if (player.getPosition().distanceTo(bot.getPosition()) < 100) {
             c = new Command(0,direction, action);
-        } else {
-            c = new Command(direction,0, action);
-        }
+//        } else {
+//        }
+        c = new Command(direction,0, action);
         return c;
     }
 }

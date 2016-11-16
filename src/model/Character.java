@@ -92,6 +92,11 @@ public abstract class Character extends Observable
         this.health = health;
     }
 
+    public Hitbox getHitbox()
+    {
+        return new Hitbox(position.getX()-20,position.getY()-20,40,40);
+    }
+
     public double getSpeed()
     {
         return speed;
