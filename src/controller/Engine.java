@@ -9,7 +9,7 @@ import java.util.Observer;
 /**
  * Class Engine
  */
-public class Engine implements Observer
+public class Engine extends Observable implements Observer
 {
     private Character player;
     private Bot bot;
@@ -38,6 +38,10 @@ public class Engine implements Observer
 
     public void run(Command c)
     {
+        if(player.getHealth() <= 0) {
+            setChanged();
+            notifyObservers("dhezuoh");
+        }
         if (slashCptBot > 0) {
             slashCptBot+=1;
             bot.slash();
