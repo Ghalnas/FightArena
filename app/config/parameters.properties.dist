@@ -11,8 +11,3 @@ bot_start_y = 170
 sprite_width = 40
 sprite_height = 40
 sprite_scale = 5
-
-scores_view_x = 502
-scores_view_y = 5
-scores_view_width = 300
-scores_view_height = 200
