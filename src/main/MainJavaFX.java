@@ -41,11 +41,6 @@ public class MainJavaFX extends Application
             double spriteScale = Double.parseDouble(prop.getProperty("sprite_scale"));
             double characterSpeed = (arenaWidth/800) * Double.parseDouble(prop.getProperty("character_speed"));
             int slashFrames = Integer.parseInt(prop.getProperty("slash_frames"));
-            int scoresViewX = Integer.parseInt(prop.getProperty("scores_view_x"));
-            int scoresViewY = Integer.parseInt(prop.getProperty("scores_view_y"));
-            int scoresViewWidth = Integer.parseInt(prop.getProperty("scores_view_width"));
-            int scoresViewHeight = Integer.parseInt(prop.getProperty("scores_view_height"));
-            int scoresViewCons = Integer.parseInt(prop.getProperty("scores_view_cons"));
 
             Arena arena = new Arena(arenaWidth,arenaHeight);
             Character player = new Player(new Position(playerX,playerY),characterSpeed);
@@ -55,7 +50,7 @@ public class MainJavaFX extends Application
             LogPrinter logPrinter = new LogPrinter(arenaWidth,(50f/100f)*arenaHeight,(25f/100f)*arenaWidth,(50f/100f)*arenaHeight);
             logger.addObserver(logPrinter);
 
-            ScorePrinter scorePrinter = new ScorePrinter((80f / 100f) * arenaWidth, (00f / 100f) * arenaHeight, (20f / 100f) * arenaWidth, (50f / 100f) * arenaHeight);
+            ScorePrinter scorePrinter = new ScorePrinter(arenaWidth,0, (25f/100f) * arenaWidth, (50f/100f) * arenaHeight);
 
             CharacterPrinter playerObs = new CharacterPrinter(player, spriteWidth, spriteHeight, slashFrames);
             CharacterPrinter botObs = new CharacterPrinter(bot, spriteWidth, spriteHeight, slashFrames);

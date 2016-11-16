@@ -18,7 +18,7 @@ public class ScorePrinter implements JavaFXPrinter, Observer {
     private double scoresViewY;
     private double scoresViewWidth;
     private double scoresViewHeight;
-    private double scoresViewCons;
+    private final double scoresViewCons = 20;
 
     public ScorePrinter(double scoresViewX, double scoresViewY, double scoresViewWidth, double scoresViewHeight) {
 
@@ -26,7 +26,6 @@ public class ScorePrinter implements JavaFXPrinter, Observer {
         this.scoresViewY = scoresViewY;
         this.scoresViewWidth = scoresViewWidth;
         this.scoresViewHeight = scoresViewHeight;
-        this.scoresViewCons = 20;
 
         scores = new Rectangle(scoresViewX, scoresViewY, scoresViewWidth, scoresViewHeight);
         scores.setFill(Color.rgb(0, 0, 0, 0.7));
