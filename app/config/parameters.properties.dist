@@ -1,5 +1,5 @@
-arena_width=802
-arena_height=402
+arena_width=1280
+arena_height=720
 
 character_speed = 3
 slash_frames = 20
@@ -10,4 +10,4 @@ bot_start_y = 170
 
 sprite_width = 40
 sprite_height = 40
-sprite_scale = 2
+sprite_scale = 5

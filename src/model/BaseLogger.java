@@ -5,15 +5,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
-import java.util.Observer;
+import java.util.*;
 
 /**
  * Class BaseLogger
  */
-abstract class BaseLogger implements Observer
+abstract class BaseLogger extends Observable implements Observer
 {
     private final String whiteColor = "\033[37m";
     private final String blueColor = "\033[34m";
@@ -64,6 +61,8 @@ abstract class BaseLogger implements Observer
     {
         System.out.println(format(message,level,color));
         persist(format(message, level, ""));
+        setChanged();
+        notifyObservers(message);
     }
 
     /**
