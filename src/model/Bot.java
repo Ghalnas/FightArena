@@ -9,6 +9,12 @@ public class Bot extends Character
         super(position,Direction.LEFT,speed);
     }
 
+    public void initChar(Strategy s)
+    {
+        super.initChar();
+        setStrategy(s);
+    }
+
     public void move()
     {
         super.move(strategy.getCommand());

@@ -13,17 +13,17 @@ public class Engine extends Observable implements Observer
 {
     private Character player;
     private Bot bot;
-    private int slash;
+    private int slashFrames;
     private int slashCptPlayer;
     private int slashCptBot;
     private double width,height;
     private boolean damageInstancePlayer,damageInstanceBot;
 
-    public Engine(Character player, Bot bot, int slash, double width, double height)
+    public Engine(Character player, Bot bot, int slashFrames, double width, double height)
     {
         this.player = player;
         this.bot = bot;
-        this.slash = slash;
+        this.slashFrames = slashFrames;
         this.slashCptPlayer = 0;
         this.slashCptBot = 0;
         this.width = width;
@@ -36,19 +36,25 @@ public class Engine extends Observable implements Observer
     {
         System.out.println("====================GAME STARTED====================");
         bot.setStrategy(new StrategyDumb(player,bot));
-        player.setHealth(75);
+    }
+
+    public void reinint()
+    {
+        player.initChar();
+        bot.initChar(new StrategyDumb(player,bot));
+        slashCptBot = 0;
+        slashCptPlayer = 0;
+        damageInstanceBot = false;
+        damageInstancePlayer = false;
+
     }
 
     public void run(Command c)
     {
-        if(player.getHealth() <= 0) {
-            setChanged();
-            notifyObservers("dhezuoh");
-        }
         if (slashCptBot > 0) {
             slashCptBot+=1;
             bot.slash();
-            if (slashCptBot == slash-1) {
+            if (slashCptBot == slashFrames -1) {
                 slashCptBot = 0;
                 damageInstanceBot = false;
                 bot.endSlash();
@@ -58,7 +64,7 @@ public class Engine extends Observable implements Observer
         if (slashCptPlayer > 0) {
             slashCptPlayer++;
             player.slash();
-            if (slashCptPlayer == slash-1) {
+            if (slashCptPlayer == slashFrames -1) {
                 slashCptPlayer = 0;
                 damageInstancePlayer = false;
                 player.endSlash();
@@ -77,15 +83,18 @@ public class Engine extends Observable implements Observer
     public void update(Observable o, Object arg)
     {
         if (arg == Command.Action.SLASH) {
-            System.out.println(o instanceof Bot && !damageInstanceBot && checkCollision(bot,player));
-            System.out.println( !damageInstanceBot);
-            System.out.println(checkCollision(bot,player));
             if (o instanceof Player && !damageInstancePlayer && checkCollision(player,bot)) {
-                bot.setHealth(bot.getHealth()-20);
+                bot.setHealth(bot.getHealth()-player.getDamage());
                 damageInstancePlayer = true;
+                if (bot.getHealth() <= 0) {
+                    reinint();
+                }
             } else if(o instanceof Bot && !damageInstanceBot && checkCollision(bot,player)) {
-                player.setHealth(bot.getHealth()-20);
+                player.setHealth(player.getHealth()-bot.getDamage());
                 damageInstanceBot = true;
+                if (player.getHealth() <= 0) {
+                    reinint();
+                }
             }
         }
         if(arg == Character.Event.MOVED) {

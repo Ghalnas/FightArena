@@ -10,27 +10,42 @@ public abstract class Character extends Observable
         return direction;
     }
 
+
+
     public enum Direction { LEFT, RIGHT, UP, DOWN }
     public enum Event { MOVED, STOPPED, ASKSLASH }
 
-    private int health, dammage;
-    protected Position position;
-    private double speed;
-    private Direction direction;
+    private int health, damage;
+    protected Position position, startPos;
+    private double speed, startSpeed;
+    private Direction direction, startDir;
     private boolean isMoving, isSlashing;
     private int slashCpt;
 
     public Character(Position position, Direction direction, double speed)
     {
+        startPos = position.clone();
+        startDir = direction;
+        startSpeed = speed;
+        initChar();
+    }
+
+    public void initChar()
+    {
+        System.out.println(startDir);
         this.health = 100;
-        this.dammage = 20;
-        this.position = position;
-        this.direction = direction;
-        this.speed = speed;
+        this.damage = 20;
+        this.direction = startDir;
+        setPosition(startPos.clone());
+        this.speed = startSpeed;
         isMoving = false;
         slashCpt = 0;
-        isSlashing = false;
+        if (isSlashing) {
+            endSlash();
+            isSlashing = false;
+        }
     }
+
 
     public Position getPosition()
     {
@@ -53,18 +68,8 @@ public abstract class Character extends Observable
         } else if (c.getX() == 0 && c.getY() == -1) {
             direction = Direction.UP;
         }
-
-        position.setX(position.getX() + speed * c.getX());
-        position.setY(position.getY() +  speed  * c.getY());
-        if ((c.getY() != 0 || c.getX() != 0) && slashCpt == 0 && !isSlashing)  {
-            setChanged();
-            notifyObservers(Event.MOVED);
-            isMoving = true;
-        } else if(isMoving && !isSlashing) {
-            setChanged();
-            notifyObservers(Event.STOPPED);
-            isMoving = false;
-        }
+        Position p = new Position(position.getX() + speed * c.getX(), position.getY() + speed * c.getY());
+        setPosition(p);
     }
 
     public void slash()
@@ -79,6 +84,21 @@ public abstract class Character extends Observable
         isSlashing = false;
         setChanged();
         notifyObservers(Action.NONE);
+    }
+
+    private void setPosition(Position p)
+    {
+        Position posTmp = position;
+        position = p;
+        if (!p.equals(posTmp) && slashCpt == 0 && !isSlashing)  {
+            setChanged();
+            notifyObservers(Event.MOVED);
+            isMoving = true;
+        } else if(isMoving && !isSlashing) {
+            setChanged();
+            notifyObservers(Event.STOPPED);
+            isMoving = false;
+        }
     }
 
 
@@ -105,5 +125,15 @@ public abstract class Character extends Observable
     public void setSpeed(double speed)
     {
         this.speed = speed;
+    }
+
+    public int getDamage()
+    {
+        return damage;
+    }
+
+    public void setDamage(int damage)
+    {
+        this.damage = damage;
     }
 }
