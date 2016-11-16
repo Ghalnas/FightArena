@@ -8,6 +8,7 @@ public class WindowViewer
     private JavaFXViewer gameViewer;
     private LogViewer logViewer;
 
+
     public WindowViewer(double width, double height, double scale)
     {
         this.gameViewer = new JavaFXViewer(scale,width,height);

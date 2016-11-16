@@ -6,6 +6,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,6 +17,7 @@ public class LogPrinter implements JavaFXPrinter,Observer
     private Rectangle background;
     private Text title;
     private double startX,startY;
+    private ArrayList<String[]> listMessages;
 
     public LogPrinter(double startX, double startY, double width, double height)
     {
@@ -22,6 +25,7 @@ public class LogPrinter implements JavaFXPrinter,Observer
         background.setFill(Color.rgb(0, 0, 0, 0.7));
         title = new Text(startX, startY+20, "Logs");
         title.setFill(Color.WHITE);
+        listMessages = new ArrayList<>();
         this.startX = startX;
         this.startY = startY;
     }
@@ -29,6 +33,12 @@ public class LogPrinter implements JavaFXPrinter,Observer
     @Override
     public void update(Observable o, Object arg)
     {
+        if (listMessages.size() > 5) {
+            listMessages.remove(0);
+        }
+        if (arg instanceof String[]) {
+            listMessages.add((String[]) arg);
+        }
 
     }
 
@@ -38,29 +48,28 @@ public class LogPrinter implements JavaFXPrinter,Observer
         Group panel = new Group();
         panel.getChildren().add(background);
         panel.getChildren().add(title);
-
-        // TODO : Add real logs  here via observer
-        //Display logs
-        Text log1 = new Text(startX, startY+40, "Exemple de log 1");
-        log1.setFill(Color.rgb(255, 255, 255));
-        Text log2 = new Text(startX, startY+60, "Exemple de log 2");
-        log2.setFill(Color.rgb(255, 255, 255));
-        Text log3 = new Text(startX, startY+80, "Exemple de log 3");
-        log3.setFill(Color.rgb(255, 255, 255));
-        Text log4 = new Text(startX, startY+100, "Exemple de log 4");
-        log4.setFill(Color.rgb(255, 255, 255));
-        Text log5 = new Text(startX, startY+120, "Exemple de log 5");
-        log5.setFill(Color.rgb(255, 255, 255));
-        Text log6 = new Text(startX, startY+140, "Exemple de log 6");
-        log6.setFill(Color.rgb(255, 255, 255));
-
-        panel.getChildren().add(log1);
-        panel.getChildren().add(log2);
-        panel.getChildren().add(log3);
-        panel.getChildren().add(log4);
-        panel.getChildren().add(log5);
-        panel.getChildren().add(log6);
-
+        for (int i = 0 ; i < listMessages.size() ; i++) {
+            Color color = null;
+            String[] message = listMessages.get(i);
+            switch (message[0]) {
+                case "info":
+                    color = Color.rgb(51,204,204);
+                    break;
+                case "warning":
+                    color = Color.rgb(255,153,51);
+                    break;
+                case "critical":
+                    color = Color.rgb(255,0,0);
+                    break;
+            }
+            Group log = new Group();
+            Text logLvl = new Text(startX+3, startY + 40 +i*20, "["+message[0].toUpperCase()+"] : ");
+            logLvl.setFill(color);
+            Text logMessage = new Text(startX+3 + message[0].length()*12,startY  + 40 +i*20,message[1]);
+            logMessage.setFill(Color.WHITE);
+            log.getChildren().addAll(logLvl,logMessage);
+            panel.getChildren().add(log);
+        }
         return panel;
     }
 }

@@ -47,8 +47,8 @@ public class MainJavaFX extends Application
             Character bot = new Bot(new Position(botX,botY),characterSpeed);
 
             Logger logger = Logger.getInstance();
-            LogPrinter logPrinter = new LogPrinter((80f/100f)*arenaWidth,(50f/100f)*arenaHeight,(20f/100f)*arenaWidth,(50f/100f)*arenaHeight);
-//            logger.addObserver(logPrinter);
+            LogPrinter logPrinter = new LogPrinter(arenaWidth,(50f/100f)*arenaHeight,(25f/100f)*arenaWidth,(50f/100f)*arenaHeight);
+            logger.addObserver(logPrinter);
 
             CharacterPrinter playerObs = new CharacterPrinter(player,spriteWidth,spriteHeight,slashFrames);
             CharacterPrinter botObs = new CharacterPrinter(bot,spriteWidth,spriteHeight,slashFrames);
@@ -57,12 +57,12 @@ public class MainJavaFX extends Application
             Engine engine = new Engine(player,(Bot)bot, slashFrames, arenaWidth, arenaHeight);
             player.addObserver(engine);
             bot.addObserver(engine);
-//            player.addObserver(logger);
+            player.addObserver(logger);
             player.addObserver(playerObs);
             bot.addObserver(botObs);
 
             // set window size
-            stage.setWidth(arenaWidth);
+            stage.setWidth(arenaWidth+(25f/100f)*arenaWidth);
             stage.setHeight(arenaHeight);
             stage.setTitle("Fight Arena");
 
