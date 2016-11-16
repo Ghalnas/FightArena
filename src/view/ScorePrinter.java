@@ -2,6 +2,7 @@ package view;
 
 import java.util.Observable;
 import java.util.Observer;
+
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
@@ -11,7 +12,6 @@ import javafx.scene.text.Text;
 
 public class ScorePrinter implements JavaFXPrinter, Observer {
 
-    //private Engine engine;
     private Rectangle scores;
     private Text title;
     private double scoresViewX;
@@ -45,9 +45,9 @@ public class ScorePrinter implements JavaFXPrinter, Observer {
         Group group = new Group();
         // TODO : Add real Score  here via observer
         //Display score
-        Text scorePlayer = new Text(scoresViewX + scoresViewCons, scoresViewY + 2 * scoresViewCons, "Score Player : " );
+        Text scorePlayer = new Text(scoresViewX + scoresViewCons, scoresViewY + 2 * scoresViewCons, "Score Player : ");
         scorePlayer.setFill(Color.rgb(255, 255, 255));
-        Text scoreBot = new Text(scoresViewX + scoresViewCons, scoresViewY + 3 * scoresViewCons, "Score Bot : " );
+        Text scoreBot = new Text(scoresViewX + scoresViewCons, scoresViewY + 3 * scoresViewCons, "Score Bot : ");
         scoreBot.setFill(Color.rgb(255, 255, 255));
 
         group.getChildren().addAll(scores, title, scorePlayer, scoreBot);

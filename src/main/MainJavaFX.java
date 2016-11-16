@@ -14,10 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class MainJavaFX extends Application
-{
+public class MainJavaFX extends Application {
     public static void main(String[] args) {
-        System.out.println( "Main method inside Thread : " +  Thread.currentThread().getName());
+        System.out.println("Main method inside Thread : " + Thread.currentThread().getName());
         launch(args);
     }
 
@@ -32,29 +31,36 @@ public class MainJavaFX extends Application
             prop.load(input);
             double arenaWidth = Integer.parseInt(prop.getProperty("arena_width"));
             double arenaHeight = Integer.parseInt(prop.getProperty("arena_height"));
-            double playerX = (arenaWidth/800) * Double.parseDouble(prop.getProperty("player_start_x"));
-            double playerY = (arenaHeight/600) * Double.parseDouble(prop.getProperty("player_start_y"));
-            double botX = (arenaWidth/800) * Double.parseDouble(prop.getProperty("bot_start_x"));
-            double botY = (arenaHeight/600) * Double.parseDouble(prop.getProperty("bot_start_y"));
+            double playerX = (arenaWidth / 800) * Double.parseDouble(prop.getProperty("player_start_x"));
+            double playerY = (arenaHeight / 600) * Double.parseDouble(prop.getProperty("player_start_y"));
+            double botX = (arenaWidth / 800) * Double.parseDouble(prop.getProperty("bot_start_x"));
+            double botY = (arenaHeight / 600) * Double.parseDouble(prop.getProperty("bot_start_y"));
             int spriteWidth = Integer.parseInt(prop.getProperty("sprite_width"));
             int spriteHeight = Integer.parseInt(prop.getProperty("sprite_height"));
             double spriteScale = Double.parseDouble(prop.getProperty("sprite_scale"));
-            double characterSpeed = (arenaWidth/800) * Double.parseDouble(prop.getProperty("character_speed"));
+            double characterSpeed = (arenaWidth / 800) * Double.parseDouble(prop.getProperty("character_speed"));
             int slashFrames = Integer.parseInt(prop.getProperty("slash_frames"));
+            int scoresViewX = Integer.parseInt(prop.getProperty("scores_view_x"));
+            int scoresViewY = Integer.parseInt(prop.getProperty("scores_view_y"));
+            int scoresViewWidth = Integer.parseInt(prop.getProperty("scores_view_width"));
+            int scoresViewHeight = Integer.parseInt(prop.getProperty("scores_view_height"));
+            int scoresViewCons = Integer.parseInt(prop.getProperty("scores_view_cons"));
 
-            Arena arena = new Arena(arenaWidth,arenaHeight);
-            Character player = new Player(new Position(playerX,playerY),characterSpeed);
-            Character bot = new Bot(new Position(botX,botY),characterSpeed);
+            Arena arena = new Arena(arenaWidth, arenaHeight);
+            Character player = new Player(new Position(playerX, playerY), characterSpeed);
+            Character bot = new Bot(new Position(botX, botY), characterSpeed);
 
             Logger logger = Logger.getInstance();
-            LogPrinter logPrinter = new LogPrinter((80f/100f)*arenaWidth,(50f/100f)*arenaHeight,(20f/100f)*arenaWidth,(50f/100f)*arenaHeight);
+            LogPrinter logPrinter = new LogPrinter((80f / 100f) * arenaWidth, (50f / 100f) * arenaHeight, (20f / 100f) * arenaWidth, (50f / 100f) * arenaHeight);
 //            logger.addObserver(logPrinter);
 
-            CharacterPrinter playerObs = new CharacterPrinter(player,spriteWidth,spriteHeight,slashFrames);
-            CharacterPrinter botObs = new CharacterPrinter(bot,spriteWidth,spriteHeight,slashFrames);
+            ScorePrinter scorePrinter = new ScorePrinter((80f / 100f) * arenaWidth, (00f / 100f) * arenaHeight, (20f / 100f) * arenaWidth, (50f / 100f) * arenaHeight);
+
+            CharacterPrinter playerObs = new CharacterPrinter(player, spriteWidth, spriteHeight, slashFrames);
+            CharacterPrinter botObs = new CharacterPrinter(bot, spriteWidth, spriteHeight, slashFrames);
 
             //instantiate game engine and set Observers
-            Engine engine = new Engine(player,(Bot)bot, slashFrames, arenaWidth, arenaHeight);
+            Engine engine = new Engine(player, (Bot) bot, slashFrames, arenaWidth, arenaHeight);
             player.addObserver(engine);
             bot.addObserver(engine);
 //            player.addObserver(logger);
@@ -69,6 +75,7 @@ public class MainJavaFX extends Application
             WindowViewer window = new WindowViewer(arenaWidth, arenaHeight, spriteScale);
             window.addGamePrinter(playerObs);
             window.addGamePrinter(botObs);
+            window.addScorePrinter(scorePrinter);
             window.addLogPrinter(logPrinter);
 
 
@@ -84,7 +91,8 @@ public class MainJavaFX extends Application
             engine.init();
 
             AnimationTimer timer = new AnimationTimer() {
-                @Override public void handle(long l) {
+                @Override
+                public void handle(long l) {
                     engine.run(scene.getCommand());
                     scene.setRoot(window.getPanel());
                 }
