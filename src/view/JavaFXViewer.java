@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class JavaFXViewer
 {
     private double scale;
-    private ArrayList<JavaFXPrinter> listObservers;
+    private ArrayList<JavaFXPrinter> listPrinters;
     private ImageView background;
     private double width, height;
 
@@ -34,7 +34,7 @@ public class JavaFXViewer
             default:
                 throw new InvalidParameterException("Parameters must be 800*600, 1280*720 or 1920*1080");
         }
-        listObservers = new ArrayList<>();
+        listPrinters = new ArrayList<>();
     }
 
     public Parent getPanel()
@@ -42,7 +42,7 @@ public class JavaFXViewer
         Group panel = new Group();
         double imgScale = (width/800)*scale;
         panel.getChildren().add(background);
-        for (JavaFXPrinter obs : listObservers) {
+        for (JavaFXPrinter obs : listPrinters) {
             Node node = obs.getNode();
             node.setScaleX(imgScale);
             node.setScaleY(imgScale);
@@ -53,6 +53,6 @@ public class JavaFXViewer
 
     public void addObserverJavaFX(JavaFXPrinter o)
     {
-        listObservers.add(o);
+        listPrinters.add(o);
     }
 }

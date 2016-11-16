@@ -45,7 +45,10 @@ public class MainJavaFX extends Application
             Arena arena = new Arena(arenaWidth,arenaHeight);
             Character player = new Player(new Position(playerX,playerY),characterSpeed);
             Character bot = new Bot(new Position(botX,botY),characterSpeed);
+
             Logger logger = Logger.getInstance();
+            LogPrinter logPrinter = new LogPrinter((80f/100f)*arenaWidth,(50f/100f)*arenaHeight,(20f/100f)*arenaWidth,(50f/100f)*arenaHeight);
+//            logger.addObserver(logPrinter);
 
             CharacterPrinter playerObs = new CharacterPrinter(player,spriteWidth,spriteHeight,slashFrames);
             CharacterPrinter botObs = new CharacterPrinter(bot,spriteWidth,spriteHeight,slashFrames);
@@ -63,19 +66,16 @@ public class MainJavaFX extends Application
             stage.setHeight(arenaHeight);
             stage.setTitle("Fight Arena");
 
-            // create panel and set its observers
-            JavaFXViewer viewer = new JavaFXViewer(spriteScale,arenaWidth,arenaHeight);
-            viewer.addObserverJavaFX(playerObs);
-            viewer.addObserverJavaFX(botObs);
+            WindowViewer window = new WindowViewer(arenaWidth, arenaHeight, spriteScale);
+            window.addGamePrinter(playerObs);
+            window.addGamePrinter(botObs);
+            window.addLogPrinter(logPrinter);
 
-            LogViewer logViewer = new LogViewer();
-            logViewer.addObserver(logger);
 
             Group root = new Group();
             SceneFX scene = new SceneFX(root);
 
-            root.getChildren().add(viewer.getPanel());
-            root.getChildren().add(logViewer.getPanel());
+            root.getChildren().add(window.getPanel());
 
             stage.setScene(scene);
             stage.setResizable(false);
@@ -86,10 +86,7 @@ public class MainJavaFX extends Application
             AnimationTimer timer = new AnimationTimer() {
                 @Override public void handle(long l) {
                     engine.run(scene.getCommand());
-                    Group group = new Group();
-                    group.getChildren().add(viewer.getPanel());
-                    group.getChildren().add(logViewer.getPanel());
-                    scene.setRoot(group);
+                    scene.setRoot(window.getPanel());
                 }
             };
 
