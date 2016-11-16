@@ -41,11 +41,6 @@ public class MainJavaFX extends Application
             double spriteScale = Double.parseDouble(prop.getProperty("sprite_scale"));
             double characterSpeed = (arenaWidth/800) * Double.parseDouble(prop.getProperty("character_speed"));
             int slashFrames = Integer.parseInt(prop.getProperty("slash_frames"));
-            int scoresViewX = Integer.parseInt(prop.getProperty("scores_view_x"));
-            int scoresViewY = Integer.parseInt(prop.getProperty("scores_view_y"));
-            int scoresViewWidth = Integer.parseInt(prop.getProperty("scores_view_width"));
-            int scoresViewHeight = Integer.parseInt(prop.getProperty("scores_view_height"));
-            int scoresViewCons = Integer.parseInt(prop.getProperty("scores_view_cons"));
 
             Arena arena = new Arena(arenaWidth,arenaHeight);
             Character player = new Player(new Position(playerX,playerY),characterSpeed);
