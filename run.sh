@@ -1,7 +1,13 @@
 #!/bin/bash
 
-cp app/config/logger.properties.dist app/config/logger.properties
-cp app/config/parameters.properties.dist app/config/parameters.properties
+loggerPath=app/config/logger.properties
+parametersPath=app/config/parameters.properties
+
+if [ ! -f $loggerPath ] || [ ! -f $parametersPath ]; then
+    cp $loggerPath.dist $loggerPath
+    cp $parametersPath.dist $parametersPath
+fi
+
 rm -rf out
 mkdir -p out/production
 find . -name "*.java" > sourcefiles
