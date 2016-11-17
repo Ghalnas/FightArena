@@ -19,6 +19,10 @@ public class Bot extends Character
         strategy = s;
     }
 
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
     @Override
     public String toString()
     {
