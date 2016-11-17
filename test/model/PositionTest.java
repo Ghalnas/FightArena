@@ -52,7 +52,7 @@ public class PositionTest
     @Test
     public void testToString()
     {
-        assertEquals("(20.2,12.9)", this.position.toString());
+        assertEquals("(20,12)", this.position.toString());
     }
 
     @Test

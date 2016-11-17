@@ -13,7 +13,7 @@ public class PlayerTest
     @Before
     public void setUp()
     {
-        this.player = new Player(new Position(1, 1), 1);
+        this.player = new Player(new Position(1, 1), 1, 1, 1);
     }
 
     @BeforeClass

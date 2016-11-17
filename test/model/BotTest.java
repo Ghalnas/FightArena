@@ -14,7 +14,7 @@ public class BotTest
     @Before
     public void setUp()
     {
-        this.bot = new Bot(new Position(1, 1), 1);
+        this.bot = new Bot(new Position(1, 1), 1, 1, 1);
     }
 
     @BeforeClass
@@ -30,6 +30,8 @@ public class BotTest
             new StrategyDumb(
                 new Player(
                     new Position(1, 1),
+                    1,
+                    1,
                     1
                 ),
                 this.bot

@@ -14,8 +14,8 @@ public class StrategyDumbTest
     public void setUp()
     {
         this.strategyDumb = new StrategyDumb(
-            new Player(new Position(1, 1), 2),
-            new Bot(new Position(1, 1), 2)
+            new Player(new Position(1, 1), 1, 1, 2),
+            new Bot(new Position(1, 1), 1, 1, 2)
         );
     }
 
