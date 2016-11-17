@@ -59,10 +59,9 @@ abstract class BaseLogger extends Observable implements Observer
      */
     private void process(String message, String level, String color)
     {
-        System.out.println(format(message,level,color));
         persist(format(message, level, ""));
         setChanged();
-        notifyObservers(message);
+        notifyObservers(new String[]{level,message});
     }
 
     /**

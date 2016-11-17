@@ -32,6 +32,8 @@ public class MainJavaFX extends Application
             prop.load(input);
             double arenaWidth = Integer.parseInt(prop.getProperty("arena_width"));
             double arenaHeight = Integer.parseInt(prop.getProperty("arena_height"));
+            double damage = Double.parseDouble(prop.getProperty("character_damage"));
+            double health = Double.parseDouble(prop.getProperty("character_health"));
             double playerX = (arenaWidth/800) * Double.parseDouble(prop.getProperty("player_start_x"));
             double playerY = (arenaHeight/600) * Double.parseDouble(prop.getProperty("player_start_y"));
             double botX = (arenaWidth/800) * Double.parseDouble(prop.getProperty("bot_start_x"));
@@ -43,32 +45,35 @@ public class MainJavaFX extends Application
             int slashFrames = Integer.parseInt(prop.getProperty("slash_frames"));
 
             Arena arena = new Arena(arenaWidth,arenaHeight);
-            Character player = new Player(new Position(playerX,playerY),characterSpeed);
-            Character bot = new Bot(new Position(botX,botY),characterSpeed);
+            Character player = new Player(new Position(playerX,playerY),characterSpeed,damage,health);
+            Character bot = new Bot(new Position(botX,botY),characterSpeed,damage,health);
 
             Logger logger = Logger.getInstance();
-            LogPrinter logPrinter = new LogPrinter((80f/100f)*arenaWidth,(50f/100f)*arenaHeight,(20f/100f)*arenaWidth,(50f/100f)*arenaHeight);
-//            logger.addObserver(logPrinter);
+            LogPrinter logPrinter = new LogPrinter(arenaWidth,(50f/100f)*arenaHeight,(25f/100f)*arenaWidth,(50f/100f)*arenaHeight);
+            logger.addObserver(logPrinter);
 
-            CharacterPrinter playerObs = new CharacterPrinter(player,spriteWidth,spriteHeight,slashFrames);
-            CharacterPrinter botObs = new CharacterPrinter(bot,spriteWidth,spriteHeight,slashFrames);
+            ScorePrinter scorePrinter = new ScorePrinter(arenaWidth,0, (25f/100f) * arenaWidth, (50f/100f) * arenaHeight);
+
+            CharacterPrinter playerObs = new CharacterPrinter(player, spriteWidth, spriteHeight, slashFrames);
+            CharacterPrinter botObs = new CharacterPrinter(bot, spriteWidth, spriteHeight, slashFrames);
 
             //instantiate game engine and set Observers
             Engine engine = new Engine(player,(Bot)bot, slashFrames, arenaWidth, arenaHeight);
             player.addObserver(engine);
             bot.addObserver(engine);
-//            player.addObserver(logger);
+            player.addObserver(logger);
             player.addObserver(playerObs);
             bot.addObserver(botObs);
 
             // set window size
-            stage.setWidth(arenaWidth);
+            stage.setWidth(arenaWidth+(25f/100f)*arenaWidth);
             stage.setHeight(arenaHeight);
             stage.setTitle("Fight Arena");
 
             WindowViewer window = new WindowViewer(arenaWidth, arenaHeight, spriteScale);
             window.addGamePrinter(playerObs);
             window.addGamePrinter(botObs);
+            window.addScorePrinter(scorePrinter);
             window.addLogPrinter(logPrinter);
 
 
