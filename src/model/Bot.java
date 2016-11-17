@@ -4,9 +4,15 @@ public class Bot extends Character
 {
     private Strategy strategy;
 
-    public Bot(Position position, double speed)
+    public Bot(Position position, double speed, double damage, double health)
     {
-        super(position,Direction.LEFT,speed);
+        super(position,Direction.LEFT,speed, damage, health);
+    }
+
+    public void initChar(Strategy s)
+    {
+        super.initChar();
+        setStrategy(s);
     }
 
     public void move()

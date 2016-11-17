@@ -32,6 +32,8 @@ public class MainJavaFX extends Application
             prop.load(input);
             double arenaWidth = Integer.parseInt(prop.getProperty("arena_width"));
             double arenaHeight = Integer.parseInt(prop.getProperty("arena_height"));
+            double damage = Double.parseDouble(prop.getProperty("character_damage"));
+            double health = Double.parseDouble(prop.getProperty("character_health"));
             double playerX = (arenaWidth/800) * Double.parseDouble(prop.getProperty("player_start_x"));
             double playerY = (arenaHeight/600) * Double.parseDouble(prop.getProperty("player_start_y"));
             double botX = (arenaWidth/800) * Double.parseDouble(prop.getProperty("bot_start_x"));
@@ -43,8 +45,8 @@ public class MainJavaFX extends Application
             int slashFrames = Integer.parseInt(prop.getProperty("slash_frames"));
 
             Arena arena = new Arena(arenaWidth,arenaHeight);
-            Character player = new Player(new Position(playerX,playerY),characterSpeed);
-            Character bot = new Bot(new Position(botX,botY),characterSpeed);
+            Character player = new Player(new Position(playerX,playerY),characterSpeed,damage,health);
+            Character bot = new Bot(new Position(botX,botY),characterSpeed,damage,health);
 
             Logger logger = Logger.getInstance();
             LogPrinter logPrinter = new LogPrinter(arenaWidth,(50f/100f)*arenaHeight,(25f/100f)*arenaWidth,(50f/100f)*arenaHeight);
