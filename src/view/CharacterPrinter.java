@@ -15,7 +15,7 @@ import java.util.Observer;
 public class CharacterPrinter implements JavaFXPrinter, Observer
 {
     private Character character;
-    private int maxHealth;
+    private double maxHealth;
     private final int charWidth, charHeight;
     private ImageView playerView;
     private CharacterSprite characterSprite;
@@ -38,7 +38,7 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
     {
         Group group = new Group();
 
-        int charRemainingHealth = (charWidth * character.getHealth())/maxHealth;
+        double charRemainingHealth = (charWidth * character.getHealth())/maxHealth;
         Rectangle remainingHealth = new Rectangle(character.getPosition().getX(), character.getPosition().getY()-10, charRemainingHealth,3);
         remainingHealth.setFill(Color.LIGHTGREEN);
         Rectangle missingHealth = new Rectangle(character.getPosition().getX()+charRemainingHealth, character.getPosition().getY()-10, charWidth -charRemainingHealth,3);

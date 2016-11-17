@@ -38,7 +38,7 @@ public class Engine extends Observable implements Observer
         bot.setStrategy(new StrategyDumb(player,bot));
     }
 
-    public void reinint()
+    public void reinit()
     {
         player.initChar();
         bot.initChar(new StrategyDumb(player,bot));
@@ -87,13 +87,13 @@ public class Engine extends Observable implements Observer
                 bot.setHealth(bot.getHealth()-player.getDamage());
                 damageInstancePlayer = true;
                 if (bot.getHealth() <= 0) {
-                    reinint();
+                    reinit();
                 }
             } else if(o instanceof Bot && !damageInstanceBot && checkCollision(bot,player)) {
                 player.setHealth(player.getHealth()-bot.getDamage());
                 damageInstanceBot = true;
                 if (player.getHealth() <= 0) {
-                    reinint();
+                    reinit();
                 }
             }
         }
@@ -111,11 +111,11 @@ public class Engine extends Observable implements Observer
                 ((Character) o).getPosition().setY(height-80);
             }
         }
-        if(arg == Character.Event.ASKSLASH && slashCptPlayer == 0) {
-            if(o instanceof Player) {
+        if(arg == Character.Event.ASKSLASH) {
+            if(o instanceof Player  && slashCptPlayer == 0) {
                 slashCptPlayer++;
                 player.slash();
-            } else {
+            } else if (o instanceof Bot && slashCptBot == 0) {
                 slashCptBot++;
                 bot.slash();
             }

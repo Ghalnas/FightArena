@@ -15,26 +15,27 @@ public abstract class Character extends Observable
     public enum Direction { LEFT, RIGHT, UP, DOWN }
     public enum Event { MOVED, STOPPED, ASKSLASH }
 
-    private int health, damage;
     protected Position position, startPos;
-    private double speed, startSpeed;
+    private double speed, startSpeed, damage, startDamage, health, startHealth;
     private Direction direction, startDir;
     private boolean isMoving, isSlashing;
     private int slashCpt;
 
-    public Character(Position position, Direction direction, double speed)
+    public Character(Position position, Direction direction, double speed, double damage, double health)
     {
         startPos = position.clone();
         startDir = direction;
         startSpeed = speed;
+        startDamage = damage;
+        startHealth = health;
         initChar();
     }
 
     public void initChar()
     {
         System.out.println(startDir);
-        this.health = 100;
-        this.damage = 20;
+        this.health = startHealth;
+        this.damage = startDamage;
         this.direction = startDir;
         setPosition(startPos.clone());
         this.speed = startSpeed;
@@ -102,12 +103,12 @@ public abstract class Character extends Observable
     }
 
 
-    public int getHealth()
+    public double getHealth()
     {
         return health;
     }
 
-    public void setHealth(int health)
+    public void setHealth(double health)
     {
         this.health = health;
     }
@@ -127,12 +128,12 @@ public abstract class Character extends Observable
         this.speed = speed;
     }
 
-    public int getDamage()
+    public double getDamage()
     {
         return damage;
     }
 
-    public void setDamage(int damage)
+    public void setDamage(double damage)
     {
         this.damage = damage;
     }
