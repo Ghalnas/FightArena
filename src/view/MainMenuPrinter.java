@@ -1,5 +1,6 @@
 package view;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -22,8 +23,7 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
     private Button statsButton;
     private Button settingsButton;
     private Button leaveButton;
-    //private Font fontPixel = Font.loadFont("file:src/font/Pixeled.ttf", 20);
-    private String fontPixelPath = "file:src/font/Pixeled.ttf";
+    private String fontPixelPath = "file:assets/font/Pixeled.ttf";
 
 
     public MainMenuPrinter(double screenWidth, double screenHeight) {
@@ -34,13 +34,16 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
         title.setScaleX(3);
         title.setScaleY(3);
 
-
-        background = new ImageView(new Image("file:src/image/background-medium.jpg"));
+        background = new ImageView(new Image("file:assets/image/background-medium.jpg"));
 
         fightButton = new Button("Fight");
         fightButton.setFont(Font.loadFont(fontPixelPath, 10));
         fightButton.setLayoutX(screenWidth/1.30);
         fightButton.setLayoutY(screenHeight/4);
+
+        /*fightButton.setOnAction(event -> {
+            fightButton.setText("OK");
+        });*/
 
         statsButton = new Button("Stats");
         statsButton.setFont(Font.loadFont(fontPixelPath, 10));
@@ -57,29 +60,6 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
         leaveButton.setLayoutX(screenWidth/1.30);
         leaveButton.setLayoutY(screenHeight/1.5);
 
-        /*fightButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                fightButton.setText("Accepted");
-            }
-        });*/
-
-        /*statsButton.setOnAction(new EventHandler<ActionEvent>(){
-            @Override public void handle(ActionEvent e) {
-                //fightButton.setText("Accepted");
-            }
-        });
-
-        settingsButton.setOnAction(new EventHandler<ActionEvent>(){
-            @Override public void handle(ActionEvent e) {
-                //fightButton.setText("Accepted");
-            }
-        });
-
-        leaveButton.setOnAction(new EventHandler<ActionEvent>(){
-            @Override public void handle(ActionEvent e) {
-                //leaveButton.setText("QUITING");
-            }
-        });*/
 
     }
 

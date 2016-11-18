@@ -56,7 +56,7 @@ public class MainJavaFX extends Application
             CharacterPrinter playerObs = new CharacterPrinter(player, spriteWidth, spriteHeight, slashFrames);
             CharacterPrinter botObs = new CharacterPrinter(bot, spriteWidth, spriteHeight, slashFrames);
 
-            //MainMenuPrinter mainMenuPrinter = new MainMenuPrinter(arenaWidth, arenaHeight);
+            MainMenuPrinter mainMenuPrinter = new MainMenuPrinter(arenaWidth, arenaHeight);
 
             //instantiate game engine and set Observers
             Engine engine = new Engine(player,(Bot)bot, slashFrames, arenaWidth, arenaHeight);
@@ -76,7 +76,7 @@ public class MainJavaFX extends Application
             window.addGamePrinter(botObs);
             window.addScorePrinter(scorePrinter);
             window.addLogPrinter(logPrinter);
-            //window.addMainMenuPrinter(mainMenuPrinter);
+            window.addMainMenuPrinter(mainMenuPrinter);
 
 
             Group root = new Group();

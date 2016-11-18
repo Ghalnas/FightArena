@@ -37,7 +37,7 @@ public class WindowViewer
     {
         logViewer.addObserverJavaFX(printer);
     }
-    public void addScorePrinter(JavaFXPrinter printer){scoreViewer.addObserverJavaFX(printer);}
-    public void addMainMenuPrinter(JavaFXPrinter printer) {mainMenuViewer.addObserverJavaFX(printer);}
+    public void addScorePrinter(JavaFXPrinter printer){ scoreViewer.addObserverJavaFX(printer);}
+    public void addMainMenuPrinter(JavaFXPrinter printer) { mainMenuViewer.addObserverJavaFX(printer);}
 
 }
