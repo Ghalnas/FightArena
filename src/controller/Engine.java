@@ -83,6 +83,7 @@ public class Engine extends Observable implements Observer
     public void update(Observable o, Object arg)
     {
         if (arg == Command.Action.SLASH) {
+            checkLimits((Character)o);
             if (o instanceof Player && !damageInstancePlayer && checkCollision(player,bot)) {
                 bot.setHealth(bot.getHealth()-player.getDamage());
                 damageInstancePlayer = true;
@@ -98,18 +99,7 @@ public class Engine extends Observable implements Observer
             }
         }
         if(arg == Character.Event.MOVED) {
-            if (((Character)o).getPosition().getX() < 5) {
-                ((Character) o).getPosition().setX(5);
-            }
-            if (((Character)o).getPosition().getX() > width-45) {
-                ((Character) o).getPosition().setX(width-45);
-            }
-            if (((Character)o).getPosition().getY() < 5) {
-                ((Character) o).getPosition().setY(5);
-            }
-            if (((Character)o).getPosition().getY() > height-80) {
-                ((Character) o).getPosition().setY(height-80);
-            }
+            checkLimits((Character)o);
         }
         if(arg == Character.Event.ASKSLASH) {
             if(o instanceof Player  && slashCptPlayer == 0) {
@@ -119,6 +109,22 @@ public class Engine extends Observable implements Observer
                 slashCptBot++;
                 bot.slash();
             }
+        }
+    }
+
+    private void checkLimits(Character c)
+    {
+        if (c.getPosition().getX() < 10) {
+            c.getPosition().setX(10);
+        }
+        if (c.getPosition().getX() > width-70) {
+            c.getPosition().setX(width-70);
+        }
+        if (c.getPosition().getY() < 20) {
+            c.getPosition().setY(20);
+        }
+        if (c.getPosition().getY() > height-100) {
+            c.getPosition().setY(height - 100);
         }
     }
 

@@ -17,7 +17,6 @@ import java.util.Properties;
 public class MainJavaFX extends Application
 {
     public static void main(String[] args) {
-        System.out.println( "Main method inside Thread : " +  Thread.currentThread().getName());
         launch(args);
     }
 
