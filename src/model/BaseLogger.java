@@ -129,5 +129,4 @@ abstract class BaseLogger extends Observable implements Observer
 
         return false;
     }
-
 }

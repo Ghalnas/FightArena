@@ -24,13 +24,13 @@ public class JavaFXViewer
         System.out.println(width);
         switch ((int)width) {
             case 800:
-                background = new ImageView(new Image("file:src/image/background-small.jpg"));
+                background = new ImageView(new Image("file:assets/image/background-small.jpg"));
                 break;
             case 1280:
-                background = new ImageView(new Image("file:src/image/background-medium.jpg"));
+                background = new ImageView(new Image("file:assets/image/background-medium.jpg"));
                 break;
             case 1920:
-                background = new ImageView(new Image("file:src/image/background-large.jpg"));
+                background = new ImageView(new Image("file:assets/image/background-large.jpg"));
                 break;
             default:
                 throw new InvalidParameterException("Parameters must be 800*600, 1280*720 or 1920*1080");

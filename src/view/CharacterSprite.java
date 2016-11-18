@@ -20,7 +20,7 @@ public class CharacterSprite
 
     public CharacterSprite(Character c,int spriteWidth, int spriteHeight, int slashFrames)
     {
-        imageView = c instanceof Player ? new ImageView(new Image("file:src/image/player40.png")) : new ImageView(new Image("file:src/image/bot40.png"));
+        imageView = c instanceof Player ? new ImageView(new Image("file:assets/image/player.png")) : new ImageView(new Image("file:assets/image/bot.png"));
         character = c;
         cpt = 1;
         cptSlash = 1;

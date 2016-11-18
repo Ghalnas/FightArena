@@ -3,6 +3,7 @@ package model;
 import java.io.*;
 import java.util.Observable;
 import java.util.Properties;
+
 import model.Character.Event;
 
 /**
@@ -12,9 +13,6 @@ public class Logger extends BaseLogger
 {
     private static Logger INSTANCE = null;
 
-    /**
-     * Logger construct
-     */
     private Logger()
     {
         Properties properties = new Properties();
@@ -38,11 +36,6 @@ public class Logger extends BaseLogger
         }
     }
 
-    /**
-     * Singleton
-     *
-     * @return Logger
-     */
     public static Logger getInstance()
     {
         if (INSTANCE == null) {

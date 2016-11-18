@@ -31,15 +31,20 @@ $ git clone https://github.com/TataneInYourFace/FightArena.git
 The configuration is handled by the configuration files in `app/config/parameters.properties` and `app/config/logger.properties`.<br>
 Follow the parameters.properties.dist and logger.properties.dist files to fill them depending on your own configuration.<br>
 
-If you are on a Unix system, set right to run.sh :
+If you are on a Unix system, set right to `bin` folder :
 ```bash
-$ chmod +x run.sh
+$ chmod -R +x bin/ 
 ```
 
 #### Launching
-Just launch run.sh :
+If it is the first time you launch the game, please install game :
 ```bash
-$ sh run.sh
+$ sh bin/compile.sh
+```
+
+Then, launch `run.sh` :
+```bash
+$ sh bin/run.sh
 ```
 
 ## Contributing
