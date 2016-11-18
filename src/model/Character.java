@@ -33,7 +33,6 @@ public abstract class Character extends Observable
 
     public void initChar()
     {
-        System.out.println(startDir);
         this.health = startHealth;
         this.damage = startDamage;
         this.direction = startDir;

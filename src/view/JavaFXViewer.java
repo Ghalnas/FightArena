@@ -21,7 +21,6 @@ public class JavaFXViewer
         this.scale = scale;
         this.width = width;
         this.height = height;
-        System.out.println(width);
         switch ((int)width) {
             case 800:
                 background = new ImageView(new Image("file:assets/image/background-small.jpg"));
