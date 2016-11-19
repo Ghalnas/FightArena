@@ -33,7 +33,7 @@ public class Engine extends Observable implements Observer
         this.height = height;
         this.damageInstancePlayer = false;
         this.damageInstanceBot = false;
-        this.tabScores = new int[]{PLAYER,BOT};
+        this.tabScores = new int[]{0,0};
     }
 
     public void init()
