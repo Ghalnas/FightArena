@@ -66,6 +66,7 @@ public class MainJavaFX extends Application
             player.addObserver(logger);
             player.addObserver(playerObs);
             bot.addObserver(botObs);
+            engine.addObserver(scorePrinter);
 
             // set window size
             stage.setWidth(arenaWidth+(25f/100f)*arenaWidth);
