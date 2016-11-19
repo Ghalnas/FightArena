@@ -1,14 +1,19 @@
 arena_width=1280
 arena_height=720
 
-character_speed = 3
-character_damage = 20
-character_health = 100
-slash_frames = 20
 player_start_x = 30
 player_start_y = 250
+player_speed = 3
+player_damage = 20
+player_health = 100
+
 bot_start_x = 750
 bot_start_y = 250
+bot_speed = 2
+bot_damage = 20
+bot_health = 100
+
+slash_frames = 20
 
 sprite_width = 40
 sprite_height = 40
