@@ -19,6 +19,8 @@ public class Engine extends Observable implements Observer
     private double width,height;
     private boolean damageInstancePlayer,damageInstanceBot;
     private int [] tabScores;
+    int PLAYER = 0;
+    int BOT = 1;
 
     public Engine(Character player, Bot bot, int slashFrames, double width, double height)
     {
@@ -31,7 +33,7 @@ public class Engine extends Observable implements Observer
         this.height = height;
         this.damageInstancePlayer = false;
         this.damageInstanceBot = false;
-        tabScores = new int[]{0,0};
+        this.tabScores = new int[]{PLAYER,BOT};
     }
 
     public void init()
@@ -90,7 +92,7 @@ public class Engine extends Observable implements Observer
                 damageInstancePlayer = true;
                 if (bot.getHealth() <= 0) {
                     setChanged();
-                    tabScores[0]++;
+                    tabScores[PLAYER]++;
                     notifyObservers(tabScores);
                     reinit();
                 }
@@ -99,7 +101,7 @@ public class Engine extends Observable implements Observer
                 damageInstanceBot = true;
                 if (player.getHealth() <= 0) {
                     setChanged();
-                    tabScores[1]++;
+                    tabScores[BOT]++;
                     notifyObservers(tabScores);
                     reinit();
                 }
