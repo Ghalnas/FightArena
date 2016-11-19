@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import controller.Engine;
 
 
 public class ScorePrinter implements JavaFXPrinter, Observer {
@@ -21,6 +22,8 @@ public class ScorePrinter implements JavaFXPrinter, Observer {
     private final double scoresViewCons = 20;
     private int scorePlayer;
     private int scoreBot;
+    int PLAYER = 0;
+    int BOT = 1;
 
     public ScorePrinter(double scoresViewX, double scoresViewY, double scoresViewWidth, double scoresViewHeight) {
 
@@ -37,9 +40,9 @@ public class ScorePrinter implements JavaFXPrinter, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg instanceof int[]) {
-            scorePlayer = ((int[])arg)[0];
-            scoreBot = ((int[])arg)[1];
+        if ( o instanceof Engine && arg instanceof int[]) {
+            scorePlayer = ((int[])arg)[PLAYER];
+            scoreBot = ((int[])arg)[BOT];
         }
     }
 
