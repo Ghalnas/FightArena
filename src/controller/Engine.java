@@ -35,18 +35,17 @@ public class Engine extends Observable implements Observer
     public void init()
     {
         System.out.println("====================GAME STARTED====================");
-        bot.setStrategy(new StrategyDumb(player,bot));
+        bot.setStrategy(new StrategyEpic(player, bot));
     }
 
     public void reinit()
     {
         player.initChar();
-        bot.initChar(new StrategyDumb(player,bot));
+        bot.initChar(new StrategyEpic(player, bot));
         slashCptBot = 0;
         slashCptPlayer = 0;
         damageInstanceBot = false;
         damageInstancePlayer = false;
-
     }
 
     public void run(Command c)
@@ -120,8 +119,8 @@ public class Engine extends Observable implements Observer
         if (c.getPosition().getX() > width-70) {
             c.getPosition().setX(width-70);
         }
-        if (c.getPosition().getY() < 20) {
-            c.getPosition().setY(20);
+        if (c.getPosition().getY() < 70) {
+            c.getPosition().setY(70);
         }
         if (c.getPosition().getY() > height-100) {
             c.getPosition().setY(height - 100);
