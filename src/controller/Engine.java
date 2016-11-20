@@ -5,6 +5,7 @@ import model.Character;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 /**
  * Class Engine
@@ -13,19 +14,23 @@ public class Engine extends Observable implements Observer
 {
     private Character player;
     private Bot bot;
+    private int frameCpt;
     private int slashFrames;
     private int slashCptPlayer;
     private int slashCptBot;
     private double width,height;
     private boolean damageInstancePlayer,damageInstanceBot;
+    private Item item;
 
-    public Engine(Character player, Bot bot, int slashFrames, double width, double height)
+    public Engine(Character player, Bot bot, Item item, int slashFrames, double width, double height)
     {
         this.player = player;
         this.bot = bot;
+        this.item = item;
         this.slashFrames = slashFrames;
         this.slashCptPlayer = 0;
         this.slashCptBot = 0;
+        frameCpt = 0;
         this.width = width;
         this.height = height;
         this.damageInstancePlayer = false;
@@ -35,21 +40,38 @@ public class Engine extends Observable implements Observer
     public void init()
     {
         System.out.println("====================GAME STARTED====================");
-        bot.setStrategy(new StrategyEpic(player, bot));
+        bot.setStrategy(new StrategyDumb(player, bot));
     }
 
     public void reinit()
     {
         player.initChar();
-        bot.initChar(new StrategyEpic(player, bot));
+        bot.initChar(new StrategyDumb(player, bot));
         slashCptBot = 0;
         slashCptPlayer = 0;
+        frameCpt = 0;
         damageInstanceBot = false;
         damageInstancePlayer = false;
     }
 
     public void run(Command c)
     {
+        frameCpt++;
+        if (item.getType() != null) {
+            if (checkCollisionItem(player)) {
+                useItem(player);
+            }
+            if (checkCollisionItem(bot)) {
+                useItem(bot);
+            }
+        }
+
+        if (item.getType() == null && frameCpt%2 == 0) {
+            Random r = new Random();
+            int rX = r.nextInt((int)width-50-50)+50;
+            int rY = r.nextInt((int)height-50-50)+50;
+            item.init(Item.ItemType.SPIN,new Position(rX,rY));
+        }
         if (slashCptBot > 0) {
             slashCptBot+=1;
             bot.slash();
@@ -87,6 +109,9 @@ public class Engine extends Observable implements Observer
                 bot.setHealth(bot.getHealth()-player.getDamage());
                 damageInstancePlayer = true;
                 if (bot.getHealth() <= 0) {
+
+                    setChanged();
+                    notifyObservers();
                     reinit();
                 }
             } else if(o instanceof Bot && !damageInstanceBot && checkCollision(bot,player)) {
@@ -147,6 +172,21 @@ public class Engine extends Observable implements Observer
                 break;
         }
         return receiver.getHitbox().collision(sword) || receiver.getHitbox().collision(attacker.getHitbox());
+    }
+
+    private boolean checkCollisionItem(Character character)
+    {
+        return character.getHitbox().collision(item.getHitbox());
+    }
+
+    private void useItem(Character character)
+    {
+        switch (item.getType()) {
+            case SPIN:
+                character.setItemType(item.getType());
+                item.remove();
+                break;
+        }
     }
 }
 

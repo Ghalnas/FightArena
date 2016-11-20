@@ -8,6 +8,7 @@ import javafx.scene.shape.Rectangle;
 import model.Character;
 import model.Character.Event;
 import model.Command;
+import model.Hitbox;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -37,7 +38,6 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
     public Node getNode()
     {
         Group group = new Group();
-
         double charRemainingHealth = (charWidth * character.getHealth())/maxHealth;
         Rectangle remainingHealth = new Rectangle(character.getPosition().getX(), character.getPosition().getY()-10, charRemainingHealth,3);
         remainingHealth.setFill(Color.LIGHTGREEN);

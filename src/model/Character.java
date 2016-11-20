@@ -20,6 +20,7 @@ public abstract class Character extends Observable
     private Direction direction, startDir;
     private boolean isMoving, isSlashing;
     private int slashCpt;
+    private Item.ItemType itemType;
 
     public Character(Position position, Direction direction, double speed, double damage, double health)
     {
@@ -44,6 +45,7 @@ public abstract class Character extends Observable
             endSlash();
             isSlashing = false;
         }
+        itemType = null;
     }
 
 
@@ -59,13 +61,16 @@ public abstract class Character extends Observable
             setChanged();
             notifyObservers(Event.ASKSLASH);
         }
-        if (c.getX() == -1 && c.getY() == 0) {
+        c.setX(Math.rint(c.getX()));
+        c.setY(Math.rint(c.getY()));
+
+        if ((int)c.getX() == -1 && (int)c.getY() == 0) {
             direction = Direction.LEFT;
-        } else if (c.getX() == 1 && c.getY() == 0) {
+        } else if ((int)c.getX() == 1 && (int)c.getY() == 0) {
             direction = Direction.RIGHT;
-        } else if (c.getX() == 0 && c.getY() == 1) {
+        } else if ((int)c.getX() == 0 && (int)c.getY() == 1) {
             direction = Direction.DOWN;
-        } else if (c.getX() == 0 && c.getY() == -1) {
+        } else if ((int)c.getX() == 0 && (int)c.getY() == -1) {
             direction = Direction.UP;
         }
         Position p = new Position(position.getX() + speed * c.getX(), position.getY() + speed * c.getY());
@@ -114,7 +119,7 @@ public abstract class Character extends Observable
 
     public Hitbox getHitbox()
     {
-        return new Hitbox(position.getX()-20,position.getY()-20,40,40);
+        return new Hitbox(position.getX()+10,position.getY()+5,20,30);
     }
 
     public double getSpeed()
@@ -135,5 +140,14 @@ public abstract class Character extends Observable
     public void setDamage(double damage)
     {
         this.damage = damage;
+    }
+
+    public void setItemType(Item.ItemType itemType)
+    {
+        this.itemType = itemType;
+        if (itemType != null) {
+            setChanged();
+            notifyObservers(itemType);
+        }
     }
 }

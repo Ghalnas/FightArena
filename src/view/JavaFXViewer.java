@@ -40,13 +40,12 @@ public class JavaFXViewer
     public Parent getPanel()
     {
         Group panel = new Group();
-        double imgScale = (width/800)*scale;
         panel.getChildren().add(background);
         for (JavaFXPrinter obs : listPrinters) {
             Node node = obs.getNode();
-            node.setScaleX(imgScale);
-            node.setScaleY(imgScale);
-            panel.getChildren().add(node);
+            if (node != null) {
+                panel.getChildren().add(node);
+            }
         }
         return panel;
     }

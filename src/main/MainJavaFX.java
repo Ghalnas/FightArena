@@ -49,6 +49,7 @@ public class MainJavaFX extends Application
             Arena arena = new Arena(arenaWidth, arenaHeight);
             Character player = new Player(new Position(playerX, playerY), playerSpeed, playerDamage, playerHealth);
             Character bot = new Bot(new Position(botX, botY), botSpeed, botDamage, botHealth);
+            Item item = new Item();
 
             Logger logger = Logger.getInstance();
             LogPrinter logPrinter = new LogPrinter(arenaWidth,(50f/100f)*arenaHeight,(25f/100f)*arenaWidth,(50f/100f)*arenaHeight);
@@ -58,34 +59,37 @@ public class MainJavaFX extends Application
 
             CharacterPrinter playerObs = new CharacterPrinter(player, spriteWidth, spriteHeight, slashFrames);
             CharacterPrinter botObs = new CharacterPrinter(bot, spriteWidth, spriteHeight, slashFrames);
+            ItemPrinter itemPrinter = new ItemPrinter(item);
 
             //instantiate game engine and set Observers
-            Engine engine = new Engine(player,(Bot)bot, slashFrames, arenaWidth, arenaHeight);
+            Engine engine = new Engine(player,(Bot)bot, item, slashFrames, arenaWidth, arenaHeight);
             player.addObserver(engine);
             bot.addObserver(engine);
             player.addObserver(logger);
             player.addObserver(playerObs);
             bot.addObserver(botObs);
 
+
             // set window size
             stage.setWidth(arenaWidth+(25f/100f)*arenaWidth);
             stage.setHeight(arenaHeight);
             stage.setTitle("Fight Arena");
-
             WindowViewer window = new WindowViewer(arenaWidth, arenaHeight, spriteScale);
             window.addGamePrinter(playerObs);
             window.addGamePrinter(botObs);
+            window.addGamePrinter(itemPrinter);
             window.addScorePrinter(scorePrinter);
             window.addLogPrinter(logPrinter);
 
 
             Group root = new Group();
-            SceneFX scene = new SceneFX(root);
+            SceneFX scene = new SceneFX(root, arenaWidth, arenaHeight);
 
-            root.getChildren().add(window.getPanel());
+            System.out.println(scene.getShrink());
+            root.getChildren().add(window.getPanel(scene.getShrink()));
 
             stage.setScene(scene);
-            stage.setResizable(false);
+            stage.setResizable(true);
             stage.show();
 
             engine.init();
@@ -93,7 +97,7 @@ public class MainJavaFX extends Application
             AnimationTimer timer = new AnimationTimer() {
                 @Override public void handle(long l) {
                     engine.run(scene.getCommand());
-                    scene.setRoot(window.getPanel());
+                    scene.setRoot(window.getPanel(scene.getShrink()));
                 }
             };
 

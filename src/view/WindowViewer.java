@@ -1,6 +1,7 @@
 package view;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 
 public class WindowViewer
@@ -17,12 +18,26 @@ public class WindowViewer
         this.scoreViewer = new ScoreViewer();
     }
 
-    public Parent getPanel()
+    public Parent getPanel(double shrink)
     {
+        double scale = shrink/720;
+        System.out.println(shrink);
+        System.out.println(scale);
         Group panel = new Group();
-        panel.getChildren().add(gameViewer.getPanel());
-        panel.getChildren().add(scoreViewer.getPanel());
-        panel.getChildren().add(logViewer.getPanel());
+        Node gamePanel = gameViewer.getPanel();
+        gamePanel.setScaleX(scale);
+        gamePanel.setScaleY(scale);
+        gamePanel.setTranslateX(-(720-shrink));
+        gamePanel.setTranslateY(-(720-shrink));
+        Node scorePanel = scoreViewer.getPanel();
+        scorePanel.setScaleX(scale);
+        scorePanel.setScaleY(scale);
+        Node logPanel = logViewer.getPanel();
+        logPanel.setScaleX(scale);
+        logPanel.setScaleY(scale);
+        panel.getChildren().add(gamePanel);
+        panel.getChildren().add(scorePanel);
+        panel.getChildren().add(logPanel);
         return panel;
     }
 
