@@ -13,14 +13,15 @@ public abstract class Character extends Observable
 
 
     public enum Direction { LEFT, RIGHT, UP, DOWN }
-    public enum Event { MOVED, STOPPED, ASKSLASH }
+    public enum Event { MOVED, STOPPED, ASKSLASH, SPIN }
 
     protected Position position, startPos;
     private double speed, startSpeed, damage, startDamage, health, startHealth;
     private Direction direction, startDir;
-    private boolean isMoving, isSlashing;
+    private boolean isMoving, isSlashing, isSpinning;
     private int slashCpt;
     private Item.ItemType itemType;
+    private Hitbox hitbox;
 
     public Character(Position position, Direction direction, double speed, double damage, double health)
     {
@@ -38,12 +39,18 @@ public abstract class Character extends Observable
         this.damage = startDamage;
         this.direction = startDir;
         setPosition(startPos.clone());
+        this.hitbox = new Hitbox(position,20,10,40,60);
         this.speed = startSpeed;
         isMoving = false;
         slashCpt = 0;
         if (isSlashing) {
             endSlash();
-            isSlashing = false;
+        }
+        if (isSpinning) {
+            stopSpin();
+        }
+        if (isSpinning) {
+            stopSpin();
         }
         itemType = null;
     }
@@ -93,9 +100,14 @@ public abstract class Character extends Observable
 
     private void setPosition(Position p)
     {
-        Position posTmp = position;
-        position = p;
-        if (!p.equals(posTmp) && slashCpt == 0 && !isSlashing)  {
+        if (position == null) {
+            position = p;
+            return;
+        }
+        Position posTmp = position.clone();
+        position.setX(p.getX());
+        position.setY(p.getY());
+        if (!p.equals(posTmp) && slashCpt == 0 && !isSlashing && !isSpinning)  {
             setChanged();
             notifyObservers(Event.MOVED);
             isMoving = true;
@@ -119,7 +131,7 @@ public abstract class Character extends Observable
 
     public Hitbox getHitbox()
     {
-        return new Hitbox(position.getX()+10,position.getY()+5,20,30);
+        return hitbox;
     }
 
     public double getSpeed()
@@ -142,12 +154,31 @@ public abstract class Character extends Observable
         this.damage = damage;
     }
 
-    public void setItemType(Item.ItemType itemType)
+    public void startSpin()
     {
-        this.itemType = itemType;
-        if (itemType != null) {
-            setChanged();
-            notifyObservers(itemType);
-        }
+        hitbox = new Hitbox(position, 5, 0,62,80);
+        speed = startSpeed+1;
+        spin();
+    }
+
+    public void spin()
+    {
+        setChanged();
+        notifyObservers(Event.SPIN);
+        isSpinning = true;
+    }
+
+    public void stopSpin()
+    {
+        hitbox = new Hitbox(position, 20, 10,40,60);
+        isSpinning = false;
+        speed = startSpeed;
+        setChanged();
+        notifyObservers(Action.NONE);
+    }
+
+    public boolean isSpinning()
+    {
+        return isSpinning;
     }
 }

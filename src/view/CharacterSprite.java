@@ -13,18 +13,19 @@ public class CharacterSprite
     private final ImageView imageView;
     private double cpt;
     private int cptSlash;
-    private double increment;
+    private double increment, incrementSpin;
     private Character character;
     private final int slashFrames;
     private final double slashFrames1, slashFrames2;
 
     public CharacterSprite(Character c,int spriteWidth, int spriteHeight, int slashFrames)
     {
-        imageView = c instanceof Player ? new ImageView(new Image("file:assets/image/player.png")) : new ImageView(new Image("file:assets/image/bot.png"));
+        imageView = c instanceof Player ? new ImageView(new Image("file:assets/image/player80.png")) : new ImageView(new Image("file:assets/image/bot80.png"));
         character = c;
         cpt = 1;
         cptSlash = 1;
         increment = 0.1;
+        incrementSpin = 0.35;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
         double slashFramesSlice = (double)slashFrames/3;
@@ -35,6 +36,7 @@ public class CharacterSprite
 
     public ImageView getCharacterSprite()
     {
+        if(character instanceof Player)
         cptSlash = 0;
         cpt = 1;
         increment = Math.abs(increment);
@@ -68,6 +70,17 @@ public class CharacterSprite
         } else {
             setImageViewPort(5);
         }
+        return imageView;
+    }
+
+    public ImageView getSpinSprite()
+    {
+        cpt += incrementSpin;
+        if(cpt > 100 || cpt < 1) {
+            incrementSpin = -incrementSpin;
+        }
+        int multiplier = (int)Math.rint(cpt);
+        imageView.setViewport(new Rectangle2D(multiplier%3*spriteWidth, 4*spriteHeight, spriteWidth, spriteHeight));
         return imageView;
     }
 

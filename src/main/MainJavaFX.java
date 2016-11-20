@@ -45,6 +45,7 @@ public class MainJavaFX extends Application
             double playerSpeed = (arenaWidth/800) * Double.parseDouble(prop.getProperty("player_speed"));
             double botSpeed = (arenaWidth/800) * Double.parseDouble(prop.getProperty("bot_speed"));
             int slashFrames = Integer.parseInt(prop.getProperty("slash_frames"));
+            int spinFrames = Integer.parseInt(prop.getProperty("spin_frames"));
 
             Arena arena = new Arena(arenaWidth, arenaHeight);
             Character player = new Player(new Position(playerX, playerY), playerSpeed, playerDamage, playerHealth);
@@ -62,7 +63,7 @@ public class MainJavaFX extends Application
             ItemPrinter itemPrinter = new ItemPrinter(item);
 
             //instantiate game engine and set Observers
-            Engine engine = new Engine(player,(Bot)bot, item, slashFrames, arenaWidth, arenaHeight);
+            Engine engine = new Engine(player,(Bot)bot, item, slashFrames, spinFrames, arenaWidth, arenaHeight);
             player.addObserver(engine);
             bot.addObserver(engine);
             player.addObserver(logger);
@@ -85,8 +86,7 @@ public class MainJavaFX extends Application
             Group root = new Group();
             SceneFX scene = new SceneFX(root, arenaWidth, arenaHeight);
 
-            System.out.println(scene.getShrink());
-            root.getChildren().add(window.getPanel(scene.getShrink()));
+            root.getChildren().add(window.getPanel(scene.getShrinkX(), scene.getShrinkY()));
 
             stage.setScene(scene);
             stage.setResizable(true);
@@ -97,7 +97,7 @@ public class MainJavaFX extends Application
             AnimationTimer timer = new AnimationTimer() {
                 @Override public void handle(long l) {
                     engine.run(scene.getCommand());
-                    scene.setRoot(window.getPanel(scene.getShrink()));
+                    scene.setRoot(window.getPanel(scene.getShrinkX(), scene.getShrinkY()));
                 }
             };
 

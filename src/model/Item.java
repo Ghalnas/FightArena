@@ -20,7 +20,7 @@ public class Item
     public void init(ItemType type, Position position)
     {
         this.type = type;
-        hitbox = new Hitbox(position.getX()-7, position.getY()-7, 14,14);
+        hitbox = new Hitbox(position, -15, -15, 30,30);
     }
 
     public ItemType getType() {

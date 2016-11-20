@@ -18,26 +18,20 @@ public class WindowViewer
         this.scoreViewer = new ScoreViewer();
     }
 
-    public Parent getPanel(double shrink)
+    public Parent getPanel(double shrinkX, double shrinkY)
     {
-        double scale = shrink/720;
-        System.out.println(shrink);
-        System.out.println(scale);
+        double scaleX = shrinkX/1600;
         Group panel = new Group();
         Node gamePanel = gameViewer.getPanel();
-        gamePanel.setScaleX(scale);
-        gamePanel.setScaleY(scale);
-        gamePanel.setTranslateX(-(720-shrink));
-        gamePanel.setTranslateY(-(720-shrink));
         Node scorePanel = scoreViewer.getPanel();
-        scorePanel.setScaleX(scale);
-        scorePanel.setScaleY(scale);
         Node logPanel = logViewer.getPanel();
-        logPanel.setScaleX(scale);
-        logPanel.setScaleY(scale);
         panel.getChildren().add(gamePanel);
         panel.getChildren().add(scorePanel);
         panel.getChildren().add(logPanel);
+        panel.setScaleX(scaleX);
+        panel.setScaleY(scaleX);
+        panel.setTranslateX((shrinkX/2)-(1600/2));
+        panel.setTranslateY((shrinkY/2)-(720/2));
         return panel;
     }
 

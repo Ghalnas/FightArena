@@ -88,8 +88,13 @@ public class SceneFX extends Scene
         return new Command(vX,vY, action);
     }
 
-    public double getShrink()
+    public double getShrinkX()
     {
-        return Math.min(sizeX,sizeY);
+        return sizeX;
+    }
+
+    public double getShrinkY()
+    {
+        return sizeY;
     }
 }
