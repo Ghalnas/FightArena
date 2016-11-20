@@ -18,6 +18,9 @@ public class Engine extends Observable implements Observer
     private int slashCptBot;
     private double width,height;
     private boolean damageInstancePlayer,damageInstanceBot;
+    private int [] tabScores;
+    int PLAYER = 0;
+    int BOT = 1;
 
     public Engine(Character player, Bot bot, int slashFrames, double width, double height)
     {
@@ -30,6 +33,7 @@ public class Engine extends Observable implements Observer
         this.height = height;
         this.damageInstancePlayer = false;
         this.damageInstanceBot = false;
+        this.tabScores = new int[]{0,0};
     }
 
     public void init()
@@ -87,12 +91,18 @@ public class Engine extends Observable implements Observer
                 bot.setHealth(bot.getHealth()-player.getDamage());
                 damageInstancePlayer = true;
                 if (bot.getHealth() <= 0) {
+                    setChanged();
+                    tabScores[PLAYER]++;
+                    notifyObservers(tabScores);
                     reinit();
                 }
             } else if(o instanceof Bot && !damageInstanceBot && checkCollision(bot,player)) {
                 player.setHealth(player.getHealth()-bot.getDamage());
                 damageInstanceBot = true;
                 if (player.getHealth() <= 0) {
+                    setChanged();
+                    tabScores[BOT]++;
+                    notifyObservers(tabScores);
                     reinit();
                 }
             }
