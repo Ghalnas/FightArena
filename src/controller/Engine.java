@@ -24,6 +24,9 @@ public class Engine extends Observable implements Observer
     private Item item;
     private Character itemUser;
     private Character target;
+    private int [] tabScores;
+    int PLAYER = 0;
+    int BOT = 1;
 
     public Engine(Character player, Bot bot, Item item, int slashFrames, int spinFrames, double width, double height)
     {
@@ -41,6 +44,7 @@ public class Engine extends Observable implements Observer
         this.height = height;
         this.damageInstancePlayer = false;
         this.damageInstanceBot = false;
+        this.tabScores = new int[]{0,0};
     }
 
     public void init()
@@ -66,7 +70,16 @@ public class Engine extends Observable implements Observer
     public void run(Command c)
     {
         frameCpt++;
-        if (bot.getHealth() <= 0 || player.getHealth() <= 0) {
+        if (bot.getHealth() <= 0) {
+            setChanged();
+            tabScores[PLAYER]++;
+            notifyObservers(tabScores);
+            reinit();
+        }
+        if (player.getHealth() <= 0) {
+            setChanged();
+            tabScores[BOT]++;
+            notifyObservers(tabScores);
             reinit();
         }
         if (spinCpt > 0) {
