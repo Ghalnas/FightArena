@@ -40,12 +40,12 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
         fightButton.setLayoutX(screenWidth/1.30);
         fightButton.setLayoutY(screenHeight/4);
 
-        fightButton.setOnAction(new EventHandler<ActionEvent>() {
+        /*fightButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 System.out.println("clické");
                 return;
             }
-        });
+        });*/
 
         statsButton = new Button("Stats");
         statsButton.setFont(Font.loadFont(fontPixelPath, 10));
