@@ -4,6 +4,8 @@ import controller.Engine;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.*;
 import model.Character;
@@ -24,6 +26,7 @@ public class MainJavaFX extends Application
     public void start(Stage stage) throws Exception {
         Properties prop = new Properties();
         InputStream input = null;
+        Button fightButton;
 
         try {
             //read properties
@@ -72,20 +75,21 @@ public class MainJavaFX extends Application
             player.addObserver(playerObs);
             bot.addObserver(botObs);
             engine.addObserver(scorePrinter);
+            engine.addObserver(mainMenuPrinter);
 
 
             // set window size
             stage.setWidth(arenaWidth+(25f/100f)*arenaWidth);
             stage.setHeight(arenaHeight);
             stage.setTitle("Fight Arena");
+
             WindowViewer window = new WindowViewer(arenaWidth, arenaHeight, spriteScale);
             window.addMainMenuPrinter(mainMenuPrinter);
-            window.addGamePrinter(playerObs);
-            window.addGamePrinter(botObs);
-            window.addGamePrinter(itemPrinter);
-            window.addScorePrinter(scorePrinter);
-            window.addLogPrinter(logPrinter);
-
+            //window.addGamePrinter(playerObs);
+            //window.addGamePrinter(botObs);
+            //window.addGamePrinter(itemPrinter);
+            //window.addScorePrinter(scorePrinter);
+            //window.addLogPrinter(logPrinter);
 
 
             Group root = new Group();
@@ -96,6 +100,10 @@ public class MainJavaFX extends Application
             stage.setScene(scene);
             stage.setResizable(true);
             stage.show();
+
+            fightButton = new Button("Fight");
+            fightButton.setLayoutX(50);
+            fightButton.setLayoutY(50);
 
             engine.init();
 

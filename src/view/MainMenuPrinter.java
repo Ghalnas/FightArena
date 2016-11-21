@@ -4,12 +4,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -22,6 +25,7 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
     private Button statsButton;
     private Button settingsButton;
     private Button leaveButton;
+
     private String fontPixelPath = "file:assets/font/Pixeled.ttf";
 
 
@@ -37,15 +41,15 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
 
         fightButton = new Button("Fight");
         fightButton.setFont(Font.loadFont(fontPixelPath, 10));
+        fightButton.setDefaultButton(true);
         fightButton.setLayoutX(screenWidth/1.30);
         fightButton.setLayoutY(screenHeight/4);
 
-        /*fightButton.setOnAction(new EventHandler<ActionEvent>() {
+        fightButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 System.out.println("clické");
-                return;
             }
-        });*/
+        });
 
         statsButton = new Button("Stats");
         statsButton.setFont(Font.loadFont(fontPixelPath, 10));
@@ -61,7 +65,6 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
         leaveButton.setFont(Font.loadFont(fontPixelPath, 10));
         leaveButton.setLayoutX(screenWidth/1.30);
         leaveButton.setLayoutY(screenHeight/1.5);
-
 
     }
 
