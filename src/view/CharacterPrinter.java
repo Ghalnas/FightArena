@@ -68,7 +68,7 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
 //        }
 //        Rectangle bob = new Rectangle(sword.getX(),sword.getY(),sword.getWidth(),sword.getHeight());
 //        bob.setFill(Color.RED);
-        group.getChildren().addAll(rec,playerView,lightning,remainingHealth,missingHealth);
+        group.getChildren().addAll(playerView,lightning,remainingHealth,missingHealth);
 
         return group;
     }
