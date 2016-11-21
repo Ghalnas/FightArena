@@ -31,8 +31,10 @@ public class MainJavaFX extends Application
             prop.load(input);
             double arenaWidth = Integer.parseInt(prop.getProperty("arena_width"));
             double arenaHeight = Integer.parseInt(prop.getProperty("arena_height"));
-            double damage = Double.parseDouble(prop.getProperty("character_damage"));
-            double health = Double.parseDouble(prop.getProperty("character_health"));
+            double playerDamage = Double.parseDouble(prop.getProperty("player_damage"));
+            double botDamage = Double.parseDouble(prop.getProperty("bot_damage"));
+            double playerHealth = Double.parseDouble(prop.getProperty("player_health"));
+            double botHealth = Double.parseDouble(prop.getProperty("bot_health"));
             double playerX = (arenaWidth/800) * Double.parseDouble(prop.getProperty("player_start_x"));
             double playerY = (arenaHeight/600) * Double.parseDouble(prop.getProperty("player_start_y"));
             double botX = (arenaWidth/800) * Double.parseDouble(prop.getProperty("bot_start_x"));
@@ -40,12 +42,15 @@ public class MainJavaFX extends Application
             int spriteWidth = Integer.parseInt(prop.getProperty("sprite_width"));
             int spriteHeight = Integer.parseInt(prop.getProperty("sprite_height"));
             double spriteScale = Double.parseDouble(prop.getProperty("sprite_scale"));
-            double characterSpeed = (arenaWidth/800) * Double.parseDouble(prop.getProperty("character_speed"));
+            double playerSpeed = (arenaWidth/800) * Double.parseDouble(prop.getProperty("player_speed"));
+            double botSpeed = (arenaWidth/800) * Double.parseDouble(prop.getProperty("bot_speed"));
             int slashFrames = Integer.parseInt(prop.getProperty("slash_frames"));
+            int spinFrames = Integer.parseInt(prop.getProperty("spin_frames"));
 
-            Arena arena = new Arena(arenaWidth,arenaHeight);
-            Character player = new Player(new Position(playerX,playerY),characterSpeed,damage,health);
-            Character bot = new Bot(new Position(botX,botY),characterSpeed,damage,health);
+            Arena arena = new Arena(arenaWidth, arenaHeight);
+            Character player = new Player(new Position(playerX, playerY), playerSpeed, playerDamage, playerHealth);
+            Character bot = new Bot(new Position(botX, botY), botSpeed, botDamage, botHealth);
+            Item item = new Item();
 
             Logger logger = Logger.getInstance();
             LogPrinter logPrinter = new LogPrinter(arenaWidth,(50f/100f)*arenaHeight,(25f/100f)*arenaWidth,(50f/100f)*arenaHeight);
@@ -55,38 +60,41 @@ public class MainJavaFX extends Application
 
             CharacterPrinter playerObs = new CharacterPrinter(player, spriteWidth, spriteHeight, slashFrames);
             CharacterPrinter botObs = new CharacterPrinter(bot, spriteWidth, spriteHeight, slashFrames);
+            ItemPrinter itemPrinter = new ItemPrinter(item);
 
             MainMenuPrinter mainMenuPrinter = new MainMenuPrinter(arenaWidth, arenaHeight);
 
             //instantiate game engine and set Observers
-            Engine engine = new Engine(player,(Bot)bot, slashFrames, arenaWidth, arenaHeight);
+            Engine engine = new Engine(player,(Bot)bot, item, slashFrames, spinFrames, arenaWidth, arenaHeight);
             player.addObserver(engine);
             bot.addObserver(engine);
             player.addObserver(logger);
             player.addObserver(playerObs);
             bot.addObserver(botObs);
+            engine.addObserver(scorePrinter);
+
 
             // set window size
             stage.setWidth(arenaWidth+(25f/100f)*arenaWidth);
             stage.setHeight(arenaHeight);
             stage.setTitle("Fight Arena");
-
             WindowViewer window = new WindowViewer(arenaWidth, arenaHeight, spriteScale);
             window.addMainMenuPrinter(mainMenuPrinter);
             window.addGamePrinter(playerObs);
             window.addGamePrinter(botObs);
+            window.addGamePrinter(itemPrinter);
             window.addScorePrinter(scorePrinter);
             window.addLogPrinter(logPrinter);
 
 
 
             Group root = new Group();
-            SceneFX scene = new SceneFX(root);
+            SceneFX scene = new SceneFX(root, arenaWidth, arenaHeight);
 
-            root.getChildren().add(window.getPanel());
+            root.getChildren().add(window.getPanel(scene.getShrinkX(), scene.getShrinkY()));
 
             stage.setScene(scene);
-            stage.setResizable(false);
+            stage.setResizable(true);
             stage.show();
 
             engine.init();
@@ -94,7 +102,7 @@ public class MainJavaFX extends Application
             AnimationTimer timer = new AnimationTimer() {
                 @Override public void handle(long l) {
                     engine.run(scene.getCommand());
-                    scene.setRoot(window.getPanel());
+                    scene.setRoot(window.getPanel(scene.getShrinkX(), scene.getShrinkY()));
                 }
             };
 

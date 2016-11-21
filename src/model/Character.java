@@ -13,13 +13,15 @@ public abstract class Character extends Observable
 
 
     public enum Direction { LEFT, RIGHT, UP, DOWN }
-    public enum Event { MOVED, STOPPED, ASKSLASH }
+    public enum Event { MOVED, STOPPED, ASKSLASH, SPIN }
 
     protected Position position, startPos;
     private double speed, startSpeed, damage, startDamage, health, startHealth;
     private Direction direction, startDir;
-    private boolean isMoving, isSlashing;
+    private boolean isMoving, isSlashing, isSpinning;
     private int slashCpt;
+    private Item.ItemType itemType;
+    private Hitbox hitbox;
 
     public Character(Position position, Direction direction, double speed, double damage, double health)
     {
@@ -37,13 +39,20 @@ public abstract class Character extends Observable
         this.damage = startDamage;
         this.direction = startDir;
         setPosition(startPos.clone());
+        this.hitbox = new Hitbox(position,20,10,40,60);
         this.speed = startSpeed;
         isMoving = false;
         slashCpt = 0;
         if (isSlashing) {
             endSlash();
-            isSlashing = false;
         }
+        if (isSpinning) {
+            stopSpin();
+        }
+        if (isSpinning) {
+            stopSpin();
+        }
+        itemType = null;
     }
 
 
@@ -59,13 +68,16 @@ public abstract class Character extends Observable
             setChanged();
             notifyObservers(Event.ASKSLASH);
         }
-        if (c.getX() == -1 && c.getY() == 0) {
+        c.setX(Math.rint(c.getX()));
+        c.setY(Math.rint(c.getY()));
+
+        if ((int)c.getX() == -1 && (int)c.getY() == 0) {
             direction = Direction.LEFT;
-        } else if (c.getX() == 1 && c.getY() == 0) {
+        } else if ((int)c.getX() == 1 && (int)c.getY() == 0) {
             direction = Direction.RIGHT;
-        } else if (c.getX() == 0 && c.getY() == 1) {
+        } else if ((int)c.getX() == 0 && (int)c.getY() == 1) {
             direction = Direction.DOWN;
-        } else if (c.getX() == 0 && c.getY() == -1) {
+        } else if ((int)c.getX() == 0 && (int)c.getY() == -1) {
             direction = Direction.UP;
         }
         Position p = new Position(position.getX() + speed * c.getX(), position.getY() + speed * c.getY());
@@ -88,9 +100,14 @@ public abstract class Character extends Observable
 
     private void setPosition(Position p)
     {
-        Position posTmp = position;
-        position = p;
-        if (!p.equals(posTmp) && slashCpt == 0 && !isSlashing)  {
+        if (position == null) {
+            position = p;
+            return;
+        }
+        Position posTmp = position.clone();
+        position.setX(p.getX());
+        position.setY(p.getY());
+        if (!p.equals(posTmp) && slashCpt == 0 && !isSlashing && !isSpinning)  {
             setChanged();
             notifyObservers(Event.MOVED);
             isMoving = true;
@@ -114,7 +131,7 @@ public abstract class Character extends Observable
 
     public Hitbox getHitbox()
     {
-        return new Hitbox(position.getX()-20,position.getY()-20,40,40);
+        return hitbox;
     }
 
     public double getSpeed()
@@ -135,5 +152,33 @@ public abstract class Character extends Observable
     public void setDamage(double damage)
     {
         this.damage = damage;
+    }
+
+    public void startSpin()
+    {
+        hitbox = new Hitbox(position, 5, 0,62,80);
+        speed = startSpeed+1;
+        spin();
+    }
+
+    public void spin()
+    {
+        setChanged();
+        notifyObservers(Event.SPIN);
+        isSpinning = true;
+    }
+
+    public void stopSpin()
+    {
+        hitbox = new Hitbox(position, 20, 10,40,60);
+        isSpinning = false;
+        speed = startSpeed;
+        setChanged();
+        notifyObservers(Action.NONE);
+    }
+
+    public boolean isSpinning()
+    {
+        return isSpinning;
     }
 }

@@ -4,8 +4,8 @@ import java.security.InvalidParameterException;
 
 public class Command
 {
-    public enum Action { NONE, SLASH };
-    private double x,y;
+    public enum Action { NONE, SLASH }
+    private double x, y;
     private Action action;
 
     public Command(double x, double y, Action action)
