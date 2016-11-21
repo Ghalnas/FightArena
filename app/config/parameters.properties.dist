@@ -14,7 +14,8 @@ bot_damage = 20
 bot_health = 100
 
 slash_frames = 20
+spin_frames = 240
 
-sprite_width = 40
-sprite_height = 40
-sprite_scale = 2
+sprite_width = 80
+sprite_height = 80
+sprite_scale = 1
