@@ -50,13 +50,13 @@ public class Engine extends Observable implements Observer
     public void init()
     {
         System.out.println("====================GAME STARTED====================");
-        bot.setStrategy(new StrategyDumb(player, bot));
+        bot.setStrategy(new StrategyEpic(player, bot));
     }
 
     public void reinit()
     {
         player.initChar();
-        bot.initChar(new StrategyDumb(player, bot));
+        bot.initChar(new StrategyEpic(player, bot));
         slashCptBot = 0;
         slashCptPlayer = 0;
         frameCpt = 1;
@@ -206,12 +206,11 @@ public class Engine extends Observable implements Observer
         switch (item.getType()) {
             case SPIN:
                 character.startSpin();
+                itemUser = character;
                 if (character instanceof  Player) {
-                    itemUser = character;
                     target = bot;
                 } else {
-                    itemUser = bot;
-                    target = character;
+                    target = player;
                 }
                 spinCpt++;
                 item.remove();
