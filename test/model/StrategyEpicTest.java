@@ -15,7 +15,8 @@ public class StrategyEpicTest
     {
         this.strategyEpic = new StrategyEpic(
             new Player(new Position(1, 1), 1, 1, 2),
-            new Bot(new Position(1, 1), 1, 1, 2)
+            new Bot(new Position(1, 1), 1, 1, 2),
+            new Item()
         );
     }
 
