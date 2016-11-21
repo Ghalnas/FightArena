@@ -1,6 +1,5 @@
 package view;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -41,9 +40,12 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
         fightButton.setLayoutX(screenWidth/1.30);
         fightButton.setLayoutY(screenHeight/4);
 
-        /*fightButton.setOnAction(event -> {
-            fightButton.setText("OK");
-        });*/
+        fightButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                System.out.println("clické");
+                return;
+            }
+        });
 
         statsButton = new Button("Stats");
         statsButton.setFont(Font.loadFont(fontPixelPath, 10));

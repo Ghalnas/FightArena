@@ -72,11 +72,12 @@ public class MainJavaFX extends Application
             stage.setTitle("Fight Arena");
 
             WindowViewer window = new WindowViewer(arenaWidth, arenaHeight, spriteScale);
+            window.addMainMenuPrinter(mainMenuPrinter);
             window.addGamePrinter(playerObs);
             window.addGamePrinter(botObs);
             window.addScorePrinter(scorePrinter);
             window.addLogPrinter(logPrinter);
-            window.addMainMenuPrinter(mainMenuPrinter);
+
 
 
             Group root = new Group();
