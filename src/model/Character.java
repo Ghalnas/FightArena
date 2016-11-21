@@ -13,15 +13,16 @@ public abstract class Character extends Observable
 
 
     public enum Direction { LEFT, RIGHT, UP, DOWN }
-    public enum Event { MOVED, STOPPED, ASKSLASH, SPIN }
+    public enum Event { MOVED, STOPPED, ASKSLASH, SPIN, LIGHTNING }
 
     protected Position position, startPos;
     private double speed, startSpeed, damage, startDamage, health, startHealth;
     private Direction direction, startDir;
-    private boolean isMoving, isSlashing, isSpinning;
+    private boolean isMoving, isSlashing, isSpinning, isLightning;
     private int slashCpt;
     private Item.ItemType itemType;
     private Hitbox hitbox;
+    private Hitbox lightning;
 
     public Character(Position position, Direction direction, double speed, double damage, double health)
     {
@@ -49,8 +50,8 @@ public abstract class Character extends Observable
         if (isSpinning) {
             stopSpin();
         }
-        if (isSpinning) {
-            stopSpin();
+        if (isLightning) {
+            stopLightning();
         }
         itemType = null;
     }
@@ -158,6 +159,7 @@ public abstract class Character extends Observable
     {
         hitbox = new Hitbox(position, 5, 0,62,80);
         speed = startSpeed+1;
+        isSpinning = true;
         spin();
     }
 
@@ -165,7 +167,6 @@ public abstract class Character extends Observable
     {
         setChanged();
         notifyObservers(Event.SPIN);
-        isSpinning = true;
     }
 
     public void stopSpin()
@@ -175,6 +176,30 @@ public abstract class Character extends Observable
         speed = startSpeed;
         setChanged();
         notifyObservers(Action.NONE);
+    }
+
+    public void startLightning()
+    {
+        isLightning = true;
+        lightning = new Hitbox(position.clone(), -30,-30,140,140);
+        lightning();
+    }
+
+    public void lightning()
+    {
+        setChanged();
+        notifyObservers(Event.LIGHTNING);
+    }
+
+    public void stopLightning()
+    {
+        isLightning = false;
+        setChanged();
+        notifyObservers(Action.NONE);
+    }
+
+    public Hitbox getLightning() {
+        return lightning;
     }
 
     public boolean isSpinning()

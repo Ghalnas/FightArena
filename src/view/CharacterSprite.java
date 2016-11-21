@@ -1,9 +1,13 @@
 package view;
 
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 import model.Character;
+import model.Hitbox;
 import model.Player;
 
 public class CharacterSprite
@@ -11,9 +15,10 @@ public class CharacterSprite
     private final int spriteWidth;
     private final int spriteHeight;
     private final ImageView imageView;
-    private double cpt;
+    private final ImageView lightning;
+    private double cpt,cptLightning;
     private int cptSlash;
-    private double increment, incrementSpin;
+    private double increment, incrementSpin,incrementLightning;
     private Character character;
     private final int slashFrames;
     private final double slashFrames1, slashFrames2;
@@ -21,11 +26,14 @@ public class CharacterSprite
     public CharacterSprite(Character c,int spriteWidth, int spriteHeight, int slashFrames)
     {
         imageView = c instanceof Player ? new ImageView(new Image("file:assets/image/player80.png")) : new ImageView(new Image("file:assets/image/bot80.png"));
+        lightning = new ImageView(new Image("file:assets/image/lightning.png"));
         character = c;
         cpt = 1;
         cptSlash = 1;
+        cptLightning = 1;
         increment = 0.1;
         incrementSpin = 0.35;
+        incrementLightning = 0.2;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
         double slashFramesSlice = (double)slashFrames/3;
@@ -71,6 +79,17 @@ public class CharacterSprite
             setImageViewPort(5);
         }
         return imageView;
+    }
+
+    public ImageView getLightning(Hitbox hb)
+    {
+        cptLightning += incrementLightning;
+        if (cptLightning > 100 || cptLightning < 1) {
+            incrementLightning = -incrementLightning;
+        }
+        int multiplier = (int)Math.rint(cptLightning);
+        lightning.setViewport(new Rectangle2D(multiplier%8*240,720-hb.getY()-170,240,hb.getY()+170));
+        return lightning;
     }
 
     public ImageView getSpinSprite()
