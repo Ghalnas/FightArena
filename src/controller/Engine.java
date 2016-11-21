@@ -50,13 +50,13 @@ public class Engine extends Observable implements Observer
     public void init()
     {
         System.out.println("====================GAME STARTED====================");
-        bot.setStrategy(new StrategyEpic(player, bot));
+        bot.setStrategy(new StrategyEpic(player, bot, item));
     }
 
     public void reinit()
     {
         player.initChar();
-        bot.initChar(new StrategyEpic(player, bot));
+        bot.initChar(new StrategyEpic(player, bot, item));
         slashCptBot = 0;
         slashCptPlayer = 0;
         frameCpt = 1;
