@@ -1,5 +1,6 @@
 package controller;
 
+import main.MainJavaFX;
 import model.*;
 import model.Character;
 
@@ -18,6 +19,7 @@ public class Engine extends Observable implements Observer
     private int slashFrames, spinFrames;
     private int slashCptPlayer;
     private int slashCptBot;
+    private int lightningCpt;
     private int spinCpt;
     private double width,height;
     private boolean damageInstancePlayer,damageInstanceBot;
@@ -25,8 +27,9 @@ public class Engine extends Observable implements Observer
     private Character itemUser;
     private Character target;
     private int [] tabScores;
-    int PLAYER = 0;
-    int BOT = 1;
+    private final int PLAYER = 0;
+    private final int BOT = 1;
+    private final Item.ItemType[] itemTypes = {Item.ItemType.SPIN, Item.ItemType.LIGHTNING};
 
     public Engine(Character player, Bot bot, Item item, int slashFrames, int spinFrames, double width, double height)
     {
@@ -38,6 +41,7 @@ public class Engine extends Observable implements Observer
         this.item = item;
         this.slashCptPlayer = 0;
         this.slashCptBot = 0;
+        lightningCpt = 0;
         frameCpt = 1;
         spinCpt = 0;
         this.width = width;
@@ -61,6 +65,7 @@ public class Engine extends Observable implements Observer
         slashCptPlayer = 0;
         frameCpt = 1;
         spinCpt = 0;
+        lightningCpt = 0;
         damageInstanceBot = false;
         damageInstancePlayer = false;
         itemUser = null;
@@ -82,11 +87,21 @@ public class Engine extends Observable implements Observer
             notifyObservers(tabScores);
             reinit();
         }
+        if (lightningCpt > 0) {
+            lightningCpt++;
+            itemUser.lightning();
+            if (lightningCpt == 40) {
+                lightningCpt = 0;
+                itemUser.stopLightning();
+                itemUser = null;
+                target = null;
+            }
+        }
         if (spinCpt > 0) {
             spinCpt++;
             itemUser.spin();
             if (spinCpt%10 == 0 && checkCollision(itemUser,target)) {
-                target.setHealth(target.getHealth()-(3f/4f)*itemUser.getDamage());
+                target.setHealth(target.getHealth()-itemUser.getDamage());
             }
             if (spinCpt == spinFrames) {
                 spinCpt = 0;
@@ -106,7 +121,7 @@ public class Engine extends Observable implements Observer
             Random r = new Random();
             int rX = r.nextInt((int)width-50-50)+50;
             int rY = r.nextInt((int)height-100-100)+100;
-            item.init(Item.ItemType.SPIN,new Position(rX,rY));
+            item.init(itemTypes[r.nextInt(2)],new Position(rX,rY));
         }
         if (slashCptBot > 0 && !bot.isSpinning()) {
             slashCptBot+=1;
@@ -207,15 +222,30 @@ public class Engine extends Observable implements Observer
             case SPIN:
                 character.startSpin();
                 itemUser = character;
+                spinCpt++;
+                item.remove();
                 if (character instanceof  Player) {
                     target = bot;
                 } else {
                     target = player;
                 }
-                spinCpt++;
+                break;
+            case LIGHTNING:
+                lightningCpt++;
+                character.startLightning();
+                itemUser = character;
                 item.remove();
+                if (character instanceof  Player) {
+                    target = bot;
+                } else {
+                    target = player;
+                }
+                if (target.getHitbox().collision(itemUser.getLightning())) {
+                    target.setHealth(0);
+                }
                 break;
         }
+
     }
 }
 

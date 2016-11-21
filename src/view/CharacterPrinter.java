@@ -20,6 +20,7 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
     private double maxHealth;
     private final int charWidth, charHeight;
     private ImageView playerView;
+    private Node lightning;
     private CharacterSprite characterSprite;
 
 
@@ -29,6 +30,7 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
         this.charWidth = charWidth;
         this.charHeight = charHeight;
         this.maxHealth = c.getHealth();
+        lightning = new ImageView();
         characterSprite = new CharacterSprite(c,charWidth,charHeight,slashFrames);
         playerView = characterSprite.getCharacterSprite();
         playerView.setTranslateX(character.getPosition().getX());
@@ -66,7 +68,7 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
 //        }
 //        Rectangle bob = new Rectangle(sword.getX(),sword.getY(),sword.getWidth(),sword.getHeight());
 //        bob.setFill(Color.RED);
-        group.getChildren().addAll(playerView,remainingHealth,missingHealth);
+        group.getChildren().addAll(playerView,lightning,remainingHealth,missingHealth);
 
         return group;
     }
@@ -77,14 +79,18 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
             if (arg == Command.Action.SLASH) {
                 playerView = characterSprite.getSlashCharacterSprite();
             } else if (arg == Command.Action.NONE) {
-                if(o instanceof Player)
                 playerView = characterSprite.getCharacterSprite();
+                lightning = new ImageView();
             }
             playerView.setTranslateX(character.getPosition().getX());
             playerView.setTranslateY(character.getPosition().getY());
         } else if (arg instanceof Event) {
             if (arg == Event.SPIN) {
                 playerView = characterSprite.getSpinSprite();
+            } else if (arg == Event.LIGHTNING) {
+                lightning = characterSprite.getLightning(character.getLightning());
+                lightning.setTranslateX(character.getLightning().getX()-40);
+                lightning.setTranslateY(-10);
             }
             else if (arg == Event.MOVED) {
                 playerView = characterSprite.getMovingCharacterSprite();
