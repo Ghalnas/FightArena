@@ -2,16 +2,17 @@ package model;
 
 import model.Command.Action;
 
-public class StrategyEpic implements Strategy
+public class StrategyMedium implements Strategy
 {
     private Character player;
     private Character bot;
     private Item item;
 
-    public StrategyEpic(Character player, Character bot, Item item)
+    public StrategyMedium(Character player, Character bot, Item item)
     {
         this.player = player;
         this.bot = bot;
+        this.bot.setSpeed(this.bot.getSpeed() * 0.75);
         this.item = item;
     }
 
@@ -23,10 +24,8 @@ public class StrategyEpic implements Strategy
         double dirY = player.getPosition().getY();
 
         if (item.getHitbox() != null) {
-           if (bot.getPosition().distanceTo(player.getPosition()) >= bot.getPosition().distanceTo(item.getHitbox().getPosition())) {
-               dirX = item.getHitbox().getPosition().getX();
-               dirY = item.getHitbox().getPosition().getY();
-           }
+            dirX = item.getHitbox().getPosition().getX();
+            dirY = item.getHitbox().getPosition().getY();
         }
 
         double botX = bot.getPosition().getX();
