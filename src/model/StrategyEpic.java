@@ -24,29 +24,29 @@ public class StrategyEpic implements Strategy
         double posX = 0, posY = 0;
 
         if (playerY > botY && playerX < botX) {
-            posX = -1;
-            posY = 1;
+            posX = Math.abs(botX - playerX) < 5 ? 0 : -1;
+            posY = Math.abs(botY - playerY) < 5 ? 0 : 1;
         } else if (playerY < botY && playerX < botX) {
-            posX = -1;
-            posY = -1;
+            posX = Math.abs(botX - playerX) < 5 ? 0 : -1;
+            posY = Math.abs(botY - playerY) < 5 ? 0 : -1;
         } else if (playerY > botY && playerX > botX) {
-            posX = 1;
-            posY = 1;
+            posX = Math.abs(botX - playerX) < 5 ? 0 : 1;
+            posY = Math.abs(botY - playerY) < 5 ? 0 : 1;
         } else if ((playerY < botY && playerX > botX) || (playerY < botY && playerX < botX)) {
-            posX = 1;
-            posY = -1;
+            posX = Math.abs(botX - playerX) < 5 ? 0 : 1;
+            posY = Math.abs(botY - playerY) < 5 ? 0 : -1;
         } else if (playerY == botY && playerX < botX) {
-            posX = -1;
+            posX = Math.abs(botX - playerX) < 5 ? 0 : -1;
             posY = 0;
         } else if (playerY == botY && playerX > botX) {
-            posX = 1;
+            posX = Math.abs(botX - playerX) < 5 ? 0 : 1;
             posY = 0;
         } else if (playerY > botY && playerX == botX) {
             posX = 0;
-            posY = 1;
+            posY = Math.abs(botY - playerY) < 5 ? 0 : 1;
         } else if (playerY < botY && playerX == botX) {
             posX = 0;
-            posY = -1;
+            posY = Math.abs(botY - playerY) < 5 ? 0 : -1;
         }
 
         return new Command(posX, posY, action);

@@ -3,9 +3,11 @@ package model;
 public class Hitbox
 {
     private double x,y,width,height;
+    private Position position;
 
-    public Hitbox(double x, double y, double width, double height)
+    public Hitbox(Position position, double x, double y, double width, double height)
     {
+        this.position = position;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -14,9 +16,50 @@ public class Hitbox
 
     public boolean collision(Hitbox hb)
     {
-        return x < hb.x + hb.width &&
-                x + width > hb.x &&
-                y < hb.y + hb.height &&
-                height + y > hb.y;
+        return getX() < hb.getX() + hb.width &&
+                getX() + width > hb.getX() &&
+                getY() < hb.getY() + hb.height &&
+                height + getY() > hb.getY();
+    }
+
+    public double getX() {
+        return position.getX()+x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return position.getY()+y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public String toString()
+    {
+        return "("+getX()+","+getY()+" : "+width+","+height+")";
     }
 }

@@ -1,5 +1,7 @@
 package view;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,8 +16,9 @@ import java.util.Objects;
 public class SceneFX extends Scene
 {
     private boolean left,right,up,down,slash,isSlashing;
+    private double sizeX,sizeY;
 
-    public SceneFX(Parent root)
+    public SceneFX(Parent root, double width, double height)
     {
         super(root);
         left = false;
@@ -24,6 +27,8 @@ public class SceneFX extends Scene
         down = false;
         slash = false;
         isSlashing = false;
+        sizeX = width;
+        sizeY = height;
 
         this.setOnKeyPressed(new EventHandler<KeyEvent>(){
             @Override
@@ -56,6 +61,16 @@ public class SceneFX extends Scene
                 event.consume();
             }
         });
+        this.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+                sizeX = newSceneWidth.doubleValue();
+            }
+        });
+        this.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+                sizeY = newSceneHeight.doubleValue()+39;
+            }
+        });
     }
 
     public Command getCommand()
@@ -71,5 +86,15 @@ public class SceneFX extends Scene
             isSlashing = true;
         }
         return new Command(vX,vY, action);
+    }
+
+    public double getShrinkX()
+    {
+        return sizeX;
+    }
+
+    public double getShrinkY()
+    {
+        return sizeY;
     }
 }
