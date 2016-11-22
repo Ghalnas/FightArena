@@ -276,6 +276,11 @@ public abstract class Character extends Observable
         return sword;
     }
 
+    public void heal()
+    {
+        health = startHealth;
+    }
+
     public boolean isDead()
     {
         return isDead;

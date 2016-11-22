@@ -2,7 +2,7 @@ package model;
 
 public class Item
 {
-    public enum ItemType { SPIN, LIGHTNING, GOLD }
+    public enum ItemType { SPIN, LIGHTNING, GOLD, HEAL }
 
     private ItemType type;
     private Hitbox hitbox;

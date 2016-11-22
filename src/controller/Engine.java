@@ -1,6 +1,5 @@
 package controller;
 
-import main.MainJavaFX;
 import model.*;
 import model.Character;
 
@@ -31,7 +30,7 @@ public class Engine extends Observable implements Observer
     private int [] tabScores;
     private final int PLAYER = 0;
     private final int BOT = 1;
-    private final Item.ItemType[] itemTypes = {Item.ItemType.SPIN, Item.ItemType.LIGHTNING, Item.ItemType.GOLD};
+    private final Item.ItemType[] itemTypes = {Item.ItemType.SPIN, Item.ItemType.LIGHTNING, Item.ItemType.GOLD, Item.ItemType.HEAL};
 
     public Engine(Character player, Bot bot, Item item, int slashFrames, int spinFrames, int goldFrames, double width, double height)
     {
@@ -254,6 +253,10 @@ public class Engine extends Observable implements Observer
                 } else {
                     target = player;
                 }
+                break;
+            case HEAL:
+                character.heal();
+                item.remove();
         }
 
     }
