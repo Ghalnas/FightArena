@@ -186,8 +186,8 @@ public class Engine extends Observable implements Observer
 
     private void checkLimits(Character c)
     {
-        if (c.getPosition().getX() < 10) {
-            c.getPosition().setX(10);
+        if (c.getPosition().getX() < 70) {
+            c.getPosition().setX(70);
         }
         if (c.getPosition().getX() > width-70) {
             c.getPosition().setX(width-70);

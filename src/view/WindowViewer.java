@@ -9,6 +9,7 @@ public class WindowViewer
     private JavaFXViewer gameViewer;
     private LogViewer logViewer;
     private ScoreViewer scoreViewer;
+    private MainMenuViewer mainMenuViewer;
 
 
     public WindowViewer(double width, double height, double scale)
@@ -16,9 +17,10 @@ public class WindowViewer
         this.gameViewer = new JavaFXViewer(scale,width,height);
         this.logViewer = new LogViewer();
         this.scoreViewer = new ScoreViewer();
+        this.mainMenuViewer = new MainMenuViewer();
     }
 
-    public Parent getPanel(double shrinkX, double shrinkY)
+    public Parent getGamePanel(double shrinkX, double shrinkY)
     {
         double scaleX = shrinkX/1600;
         Group panel = new Group();
@@ -35,6 +37,18 @@ public class WindowViewer
         return panel;
     }
 
+    public Parent getMainPanel(double shrinkX, double shrinkY)
+    {
+        double scaleX = shrinkX/1600;
+        Group panel = new Group();
+        panel.setScaleX(scaleX);
+        panel.setScaleY(scaleX);
+        panel.setTranslateX((shrinkX/2)-(1600/2));
+        panel.setTranslateY((shrinkY/2)-(720/2));
+        panel.getChildren().add(mainMenuViewer.getPanel());
+        return panel;
+    }
+
     public void addGamePrinter(JavaFXPrinter printer)
     {
         gameViewer.addObserverJavaFX(printer);
@@ -43,6 +57,7 @@ public class WindowViewer
     {
         logViewer.addObserverJavaFX(printer);
     }
-    public void addScorePrinter(JavaFXPrinter printer){scoreViewer.addObserverJavaFX(printer);}
+    public void addScorePrinter(JavaFXPrinter printer){ scoreViewer.addObserverJavaFX(printer);}
+    public void addMainMenuPrinter(JavaFXPrinter printer) { mainMenuViewer.addObserverJavaFX(printer);}
 
 }
