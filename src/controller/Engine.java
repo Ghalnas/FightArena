@@ -194,19 +194,19 @@ public class Engine extends Observable implements Observer
     private boolean checkCollision(Character attacker, Character receiver)
     {
         Hitbox sword = null;
-        Position attackerPos = attacker.getPosition();
+        Position pos = attacker.getPosition();
         switch (attacker.getDirection()) {
             case UP:
-                sword = new Hitbox(attackerPos, 25, -20,30,30);
+                sword = new Hitbox(pos, -15, -40,30,25);
                 break;
             case RIGHT:
-                sword = new Hitbox(attackerPos, 60, 25,30,30);
+                sword = new Hitbox(pos, 15, -10,25,30);
                 break;
             case DOWN:
-                sword = new Hitbox(attackerPos, 25, 70,30,30);
+                sword = new Hitbox(pos, -15, 20,30,25);
                 break;
             case LEFT:
-                sword = new Hitbox(attackerPos, -10, 25,30,30);
+                sword = new Hitbox(pos, -40, -10,25,30);
                 break;
         }
         return receiver.getHitbox().collision(sword) || receiver.getHitbox().collision(attacker.getHitbox());
