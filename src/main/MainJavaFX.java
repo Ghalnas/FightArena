@@ -19,8 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class MainJavaFX extends Application
-{
+public class MainJavaFX extends Application {
     public static void main(String[] args) {
         launch(args);
     }
@@ -40,15 +39,15 @@ public class MainJavaFX extends Application
             double botDamage = Double.parseDouble(prop.getProperty("bot_damage"));
             double playerHealth = Double.parseDouble(prop.getProperty("player_health"));
             double botHealth = Double.parseDouble(prop.getProperty("bot_health"));
-            double playerX = (arenaWidth/800) * Double.parseDouble(prop.getProperty("player_start_x"));
-            double playerY = (arenaHeight/600) * Double.parseDouble(prop.getProperty("player_start_y"));
-            double botX = (arenaWidth/800) * Double.parseDouble(prop.getProperty("bot_start_x"));
-            double botY = (arenaHeight/600) * Double.parseDouble(prop.getProperty("bot_start_y"));
+            double playerX = (arenaWidth / 800) * Double.parseDouble(prop.getProperty("player_start_x"));
+            double playerY = (arenaHeight / 600) * Double.parseDouble(prop.getProperty("player_start_y"));
+            double botX = (arenaWidth / 800) * Double.parseDouble(prop.getProperty("bot_start_x"));
+            double botY = (arenaHeight / 600) * Double.parseDouble(prop.getProperty("bot_start_y"));
             int spriteWidth = Integer.parseInt(prop.getProperty("sprite_width"));
             int spriteHeight = Integer.parseInt(prop.getProperty("sprite_height"));
             double spriteScale = Double.parseDouble(prop.getProperty("sprite_scale"));
-            double playerSpeed = (arenaWidth/800) * Double.parseDouble(prop.getProperty("player_speed"));
-            double botSpeed = (arenaWidth/800) * Double.parseDouble(prop.getProperty("bot_speed"));
+            double playerSpeed = (arenaWidth / 800) * Double.parseDouble(prop.getProperty("player_speed"));
+            double botSpeed = (arenaWidth / 800) * Double.parseDouble(prop.getProperty("bot_speed"));
             int slashFrames = Integer.parseInt(prop.getProperty("slash_frames"));
             int spinFrames = Integer.parseInt(prop.getProperty("spin_frames"));
 
@@ -58,10 +57,10 @@ public class MainJavaFX extends Application
             Item item = new Item();
 
             Logger logger = Logger.getInstance();
-            LogPrinter logPrinter = new LogPrinter(arenaWidth,(50f/100f)*arenaHeight,(25f/100f)*arenaWidth,(50f/100f)*arenaHeight);
+            LogPrinter logPrinter = new LogPrinter(arenaWidth, (50f / 100f) * arenaHeight, (25f / 100f) * arenaWidth, (50f / 100f) * arenaHeight);
             logger.addObserver(logPrinter);
 
-            ScorePrinter scorePrinter = new ScorePrinter(arenaWidth,0, (25f/100f) * arenaWidth, (50f/100f) * arenaHeight);
+            ScorePrinter scorePrinter = new ScorePrinter(arenaWidth, 0, (25f / 100f) * arenaWidth, (50f / 100f) * arenaHeight);
 
             CharacterPrinter playerObs = new CharacterPrinter(player, spriteWidth, spriteHeight, slashFrames);
             CharacterPrinter botObs = new CharacterPrinter(bot, spriteWidth, spriteHeight, slashFrames);
@@ -70,7 +69,7 @@ public class MainJavaFX extends Application
             MainMenuPrinter mainMenuPrinter = new MainMenuPrinter(arenaWidth, arenaHeight);
 
             //instantiate game engine and set Observers
-            Engine engine = new Engine(player,(Bot)bot, item, slashFrames, spinFrames, arenaWidth, arenaHeight);
+            Engine engine = new Engine(player, (Bot) bot, item, slashFrames, spinFrames, arenaWidth, arenaHeight);
             player.addObserver(engine);
             bot.addObserver(engine);
             player.addObserver(logger);
@@ -81,17 +80,17 @@ public class MainJavaFX extends Application
 
 
             // set window size
-            stage.setWidth(arenaWidth+(25f/100f)*arenaWidth);
+            stage.setWidth(arenaWidth + (25f / 100f) * arenaWidth);
             stage.setHeight(arenaHeight);
             stage.setTitle("Fight Arena");
 
             WindowViewer window = new WindowViewer(arenaWidth, arenaHeight, spriteScale);
             window.addMainMenuPrinter(mainMenuPrinter);
-            //window.addGamePrinter(playerObs);
-            //window.addGamePrinter(botObs);
-            //window.addGamePrinter(itemPrinter);
-            //window.addScorePrinter(scorePrinter);
-            //window.addLogPrinter(logPrinter);
+            window.addGamePrinter(playerObs);
+            window.addGamePrinter(botObs);
+            window.addGamePrinter(itemPrinter);
+            window.addScorePrinter(scorePrinter);
+            window.addLogPrinter(logPrinter);
 
 
             Group root = new Group();
@@ -101,22 +100,25 @@ public class MainJavaFX extends Application
             stage.setResizable(true);
             stage.show();
 
+            engine.init();
 
-            scene.setRoot(window.getMainPanel(scene.getShrinkX(), scene.getShrinkY()));
+            AnimationTimer timer = new AnimationTimer() {
+                @Override
+                public void handle(long l) {
 
-            /*while (mainMenuPrinter.getGamePanelRequired()){
-                engine.init();
+                    engine.run(scene.getCommand());
 
-                AnimationTimer timer = new AnimationTimer() {
-                    @Override public void handle(long l) {
-                        engine.run(scene.getCommand());
+                    if(mainMenuPrinter.getMainMenuPanelRequired()){
+                        scene.setRoot(window.getMainPanel(scene.getShrinkX(), scene.getShrinkY()));
+                    }
 
+                    if (mainMenuPrinter.getGamePanelRequired()) {
                         scene.setRoot(window.getGamePanel(scene.getShrinkX(), scene.getShrinkY()));
                     }
-                };
+                }
+            };
 
-                timer.start();
-            }*/
+            timer.start();
 
         } catch (IOException ex) {
             ex.printStackTrace();

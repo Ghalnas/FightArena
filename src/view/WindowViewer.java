@@ -34,7 +34,6 @@ public class WindowViewer
         panel.setScaleY(scaleX);
         panel.setTranslateX((shrinkX/2)-(1600/2));
         panel.setTranslateY((shrinkY/2)-(720/2));
-        //panel.getChildren().add(mainMenuViewer.getPanel());
         return panel;
     }
 
@@ -49,8 +48,6 @@ public class WindowViewer
         panel.getChildren().add(mainMenuViewer.getPanel());
         return panel;
     }
-
-
 
     public void addGamePrinter(JavaFXPrinter printer)
     {
