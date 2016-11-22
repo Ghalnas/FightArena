@@ -4,11 +4,14 @@ import controller.Engine;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import model.*;
 import model.Character;
 import view.*;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,6 +64,13 @@ public class MainJavaFX extends Application
             CharacterPrinter playerObs = new CharacterPrinter(player, spriteWidth, spriteHeight, slashFrames);
             CharacterPrinter botObs = new CharacterPrinter(bot, spriteWidth, spriteHeight, slashFrames);
             ItemPrinter itemPrinter = new ItemPrinter(item);
+
+            String path = "assets/music/fight_arena_theme_song.mp3";
+            Media media = new Media(new File(path).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setAutoPlay(true);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.play();
 
             //instantiate game engine and set Observers
             Engine engine = new Engine(player,(Bot)bot, item, slashFrames, spinFrames, arenaWidth, arenaHeight);
