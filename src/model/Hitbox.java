@@ -62,4 +62,20 @@ public class Hitbox
     {
         return "("+getX()+","+getY()+" : "+width+","+height+")";
     }
+
+    public void multiply(double mult)
+    {
+        x *= mult;
+        y *= mult;
+        width *= mult;
+        height *= mult;
+    }
+
+    public void divide(double div)
+    {
+        x /= div;
+        y /= div;
+        width /= div;
+        height /= div;
+    }
 }

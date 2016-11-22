@@ -16,6 +16,7 @@ public class CharacterSprite
     private final int spriteHeight;
     private final ImageView imageView;
     private final ImageView lightning;
+    private final ImageView goldenPlayer;
     private double cpt,cptLightning;
     private int cptSlash;
     private double increment, incrementSpin,incrementLightning;
@@ -27,6 +28,7 @@ public class CharacterSprite
     {
         imageView = c instanceof Player ? new ImageView(new Image("file:assets/image/player80.png")) : new ImageView(new Image("file:assets/image/bot80.png"));
         lightning = new ImageView(new Image("file:assets/image/lightning.png"));
+        goldenPlayer = new ImageView(new Image("file:assets/image/gold-char.png"));
         character = c;
         cpt = 1;
         cptSlash = 1;
@@ -44,12 +46,16 @@ public class CharacterSprite
 
     public ImageView getCharacterSprite()
     {
-        if(character instanceof Player)
         cptSlash = 0;
         cpt = 1;
         increment = Math.abs(increment);
-        setImageViewPort(1);
-        return imageView;
+        if (character.isGold()) {
+            setGoldViewPort(1);
+            return goldenPlayer;
+        } else {
+            setImageViewPort(1);
+            return imageView;
+        }
     }
 
     public ImageView getMovingCharacterSprite()
@@ -60,8 +66,13 @@ public class CharacterSprite
             increment = -increment;
         }
         int multiplier = (int)Math.rint(cpt);
-        setImageViewPort(multiplier%3);
-        return imageView;
+        if (character.isGold()) {
+            setGoldViewPort(multiplier%3);
+            return goldenPlayer;
+        } else {
+            setImageViewPort(multiplier%3);
+            return imageView;
+        }
     }
 
     public ImageView getSlashCharacterSprite()
@@ -71,14 +82,26 @@ public class CharacterSprite
         if (cptSlash == slashFrames) {
             cptSlash = 0;
         }
-        if (cptSlash <= slashFrames1) {
-            setImageViewPort(3);
-        } else if (cptSlash > slashFrames1 && cptSlash < slashFrames2) {
-            setImageViewPort(4);
+        if (character.isGold()) {
+            if (cptSlash <= slashFrames1) {
+                setGoldViewPort(3);
+            } else if (cptSlash > slashFrames1 && cptSlash < slashFrames2) {
+                setGoldViewPort(4);
+            } else {
+                setGoldViewPort(5);
+            }
+            return goldenPlayer;
         } else {
-            setImageViewPort(5);
+            if (cptSlash <= slashFrames1) {
+                setImageViewPort(3);
+            } else if (cptSlash > slashFrames1 && cptSlash < slashFrames2) {
+                setImageViewPort(4);
+            } else {
+                setImageViewPort(5);
+            }
+            return imageView;
         }
-        return imageView;
+
     }
 
     public ImageView getLightning(Hitbox hb)
@@ -102,6 +125,24 @@ public class CharacterSprite
         int multiplier = (int)Math.rint(cpt);
         imageView.setViewport(new Rectangle2D(multiplier%3*spriteWidth, 4*spriteHeight, spriteWidth, spriteHeight));
         return imageView;
+    }
+
+    private void setGoldViewPort(int multiplier)
+    {
+        switch (character.getDirection()) {
+            case UP:
+                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth*2, 0, spriteWidth*2, spriteHeight*2));
+                break;
+            case RIGHT:
+                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth*2, spriteHeight*2, spriteWidth*2, spriteHeight*2));
+                break;
+            case DOWN:
+                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth*2, 2*spriteHeight*2, spriteWidth*2, spriteHeight*2));
+                break;
+            case LEFT:
+                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth*2, 3*spriteHeight*2, spriteWidth*2, spriteHeight*2));
+                break;
+        }
     }
 
     private void setImageViewPort(int multiplier)
