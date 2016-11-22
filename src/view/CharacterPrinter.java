@@ -44,31 +44,39 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
         remainingHealth.setFill(Color.LIGHTGREEN);
         Rectangle missingHealth = new Rectangle(character.getPosition().getX()+charRemainingHealth-40, character.getPosition().getY()-40, charWidth -charRemainingHealth,6);
         missingHealth.setFill(Color.RED);
-//        Position pos = character.getPosition();
-//        Rectangle rec = new Rectangle(pos.getX(),pos.getY(),2,2);
+        //PRINT Char position
+//        Position playerPos = character.getPosition();
+//        Rectangle rec = new Rectangle(playerPos.getX(),playerPos.getY(),2,2);
 //        rec.setFill(Color.BLUE);
+//        group.getChildren().add(rec);
+
+        //PRINT Char hitbox
 //        Hitbox hb = character.getHitbox();
-//        Rectangle bob = new Rectangle(hb.getX(),hb.getY(),hb.getWidth(),hb.getHeight());
-//        bob.setFill(Color.MAGENTA);
+//        Rectangle bobby = new Rectangle(hb.getX(),hb.getY(),hb.getWidth(),hb.getHeight());
+//        bobby.setFill(Color.MAGENTA);
+//        group.getChildren().add(bobby);
+
+        //PRINT sword hitbox
 //        Hitbox sword = null;
-//        double attackerX = character.getPosition().getX();
-//        double attackerY = character.getPosition().getY();
+//        Position pos = character.getPosition();
 //        switch (character.getDirection()) {
 //            case UP:
-//                sword = new Hitbox(attackerX+25,attackerY-20,30,30);
+//                sword = new Hitbox(pos, -15, -40,30,25);
 //                break;
 //            case RIGHT:
-//                sword = new Hitbox(attackerX+60,attackerY+25,30,30);
+//                sword = new Hitbox(pos, 15, -10,25,30);
 //                break;
 //            case DOWN:
-//                sword = new Hitbox(attackerX+25,attackerY+70,30,30);
+//                sword = new Hitbox(pos, -15, 20,30,25);
 //                break;
 //            case LEFT:
-//                sword = new Hitbox(attackerX-10,attackerY+25,30,30);
+//                sword = new Hitbox(pos, -40, -10,25,30);
 //                break;
 //        }
 //        Rectangle bob = new Rectangle(sword.getX(),sword.getY(),sword.getWidth(),sword.getHeight());
 //        bob.setFill(Color.RED);
+//        group.getChildren().add(bob);
+
         group.getChildren().addAll(playerView,lightning,remainingHealth,missingHealth);
 
         return group;
