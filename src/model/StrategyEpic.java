@@ -19,18 +19,45 @@ public class StrategyEpic implements Strategy
     {
         Action action = this.getAction();
 
+        boolean rushToItem = false;
         double dirX = player.getPosition().getX();
         double dirY = player.getPosition().getY();
 
         if (item.getHitbox() != null) {
-           if (bot.getPosition().distanceTo(player.getPosition()) >= bot.getPosition().distanceTo(item.getHitbox().getPosition())) {
-               dirX = item.getHitbox().getPosition().getX();
-               dirY = item.getHitbox().getPosition().getY();
-           }
+            if ((dirX >= bot.getPosition().getX() && bot.getPosition().getX() >= item.getHitbox().getPosition().getX())
+                || (dirY <= bot.getPosition().getY() && bot.getPosition().getY() <= item.getHitbox().getPosition().getY())
+                || (bot.getHealth() < player.getHealth() && bot.getHealth() <= 50))
+            {
+                rushToItem = true;
+            }
+
+            if ((bot.getPosition().distanceTo(player.getPosition()) >= bot.getPosition().distanceTo(item.getHitbox().getPosition())) || rushToItem) {
+                dirX = item.getHitbox().getPosition().getX();
+                dirY = item.getHitbox().getPosition().getY();
+            }
         }
 
         double botX = bot.getPosition().getX();
         double botY = bot.getPosition().getY();
+
+        double[] direction;
+
+        if (player.isSpinning()) {
+            direction = this.getDirection(dirX, dirY, botX, botY, true);
+        } else {
+            direction = this.getDirection(dirX, dirY, botX, botY, false);
+        }
+
+        return new Command(direction[0], direction[1], action);
+    }
+
+    private Action getAction()
+    {
+        return (player.getPosition().distanceTo(bot.getPosition()) <= 50) ? Action.SLASH : Action.NONE;
+    }
+
+    private double[] getDirection(double dirX, double dirY, double botX, double botY, boolean isEscaping)
+    {
         double posX = 0, posY = 0;
 
         if (dirY > botY && dirX < botX) {
@@ -59,12 +86,12 @@ public class StrategyEpic implements Strategy
             posY = Math.abs(botY - dirY) < 5 ? 0 : -1;
         }
 
-        return new Command(posX, posY, action);
-    }
+        if (isEscaping) {
+            posX = -posX;
+            posY = -posY;
+        }
 
-    private Action getAction()
-    {
-        return (player.getPosition().distanceTo(bot.getPosition()) <= 50) ? Action.SLASH : Action.NONE;
+        return new double[] {posX, posY};
     }
 
     @Override

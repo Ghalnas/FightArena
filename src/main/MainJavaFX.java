@@ -65,8 +65,7 @@ public class MainJavaFX extends Application {
             ItemPrinter itemPrinter = new ItemPrinter(item);
             MainMenuPrinter mainMenuPrinter = new MainMenuPrinter(arenaWidth, arenaHeight);
 
-            String path = "assets/music/fight_arena_theme_song.mp3";
-            Media media = new Media(new File(path).toURI().toString());
+            Media media = new Media(new File("assets/music/fight_arena_theme_song.mp3").toURI().toString());
             MediaPlayer mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setAutoPlay(true);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
