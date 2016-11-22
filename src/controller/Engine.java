@@ -22,6 +22,7 @@ public class Engine extends Observable implements Observer
     private int lightningCpt;
     private int goldCpt;
     private int spinCpt;
+    private int deathCpt;
     private double width,height;
     private boolean damageInstancePlayer,damageInstanceBot;
     private Item item;
@@ -70,6 +71,7 @@ public class Engine extends Observable implements Observer
         spinCpt = 0;
         lightningCpt = 0;
         goldCpt = 0;
+        deathCpt = 0;
         damageInstanceBot = false;
         damageInstancePlayer = false;
         itemUser = null;
@@ -79,19 +81,20 @@ public class Engine extends Observable implements Observer
     public void run(Command c)
     {
         frameCpt++;
-        if (bot.getHealth() <= 0) {
+        if (deathCpt== 40) {
+            if (player.isDead()) {
+                tabScores[BOT]++;
+            } else {
+                tabScores[PLAYER]++;
+            }
             setChanged();
-            tabScores[PLAYER]++;
             notifyObservers(tabScores);
             reinit();
         }
-        if (player.getHealth() <= 0) {
-            setChanged();
-            tabScores[BOT]++;
-            notifyObservers(tabScores);
-            reinit();
+        if (bot.isDead() || player.isDead()) {
+            deathCpt++;
         }
-        if (goldCpt > 0) {
+        if (goldCpt > 0 && !itemUser.isDead()) {
             goldCpt++;
             if (goldCpt == goldFrames) {
                 goldCpt = 0;
@@ -100,7 +103,7 @@ public class Engine extends Observable implements Observer
                 target = null;
             }
         }
-        if (lightningCpt > 0) {
+        if (lightningCpt > 0 && !itemUser.isDead()) {
             lightningCpt++;
             itemUser.lightning();
             if (lightningCpt == 40) {
@@ -110,7 +113,7 @@ public class Engine extends Observable implements Observer
                 target = null;
             }
         }
-        if (spinCpt > 0) {
+        if (spinCpt > 0 && !itemUser.isDead()) {
             spinCpt++;
             itemUser.spin();
             if (spinCpt%10 == 0 && checkCollision(itemUser,target)) {
@@ -130,13 +133,13 @@ public class Engine extends Observable implements Observer
             useItem(bot);
         }
 
-        if (item.getType() == null && frameCpt%600 == 0) {
+        if (item.getType() == null && frameCpt%600 == 0 && deathCpt == 0) {
             Random r = new Random();
             int rX = r.nextInt((int)width-50-50)+50;
             int rY = r.nextInt((int)height-100-100)+100;
             item.init(itemTypes[r.nextInt(itemTypes.length)],new Position(rX,rY));
         }
-        if (slashCptBot > 0 && !bot.isSpinning()) {
+        if (slashCptBot > 0 && !bot.isSpinning() && !bot.isDead()) {
             slashCptBot+=1;
             bot.slash();
             if (slashCptBot == slashFrames -1) {
@@ -146,7 +149,7 @@ public class Engine extends Observable implements Observer
             }
         }
 
-        if (slashCptPlayer > 0 && !player.isSpinning()) {
+        if (slashCptPlayer > 0 && !player.isSpinning() && !player.isDead()) {
             slashCptPlayer++;
             player.slash();
             if (slashCptPlayer == slashFrames -1) {
@@ -156,8 +159,12 @@ public class Engine extends Observable implements Observer
             }
         }
 
-        player.move(c);
-        bot.move();
+        if (!player.isDead()) {
+            player.move(c);
+        }
+        if (!bot.isDead()) {
+            bot.move();
+        }
     }
 
     @Override
@@ -202,11 +209,11 @@ public class Engine extends Observable implements Observer
 
     private boolean checkCollision(Character attacker, Character receiver)
     {
-        return receiver.getHitbox().collision(attacker.getSword()) || receiver.getHitbox().collision(attacker.getHitbox());
+        return !receiver.isDead() && receiver.getHitbox().collision(attacker.getSword()) || receiver.getHitbox().collision(attacker.getHitbox());
     }
     private boolean checkCollisionItem(Character character)
     {
-        return character.getHitbox().collision(item.getHitbox());
+        return !character.isDead() && character.getHitbox().collision(item.getHitbox());
     }
 
     private void useItem(Character character)
@@ -234,7 +241,7 @@ public class Engine extends Observable implements Observer
                     target = player;
                 }
                 if (target.getHitbox().collision(itemUser.getLightning())) {
-                    target.setHealth(0);
+                    target.damaged(target.getHealth());
                 }
                 break;
             case GOLD:
