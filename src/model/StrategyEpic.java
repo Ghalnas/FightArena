@@ -42,7 +42,7 @@ public class StrategyEpic implements Strategy
 
         double[] direction;
 
-        if (player.isSpinning()) {
+        if (player.isSpinning() || player.isGold()) {
             direction = this.getDirection(dirX, dirY, botX, botY, true);
         } else {
             direction = this.getDirection(dirX, dirY, botX, botY, false);
@@ -53,6 +53,10 @@ public class StrategyEpic implements Strategy
 
     private Action getAction()
     {
+        if (bot.isGold()) {
+            return Action.SLASH;
+        }
+
         return (player.getPosition().distanceTo(bot.getPosition()) <= 50) ? Action.SLASH : Action.NONE;
     }
 
