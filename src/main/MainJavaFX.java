@@ -3,8 +3,11 @@ package main;
 import controller.Engine;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.*;
@@ -26,7 +29,6 @@ public class MainJavaFX extends Application
     public void start(Stage stage) throws Exception {
         Properties prop = new Properties();
         InputStream input = null;
-        Button fightButton;
 
         try {
             //read properties
@@ -95,26 +97,26 @@ public class MainJavaFX extends Application
             Group root = new Group();
             SceneFX scene = new SceneFX(root, arenaWidth, arenaHeight);
 
-            root.getChildren().add(window.getPanel(scene.getShrinkX(), scene.getShrinkY()));
-
             stage.setScene(scene);
             stage.setResizable(true);
             stage.show();
 
-            fightButton = new Button("Fight");
-            fightButton.setLayoutX(50);
-            fightButton.setLayoutY(50);
 
-            engine.init();
+            scene.setRoot(window.getMainPanel(scene.getShrinkX(), scene.getShrinkY()));
 
-            AnimationTimer timer = new AnimationTimer() {
-                @Override public void handle(long l) {
-                    engine.run(scene.getCommand());
-                    scene.setRoot(window.getPanel(scene.getShrinkX(), scene.getShrinkY()));
-                }
-            };
+            /*while (mainMenuPrinter.getGamePanelRequired()){
+                engine.init();
 
-            timer.start();
+                AnimationTimer timer = new AnimationTimer() {
+                    @Override public void handle(long l) {
+                        engine.run(scene.getCommand());
+
+                        scene.setRoot(window.getGamePanel(scene.getShrinkX(), scene.getShrinkY()));
+                    }
+                };
+
+                timer.start();
+            }*/
 
         } catch (IOException ex) {
             ex.printStackTrace();

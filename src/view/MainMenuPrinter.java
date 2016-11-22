@@ -1,21 +1,22 @@
 package view;
 
-import javafx.event.ActionEvent;
+import controller.Engine;
+import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-
 import java.util.Observable;
 import java.util.Observer;
+
+import static java.awt.SystemColor.window;
 
 public class MainMenuPrinter implements JavaFXPrinter,Observer {
 
@@ -25,11 +26,13 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
     private Button statsButton;
     private Button settingsButton;
     private Button leaveButton;
-
     private String fontPixelPath = "file:assets/font/Pixeled.ttf";
+    private boolean gamePanelRequired;
 
 
     public MainMenuPrinter(double screenWidth, double screenHeight) {
+
+        gamePanelRequired = false;
 
         title = new Text(screenWidth/4, screenHeight/2,  "FightArena");
         title.setFill(Color.BLACK);
@@ -41,13 +44,12 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
 
         fightButton = new Button("Fight");
         fightButton.setFont(Font.loadFont(fontPixelPath, 10));
-        fightButton.setDefaultButton(true);
         fightButton.setLayoutX(screenWidth/1.30);
         fightButton.setLayoutY(screenHeight/4);
 
-        fightButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                System.out.println("clické");
+        fightButton.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            @Override public void handle(MouseEvent me){
+                gamePanelRequired = true;
             }
         });
 
@@ -56,15 +58,35 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
         statsButton.setLayoutX(screenWidth/1.30);
         statsButton.setLayoutY(screenHeight/3);
 
+        statsButton.setOnMousePressed(new EventHandler<MouseEvent>(){
+            @Override public void handle(MouseEvent me){
+                System.out.println("stats button clicked");
+            }
+        });
+
         settingsButton = new Button("Settings");
         settingsButton.setFont(Font.loadFont(fontPixelPath, 10));
         settingsButton.setLayoutX(screenWidth/1.30);
         settingsButton.setLayoutY(screenHeight/2);
 
+        settingsButton.setOnMousePressed(new EventHandler<MouseEvent>(){
+            @Override public void handle(MouseEvent me){
+                System.out.println("settings button clicked");
+            }
+        });
+
         leaveButton = new Button("Leave");
+        leaveButton.setCancelButton(true);
         leaveButton.setFont(Font.loadFont(fontPixelPath, 10));
         leaveButton.setLayoutX(screenWidth/1.30);
         leaveButton.setLayoutY(screenHeight/1.5);
+
+        leaveButton.setOnMousePressed(new EventHandler<MouseEvent>(){
+            @Override public void handle(MouseEvent me){
+                System.out.println("leave button clicked");
+                Platform.exit();
+            }
+        });
 
     }
 
@@ -86,6 +108,10 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
         panel.getChildren().add(leaveButton);
 
         return panel;
+    }
+
+    public boolean getGamePanelRequired(){
+        return gamePanelRequired;
     }
 
 }

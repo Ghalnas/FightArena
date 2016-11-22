@@ -20,10 +20,10 @@ public class WindowViewer
         this.mainMenuViewer = new MainMenuViewer();
     }
 
-    public Parent getPanel(double shrinkX, double shrinkY)
+    public Parent getGamePanel(double shrinkX, double shrinkY)
     {
         double scaleX = shrinkX/1600;
-        Group panel = new Group();/*
+        Group panel = new Group();
         Node gamePanel = gameViewer.getPanel();
         Node scorePanel = scoreViewer.getPanel();
         Node logPanel = logViewer.getPanel();
@@ -33,10 +33,24 @@ public class WindowViewer
         panel.setScaleX(scaleX);
         panel.setScaleY(scaleX);
         panel.setTranslateX((shrinkX/2)-(1600/2));
-        panel.setTranslateY((shrinkY/2)-(720/2));*/
+        panel.setTranslateY((shrinkY/2)-(720/2));
+        //panel.getChildren().add(mainMenuViewer.getPanel());
+        return panel;
+    }
+
+    public Parent getMainPanel(double shrinkX, double shrinkY)
+    {
+        double scaleX = shrinkX/1600;
+        Group panel = new Group();
+        panel.setScaleX(scaleX);
+        panel.setScaleY(scaleX);
+        panel.setTranslateX((shrinkX/2)-(1600/2));
+        panel.setTranslateY((shrinkY/2)-(720/2));
         panel.getChildren().add(mainMenuViewer.getPanel());
         return panel;
     }
+
+
 
     public void addGamePrinter(JavaFXPrinter printer)
     {
