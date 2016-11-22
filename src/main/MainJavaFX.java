@@ -46,6 +46,7 @@ public class MainJavaFX extends Application
             double botSpeed = (arenaWidth/800) * Double.parseDouble(prop.getProperty("bot_speed"));
             int slashFrames = Integer.parseInt(prop.getProperty("slash_frames"));
             int spinFrames = Integer.parseInt(prop.getProperty("spin_frames"));
+            int goldFrames = Integer.parseInt(prop.getProperty("gold_frames"));
 
             Arena arena = new Arena(arenaWidth, arenaHeight);
             Character player = new Player(new Position(playerX, playerY), playerSpeed, playerDamage, playerHealth);
@@ -63,7 +64,7 @@ public class MainJavaFX extends Application
             ItemPrinter itemPrinter = new ItemPrinter(item);
 
             //instantiate game engine and set Observers
-            Engine engine = new Engine(player,(Bot)bot, item, slashFrames, spinFrames, arenaWidth, arenaHeight);
+            Engine engine = new Engine(player,(Bot)bot, item, slashFrames, spinFrames, goldFrames, arenaWidth, arenaHeight);
             player.addObserver(engine);
             bot.addObserver(engine);
             player.addObserver(logger);

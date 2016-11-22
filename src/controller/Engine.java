@@ -16,10 +16,11 @@ public class Engine extends Observable implements Observer
     private Character player;
     private Bot bot;
     private int frameCpt;
-    private int slashFrames, spinFrames;
+    private int slashFrames, spinFrames, goldFrames;
     private int slashCptPlayer;
     private int slashCptBot;
     private int lightningCpt;
+    private int goldCpt;
     private int spinCpt;
     private double width,height;
     private boolean damageInstancePlayer,damageInstanceBot;
@@ -29,21 +30,23 @@ public class Engine extends Observable implements Observer
     private int [] tabScores;
     private final int PLAYER = 0;
     private final int BOT = 1;
-    private final Item.ItemType[] itemTypes = {Item.ItemType.SPIN, Item.ItemType.LIGHTNING};
+    private final Item.ItemType[] itemTypes = {Item.ItemType.SPIN, Item.ItemType.LIGHTNING, Item.ItemType.GOLD};
 
-    public Engine(Character player, Bot bot, Item item, int slashFrames, int spinFrames, double width, double height)
+    public Engine(Character player, Bot bot, Item item, int slashFrames, int spinFrames, int goldFrames, double width, double height)
     {
         this.player = player;
         this.bot = bot;
         this.item = item;
         this.slashFrames = slashFrames;
         this.spinFrames = spinFrames;
+        this.goldFrames = goldFrames;
         this.item = item;
         this.slashCptPlayer = 0;
         this.slashCptBot = 0;
         lightningCpt = 0;
         frameCpt = 1;
         spinCpt = 0;
+        goldCpt = 0;
         this.width = width;
         this.height = height;
         this.damageInstancePlayer = false;
@@ -66,6 +69,7 @@ public class Engine extends Observable implements Observer
         frameCpt = 1;
         spinCpt = 0;
         lightningCpt = 0;
+        goldCpt = 0;
         damageInstanceBot = false;
         damageInstancePlayer = false;
         itemUser = null;
@@ -87,6 +91,15 @@ public class Engine extends Observable implements Observer
             notifyObservers(tabScores);
             reinit();
         }
+        if (goldCpt > 0) {
+            goldCpt++;
+            if (goldCpt == goldFrames) {
+                goldCpt = 0;
+                itemUser.stopGold();
+                itemUser = null;
+                target = null;
+            }
+        }
         if (lightningCpt > 0) {
             lightningCpt++;
             itemUser.lightning();
@@ -101,7 +114,7 @@ public class Engine extends Observable implements Observer
             spinCpt++;
             itemUser.spin();
             if (spinCpt%10 == 0 && checkCollision(itemUser,target)) {
-                target.setHealth(target.getHealth()-(5f/3f)*itemUser.getDamage());
+                target.damaged((5f/3f)*itemUser.getDamage());
             }
             if (spinCpt == spinFrames) {
                 spinCpt = 0;
@@ -142,11 +155,7 @@ public class Engine extends Observable implements Observer
                 player.endSlash();
             }
         }
-        // prevent double speed on diagonal
-        if (Math.abs(c.getX()) + Math.abs(c.getY()) > 1.9) {
-            c.setX(Math.signum(c.getX()) * Math.PI/4);
-            c.setY(Math.signum(c.getY()) * Math.PI/4);
-        }
+
         player.move(c);
         bot.move();
     }
@@ -157,10 +166,10 @@ public class Engine extends Observable implements Observer
         checkLimits((Character)o);
         if (arg == Command.Action.SLASH) {
             if (o instanceof Player && !damageInstancePlayer && checkCollision(player,bot)) {
-                bot.setHealth(bot.getHealth()-player.getDamage());
+                bot.damaged(player.getDamage());
                 damageInstancePlayer = true;
             } else if(o instanceof Bot && !damageInstanceBot && checkCollision(bot,player)) {
-                player.setHealth(player.getHealth()-bot.getDamage());
+                player.damaged(bot.getDamage());
                 damageInstanceBot = true;
             }
         }
@@ -193,23 +202,7 @@ public class Engine extends Observable implements Observer
 
     private boolean checkCollision(Character attacker, Character receiver)
     {
-        Hitbox sword = null;
-        Position pos = attacker.getPosition();
-        switch (attacker.getDirection()) {
-            case UP:
-                sword = new Hitbox(pos, -15, -40,30,25);
-                break;
-            case RIGHT:
-                sword = new Hitbox(pos, 15, -10,25,30);
-                break;
-            case DOWN:
-                sword = new Hitbox(pos, -15, 20,30,25);
-                break;
-            case LEFT:
-                sword = new Hitbox(pos, -40, -10,25,30);
-                break;
-        }
-        return receiver.getHitbox().collision(sword) || receiver.getHitbox().collision(attacker.getHitbox());
+        return receiver.getHitbox().collision(attacker.getSword()) || receiver.getHitbox().collision(attacker.getHitbox());
     }
     private boolean checkCollisionItem(Character character)
     {
@@ -244,6 +237,16 @@ public class Engine extends Observable implements Observer
                     target.setHealth(0);
                 }
                 break;
+            case GOLD:
+                goldCpt++;
+                character.startGold();
+                itemUser = character;
+                item.remove();
+                if (character instanceof  Player) {
+                    target = bot;
+                } else {
+                    target = player;
+                }
         }
 
     }

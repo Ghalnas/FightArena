@@ -18,11 +18,12 @@ public abstract class Character extends Observable
     protected Position position, startPos;
     private double speed, startSpeed, damage, startDamage, health, startHealth;
     private Direction direction, startDir;
-    private boolean isMoving, isSlashing, isSpinning, isLightning;
+    private boolean isMoving, isSlashing, isSpinning, isLightning, isGold;
     private int slashCpt;
     private Item.ItemType itemType;
     private Hitbox hitbox;
     private Hitbox lightning;
+    private Hitbox sword;
 
     public Character(Position position, Direction direction, double speed, double damage, double health)
     {
@@ -31,6 +32,7 @@ public abstract class Character extends Observable
         startSpeed = speed;
         startDamage = damage;
         startHealth = health;
+        isGold = false;
         initChar();
     }
 
@@ -40,7 +42,6 @@ public abstract class Character extends Observable
         this.damage = startDamage;
         this.direction = startDir;
         setPosition(startPos.clone());
-        this.hitbox = new Hitbox(position,-20,-30,40,60);
         this.speed = startSpeed;
         isMoving = false;
         slashCpt = 0;
@@ -53,7 +54,11 @@ public abstract class Character extends Observable
         if (isLightning) {
             stopLightning();
         }
+        if (isGold) {
+            stopGold();
+        }
         itemType = null;
+        this.hitbox = new Hitbox(position,-20,-30,40,60);
     }
 
 
@@ -64,7 +69,11 @@ public abstract class Character extends Observable
 
     public void move(Command c)
     {
-
+        // prevent double speed on diagonal
+        if (Math.abs(c.getX()) + Math.abs(c.getY()) > 1.9) {
+            c.setX(Math.signum(c.getX()) * Math.PI/4);
+            c.setY(Math.signum(c.getY()) * Math.PI/4);
+        }
         if(c.getAction() == Action.SLASH) {
             setChanged();
             notifyObservers(Event.ASKSLASH);
@@ -123,6 +132,14 @@ public abstract class Character extends Observable
     public double getHealth()
     {
         return health;
+    }
+
+    public void damaged(double damage)
+    {
+        if (isGold) {
+            damage /= 2;
+        }
+        health -= damage;
     }
 
     public void setHealth(double health)
@@ -205,5 +222,50 @@ public abstract class Character extends Observable
     public boolean isSpinning()
     {
         return isSpinning;
+    }
+
+    public boolean isGold() {
+        return isGold;
+    }
+
+    public void startGold()
+    {
+        isGold = true;
+        hitbox.multiply(2);
+        sword.multiply(2);
+        damage *= 2;
+        setChanged();
+        notifyObservers(Action.NONE);
+    }
+
+    public void stopGold()
+    {
+        isGold = false;
+        hitbox.divide(2);
+        hitbox.divide(2);
+        damage /= 2;
+        setChanged();
+        notifyObservers(Action.NONE);
+    }
+
+    public Hitbox getSword()
+    {
+        switch (direction) {
+            case UP:
+                sword = new Hitbox(position, -15, -40,30,25);
+                break;
+            case RIGHT:
+                sword = new Hitbox(position, 15, -10,25,30);
+                break;
+            case DOWN:
+                sword = new Hitbox(position, -15, 20,30,25);
+                break;
+            case LEFT:
+                sword = new Hitbox(position, -40, -10,25,30);
+                break;
+        }
+        int mult = isGold ? 2 : 1;
+        sword.multiply(mult);
+        return sword;
     }
 }
