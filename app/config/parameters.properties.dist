@@ -15,6 +15,7 @@ bot_health = 100
 
 slash_frames = 20
 spin_frames = 240
+gold_frames = 180
 
 sprite_width = 80
 sprite_height = 80
