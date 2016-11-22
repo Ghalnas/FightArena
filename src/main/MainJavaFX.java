@@ -63,7 +63,6 @@ public class MainJavaFX extends Application {
             CharacterPrinter playerObs = new CharacterPrinter(player, spriteWidth, spriteHeight, slashFrames);
             CharacterPrinter botObs = new CharacterPrinter(bot, spriteWidth, spriteHeight, slashFrames);
             ItemPrinter itemPrinter = new ItemPrinter(item);
-
             MainMenuPrinter mainMenuPrinter = new MainMenuPrinter(arenaWidth, arenaHeight);
 
             String path = "assets/music/fight_arena_theme_song.mp3";
