@@ -3,17 +3,15 @@ package main;
 import controller.Engine;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import model.*;
 import model.Character;
 import view.*;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,15 +37,15 @@ public class MainJavaFX extends Application {
             double botDamage = Double.parseDouble(prop.getProperty("bot_damage"));
             double playerHealth = Double.parseDouble(prop.getProperty("player_health"));
             double botHealth = Double.parseDouble(prop.getProperty("bot_health"));
-            double playerX = (arenaWidth / 800) * Double.parseDouble(prop.getProperty("player_start_x"));
-            double playerY = (arenaHeight / 600) * Double.parseDouble(prop.getProperty("player_start_y"));
-            double botX = (arenaWidth / 800) * Double.parseDouble(prop.getProperty("bot_start_x"));
-            double botY = (arenaHeight / 600) * Double.parseDouble(prop.getProperty("bot_start_y"));
+            double playerX = (arenaWidth/800) * Double.parseDouble(prop.getProperty("player_start_x"));
+            double playerY = (arenaHeight/600) * Double.parseDouble(prop.getProperty("player_start_y"));
+            double botX = (arenaWidth/800) * Double.parseDouble(prop.getProperty("bot_start_x"));
+            double botY = (arenaHeight/600) * Double.parseDouble(prop.getProperty("bot_start_y"));
             int spriteWidth = Integer.parseInt(prop.getProperty("sprite_width"));
             int spriteHeight = Integer.parseInt(prop.getProperty("sprite_height"));
             double spriteScale = Double.parseDouble(prop.getProperty("sprite_scale"));
-            double playerSpeed = (arenaWidth / 800) * Double.parseDouble(prop.getProperty("player_speed"));
-            double botSpeed = (arenaWidth / 800) * Double.parseDouble(prop.getProperty("bot_speed"));
+            double playerSpeed = (arenaWidth/800) * Double.parseDouble(prop.getProperty("player_speed"));
+            double botSpeed = (arenaWidth/800) * Double.parseDouble(prop.getProperty("bot_speed"));
             int slashFrames = Integer.parseInt(prop.getProperty("slash_frames"));
             int spinFrames = Integer.parseInt(prop.getProperty("spin_frames"));
 
@@ -57,10 +55,10 @@ public class MainJavaFX extends Application {
             Item item = new Item();
 
             Logger logger = Logger.getInstance();
-            LogPrinter logPrinter = new LogPrinter(arenaWidth, (50f / 100f) * arenaHeight, (25f / 100f) * arenaWidth, (50f / 100f) * arenaHeight);
+            LogPrinter logPrinter = new LogPrinter(arenaWidth,(50f/100f)*arenaHeight,(25f/100f)*arenaWidth,(50f/100f)*arenaHeight);
             logger.addObserver(logPrinter);
 
-            ScorePrinter scorePrinter = new ScorePrinter(arenaWidth, 0, (25f / 100f) * arenaWidth, (50f / 100f) * arenaHeight);
+            ScorePrinter scorePrinter = new ScorePrinter(arenaWidth,0, (25f/100f) * arenaWidth, (50f/100f) * arenaHeight);
 
             CharacterPrinter playerObs = new CharacterPrinter(player, spriteWidth, spriteHeight, slashFrames);
             CharacterPrinter botObs = new CharacterPrinter(bot, spriteWidth, spriteHeight, slashFrames);
@@ -68,8 +66,15 @@ public class MainJavaFX extends Application {
 
             MainMenuPrinter mainMenuPrinter = new MainMenuPrinter(arenaWidth, arenaHeight);
 
+            String path = "assets/music/fight_arena_theme_song.mp3";
+            Media media = new Media(new File(path).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setAutoPlay(true);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.play();
+
             //instantiate game engine and set Observers
-            Engine engine = new Engine(player, (Bot) bot, item, slashFrames, spinFrames, arenaWidth, arenaHeight);
+            Engine engine = new Engine(player,(Bot)bot, item, slashFrames, spinFrames, arenaWidth, arenaHeight);
             player.addObserver(engine);
             bot.addObserver(engine);
             player.addObserver(logger);
@@ -80,7 +85,7 @@ public class MainJavaFX extends Application {
 
 
             // set window size
-            stage.setWidth(arenaWidth + (25f / 100f) * arenaWidth);
+            stage.setWidth(arenaWidth+(25f/100f)*arenaWidth);
             stage.setHeight(arenaHeight);
             stage.setTitle("Fight Arena");
 

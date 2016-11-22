@@ -5,11 +5,9 @@ import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import model.*;
 import model.Character;
 import model.Character.Event;
-import model.Command;
-import model.Hitbox;
-import model.Player;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -33,8 +31,8 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
         lightning = new ImageView();
         characterSprite = new CharacterSprite(c,charWidth,charHeight,slashFrames);
         playerView = characterSprite.getCharacterSprite();
-        playerView.setTranslateX(character.getPosition().getX());
-        playerView.setTranslateY(character.getPosition().getY());
+        playerView.setTranslateX(character.getPosition().getX()-40);
+        playerView.setTranslateY(character.getPosition().getY()-40);
     }
 
     @Override
@@ -42,13 +40,16 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
     {
         Group group = new Group();
         double charRemainingHealth = (charWidth * character.getHealth())/maxHealth;
-        Rectangle remainingHealth = new Rectangle(character.getPosition().getX(), character.getPosition().getY()-10, charRemainingHealth,6);
+        Rectangle remainingHealth = new Rectangle(character.getPosition().getX()-40, character.getPosition().getY()-40, charRemainingHealth,6);
         remainingHealth.setFill(Color.LIGHTGREEN);
-        Rectangle missingHealth = new Rectangle(character.getPosition().getX()+charRemainingHealth, character.getPosition().getY()-10, charWidth -charRemainingHealth,6);
+        Rectangle missingHealth = new Rectangle(character.getPosition().getX()+charRemainingHealth-40, character.getPosition().getY()-40, charWidth -charRemainingHealth,6);
         missingHealth.setFill(Color.RED);
-//        Hitbox hb = character.getHitbox();
-//        Rectangle rec = new Rectangle(hb.getX(),hb.getY(),hb.getWidth(),hb.getHeight());
+//        Position pos = character.getPosition();
+//        Rectangle rec = new Rectangle(pos.getX(),pos.getY(),2,2);
 //        rec.setFill(Color.BLUE);
+//        Hitbox hb = character.getHitbox();
+//        Rectangle bob = new Rectangle(hb.getX(),hb.getY(),hb.getWidth(),hb.getHeight());
+//        bob.setFill(Color.MAGENTA);
 //        Hitbox sword = null;
 //        double attackerX = character.getPosition().getX();
 //        double attackerY = character.getPosition().getY();
@@ -82,8 +83,8 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
                 playerView = characterSprite.getCharacterSprite();
                 lightning = new ImageView();
             }
-            playerView.setTranslateX(character.getPosition().getX());
-            playerView.setTranslateY(character.getPosition().getY());
+            playerView.setTranslateX(character.getPosition().getX()-40);
+            playerView.setTranslateY(character.getPosition().getY()-40);
         } else if (arg instanceof Event) {
             if (arg == Event.SPIN) {
                 playerView = characterSprite.getSpinSprite();
@@ -97,8 +98,8 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
             } else if(arg == Event.STOPPED) {
                 playerView = characterSprite.getCharacterSprite();
             }
-            playerView.setTranslateX(character.getPosition().getX());
-            playerView.setTranslateY(character.getPosition().getY());
+            playerView.setTranslateX(character.getPosition().getX()-40);
+            playerView.setTranslateY(character.getPosition().getY()-40);
         }
     }
 }
