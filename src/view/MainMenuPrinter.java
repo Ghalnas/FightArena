@@ -29,6 +29,7 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
     private Button leaveButton;
     private String fontPixelPath = "file:assets/font/Pixeled.ttf";
     private TextField pseudoTextField;
+    private String pseudo;
     private boolean gamePanelRequired;
     private boolean statsPanelRequired;
     private boolean settingsPanelRequired;
@@ -69,9 +70,9 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
                 gamePanelRequired = true;
                 mainMenuPanelRequired = false;
                 if(pseudoTextField.getText().isEmpty()){
-                    System.out.println("Unknow");
+                    pseudo = "Unknow";
                 }else{
-                    System.out.println(pseudoTextField.getText());
+                    pseudo = pseudoTextField.getText();
                 }
             }
         });
@@ -153,6 +154,10 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
 
     public boolean getMainMenuPanelRequired(){
         return mainMenuPanelRequired;
+    }
+
+    public String getPseudo(){
+        return pseudo;
     }
 
     public void setGamePanelRequired(boolean bool){

@@ -30,6 +30,7 @@ public class Engine extends Observable implements Observer
     private final int PLAYER = 0;
     private final int BOT = 1;
     private final Item.ItemType[] itemTypes = {Item.ItemType.SPIN, Item.ItemType.LIGHTNING};
+    private String pseudoPlayer;
 
     public Engine(Character player, Bot bot, Item item, int slashFrames, int spinFrames, double width, double height)
     {
@@ -246,6 +247,10 @@ public class Engine extends Observable implements Observer
                 break;
         }
 
+    }
+
+    public void setPseudo(String pseudo){
+        pseudoPlayer = pseudo;
     }
 }
 

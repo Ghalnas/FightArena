@@ -79,6 +79,7 @@ public class MainJavaFX extends Application {
             player.addObserver(playerObs);
             bot.addObserver(botObs);
             engine.addObserver(scorePrinter);
+            //engine.addObserver(mainMenuPrinter);
 
 
             // set window size
@@ -113,6 +114,8 @@ public class MainJavaFX extends Application {
                     }
 
                     if (mainMenuPrinter.getGamePanelRequired()) {
+                        engine.setPseudo(mainMenuPrinter.getPseudo());
+                        System.out.println(mainMenuPrinter.getPseudo());
                         scene.setRoot(window.getGamePanel(scene.getShrinkX(), scene.getShrinkY()));
                         engine.run(scene.getCommand());
                     }
