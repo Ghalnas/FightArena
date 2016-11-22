@@ -40,7 +40,7 @@ public abstract class Character extends Observable
         this.damage = startDamage;
         this.direction = startDir;
         setPosition(startPos.clone());
-        this.hitbox = new Hitbox(position,20,10,40,60);
+        this.hitbox = new Hitbox(position,-20,-30,40,60);
         this.speed = startSpeed;
         isMoving = false;
         slashCpt = 0;
@@ -157,7 +157,7 @@ public abstract class Character extends Observable
 
     public void startSpin()
     {
-        hitbox = new Hitbox(position, 5, 0,62,80);
+        hitbox = new Hitbox(position, -31, -40,62,80);
         speed = startSpeed+1;
         isSpinning = true;
         spin();
@@ -171,7 +171,7 @@ public abstract class Character extends Observable
 
     public void stopSpin()
     {
-        hitbox = new Hitbox(position, 20, 10,40,60);
+        hitbox = new Hitbox(position, -20, -30,40,60);
         isSpinning = false;
         speed = startSpeed;
         setChanged();
@@ -181,7 +181,7 @@ public abstract class Character extends Observable
     public void startLightning()
     {
         isLightning = true;
-        lightning = new Hitbox(position.clone(), -30,-30,140,140);
+        lightning = new Hitbox(position.clone(), -85,-85,170,170);
         lightning();
     }
 

@@ -88,6 +88,7 @@ public class CharacterSprite
             incrementLightning = -incrementLightning;
         }
         int multiplier = (int)Math.rint(cptLightning);
+//        Rectangle rec = new Rectangle(hb.getX(),hb.getY(), hb.getWidth(), hb.getHeight());
         lightning.setViewport(new Rectangle2D(multiplier%8*240,720-hb.getY()-170,240,hb.getY()+170));
         return lightning;
     }
