@@ -43,7 +43,7 @@ public class StrategyEpic implements Strategy
 
         double[] direction;
 
-        if (player.isSpinning() || player.isGold()) {
+        if ((player.isSpinning() && player.getHealth() > 25) || player.isGold()) {
             direction = this.getDirection(dirX, dirY, botX, botY, true);
         } else {
             direction = this.getDirection(dirX, dirY, botX, botY, false);
