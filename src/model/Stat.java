@@ -1,0 +1,128 @@
+package model;
+
+public class Stat {
+    private int victories, loses, hit, misses, hitTaken, spinTime, spinVictory, spinLose, lightningWin, lightningUsed,
+            lightningLose, goldVictory, goldLose, goldTime, healReceived;
+
+    public Stat(){}
+
+    public int getVictories() {
+        return victories;
+    }
+
+    public void setVictories(int victories) {
+        this.victories = victories;
+    }
+
+    public int getLoses() {
+        return loses;
+    }
+
+    public void setLoses(int loses) {
+        this.loses = loses;
+    }
+
+    public int getHit() {
+        return hit;
+    }
+
+    public void setHit(int hit) {
+        this.hit = hit;
+    }
+
+    public int getMisses() {
+        return misses;
+    }
+
+    public void setMisses(int misses) {
+        this.misses = misses;
+    }
+
+    public int getHitTaken() {
+        return hitTaken;
+    }
+
+    public void setHitTaken(int hitTaken) {
+        this.hitTaken = hitTaken;
+    }
+
+    public int getSpinTime() {
+        return spinTime;
+    }
+
+    public void setSpinTime(int spinTime) {
+        this.spinTime = spinTime;
+    }
+
+    public int getSpinVictory() {
+        return spinVictory;
+    }
+
+    public void setSpinVictory(int spinVictory) {
+        this.spinVictory = spinVictory;
+    }
+
+    public int getSpinLose() {
+        return spinLose;
+    }
+
+    public void setSpinLose(int spinLose) {
+        this.spinLose = spinLose;
+    }
+
+    public int getLightningWin() {
+        return lightningWin;
+    }
+
+    public void setLightningWin(int lightningWin) {
+        this.lightningWin = lightningWin;
+    }
+
+    public int getLightningUsed() {
+        return lightningUsed;
+    }
+
+    public void setLightningUsed(int lightningUsed) {
+        this.lightningUsed = lightningUsed;
+    }
+
+    public int getLightningLose() {
+        return lightningLose;
+    }
+
+    public void setLightningLose(int lightningLose) {
+        this.lightningLose = lightningLose;
+    }
+
+    public int getGoldVictory() {
+        return goldVictory;
+    }
+
+    public void setGoldVictory(int goldVictory) {
+        this.goldVictory = goldVictory;
+    }
+
+    public int getGoldLose() {
+        return goldLose;
+    }
+
+    public void setGoldLose(int goldLose) {
+        this.goldLose = goldLose;
+    }
+
+    public int getGoldTime() {
+        return goldTime;
+    }
+
+    public void setGoldTime(int goldTime) {
+        this.goldTime = goldTime;
+    }
+
+    public int getHealReceived() {
+        return healReceived;
+    }
+
+    public void setHealReceived(int healReceived) {
+        this.healReceived = healReceived;
+    }
+}

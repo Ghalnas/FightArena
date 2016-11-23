@@ -31,6 +31,7 @@ public class Engine extends Observable implements Observer
     private final int PLAYER = 0;
     private final int BOT = 1;
     private final Item.ItemType[] itemTypes = {Item.ItemType.SPIN, Item.ItemType.LIGHTNING, Item.ItemType.GOLD, Item.ItemType.HEAL};
+    private StatsWriter statsWriter;
 
     public Engine(Character player, Bot bot, Item item, int slashFrames, int spinFrames, int goldFrames, double width, double height)
     {
@@ -52,6 +53,7 @@ public class Engine extends Observable implements Observer
         this.damageInstancePlayer = false;
         this.damageInstanceBot = false;
         this.tabScores = new int[]{0,0};
+        statsWriter = new StatsWriter();
     }
 
     public void init()
@@ -75,6 +77,7 @@ public class Engine extends Observable implements Observer
         damageInstancePlayer = false;
         itemUser = null;
         target = null;
+        statsWriter.persist();
     }
 
     public void run(Command c)
@@ -155,6 +158,7 @@ public class Engine extends Observable implements Observer
                 slashCptPlayer = 0;
                 damageInstancePlayer = false;
                 player.endSlash();
+                statsWriter.addHit("ALFRED");
             }
         }
 

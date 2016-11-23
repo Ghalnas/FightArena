@@ -76,8 +76,8 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
             }
         });
 
-        //Stats
-        statsButton = new Button("Stats");
+        //StatsWriter
+        statsButton = new Button("StatsWriter");
         statsButton.setFont(Font.loadFont(fontPixelPath, 10));
         statsButton.setLayoutX(screenWidth/1.30);
         statsButton.setLayoutY(screenHeight/3);
