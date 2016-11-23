@@ -110,15 +110,15 @@ public class MainJavaFX extends Application {
             AnimationTimer timer = new AnimationTimer() {
                 @Override
                 public void handle(long l) {
-
+                    if(scene.getBackMenu()) {
+                        mainMenuPrinter.requireMenu();
+                        engine.reinitScores();
+                        engine.reinit();
+                    }
                     if(mainMenuPrinter.getMainMenuPanelRequired()){
                         scene.setRoot(window.getMainPanel(scene.getShrinkX(), scene.getShrinkY()));
-                    }
-
-                    if (mainMenuPrinter.getGamePanelRequired()) {
-                        if(engine.getPseudo() == null){
-                            engine.setPseudo(mainMenuPrinter.getPseudo());
-                        }
+                    } else if (mainMenuPrinter.getGamePanelRequired()) {
+                        engine.setPseudo(mainMenuPrinter.getPseudo());
                         scene.setRoot(window.getGamePanel(scene.getShrinkX(), scene.getShrinkY()));
                         engine.run(scene.getCommand());
                     }

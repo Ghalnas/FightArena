@@ -176,4 +176,36 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
         mainMenuPanelRequired = bool;
     }
 
+    public void requireGame()
+    {
+        gamePanelRequired = true;
+        statsPanelRequired = false;
+        settingsPanelRequired = false;
+        mainMenuPanelRequired = false;
+    }
+
+    public void requireStats()
+    {
+        gamePanelRequired = false;
+        statsPanelRequired = true;
+        settingsPanelRequired = false;
+        mainMenuPanelRequired = false;
+    }
+
+    public void requireSettings()
+    {
+        gamePanelRequired = false;
+        statsPanelRequired = false;
+        settingsPanelRequired = true;
+        mainMenuPanelRequired = false;
+    }
+
+    public void requireMenu()
+    {
+        gamePanelRequired = false;
+        statsPanelRequired = false;
+        settingsPanelRequired = false;
+        mainMenuPanelRequired = true;
+    }
+
 }
