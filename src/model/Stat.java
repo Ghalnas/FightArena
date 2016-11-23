@@ -2,7 +2,8 @@ package model;
 
 public class Stat {
     private int victories, loses, hit, misses, hitTaken, spinTime, spinVictory, spinLose, lightningWin, lightningUsed,
-            lightningLose, goldVictory, goldLose, goldTime, healReceived;
+            lightningLose, goldVictory, goldLose, goldTime;
+    private double healReceived;
 
     public Stat(){}
 
@@ -118,11 +119,11 @@ public class Stat {
         this.goldTime = goldTime;
     }
 
-    public int getHealReceived() {
+    public double getHealReceived() {
         return healReceived;
     }
 
-    public void setHealReceived(int healReceived) {
+    public void setHealReceived(double healReceived) {
         this.healReceived = healReceived;
     }
 }

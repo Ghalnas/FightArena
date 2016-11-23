@@ -56,8 +56,5 @@ public class Logger extends BaseLogger
         } else if (arg instanceof String) {
             warning((String)arg);
         }
-        if (o instanceof Engine && arg instanceof Engine.Event) {
-            info(" Pseudo du joueur : " + ((Engine) o).getPseudo() ) ;
-        }
     }
 }
