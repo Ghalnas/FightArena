@@ -7,7 +7,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 
-/**<
+/**
  * Class Engine
  */
 public class Engine extends Observable implements Observer
@@ -257,7 +257,13 @@ public class Engine extends Observable implements Observer
                 break;
             case HEAL:
                 character.heal();
+                itemUser = character;
                 item.remove();
+                if (character instanceof  Player) {
+                    target = bot;
+                } else {
+                    target = player;
+                }
         }
 
     }
