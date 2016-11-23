@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Observable;
 import java.util.Properties;
 
-import model.Character.Event;
+import controller.Engine;
 
 /**
  * Class Logger
@@ -51,10 +51,13 @@ public class Logger extends BaseLogger
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof Player && arg instanceof Event) {
+        if (o instanceof Player && arg instanceof Character.Event) {
             info(o+" moved to "+((Player) o).getPosition());
         } else if (arg instanceof String) {
             warning((String)arg);
+        }
+        if (o instanceof Engine && arg instanceof Engine.Event) {
+            info(" Pseudo du joueur : " + ((Engine) o).getPseudo() ) ;
         }
     }
 }
