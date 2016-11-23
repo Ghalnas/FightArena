@@ -114,8 +114,10 @@ public class MainJavaFX extends Application {
                     }
 
                     if (mainMenuPrinter.getGamePanelRequired()) {
-                        engine.setPseudo(mainMenuPrinter.getPseudo());
-                        System.out.println(mainMenuPrinter.getPseudo());
+                        if(engine.getPseudo() == null){
+                            engine.setPseudo(mainMenuPrinter.getPseudo());
+                            System.out.println(engine.getPseudo());
+                        }
                         scene.setRoot(window.getGamePanel(scene.getShrinkX(), scene.getShrinkY()));
                         engine.run(scene.getCommand());
                     }
