@@ -24,10 +24,10 @@ public class StrategyEpic implements Strategy
         double dirY = player.getPosition().getY();
 
         if (item.getHitbox() != null) {
-            if ((dirX >= bot.getPosition().getX() && bot.getPosition().getX() >= item.getHitbox().getPosition().getX())
+            if ((bot.getHealth() < 100 && item.getType() == Item.ItemType.HEAL)
+                || (dirX >= bot.getPosition().getX() && bot.getPosition().getX() >= item.getHitbox().getPosition().getX())
                 || (dirY <= bot.getPosition().getY() && bot.getPosition().getY() <= item.getHitbox().getPosition().getY())
                 || (bot.getHealth() < player.getHealth() && bot.getHealth() <= 50)
-                || (bot.getHealth() < 100 && item.getType() == Item.ItemType.HEAL)
             ) {
                 rushToItem = true;
             }
