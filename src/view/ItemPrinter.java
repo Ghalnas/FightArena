@@ -14,6 +14,7 @@ public class ItemPrinter implements JavaFXPrinter, Observer
     private ImageView spin;
     private ImageView lightning;
     private ImageView gold;
+    private ImageView heal;
 
     public ItemPrinter(Item item)
     {
@@ -21,6 +22,7 @@ public class ItemPrinter implements JavaFXPrinter, Observer
         spin = new ImageView(new Image("file:assets/image/spin.png"));
         lightning = new ImageView(new Image("file:assets/image/lightning-item.png"));
         gold = new ImageView(new Image("file:assets/image/fist.png"));
+        heal = new ImageView(new Image("file:assets/image/heal.png"));
     }
 
     @Override
@@ -30,20 +32,18 @@ public class ItemPrinter implements JavaFXPrinter, Observer
             switch (item.getType()) {
                 case SPIN:
                     img = spin;
-                    img.setTranslateX(item.getHitbox().getX());
-                    img.setTranslateY(item.getHitbox().getY());
                     break;
                 case LIGHTNING:
                     img = lightning;
-                    img.setTranslateX(item.getHitbox().getX());
-                    img.setTranslateY(item.getHitbox().getY());
                     break;
                 case GOLD:
                     img = gold;
-                    img.setTranslateX(item.getHitbox().getX());
-                    img.setTranslateY(item.getHitbox().getY());
                     break;
+                case HEAL:
+                    img = heal;
             }
+            img.setTranslateX(item.getHitbox().getX());
+            img.setTranslateY(item.getHitbox().getY());
             return img;
         }
         return null;

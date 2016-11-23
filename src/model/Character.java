@@ -24,6 +24,7 @@ public abstract class Character extends Observable
     private Hitbox hitbox;
     private Hitbox lightning;
     private Hitbox sword;
+    private boolean isDead;
 
     public Character(Position position, Direction direction, double speed, double damage, double health)
     {
@@ -38,6 +39,7 @@ public abstract class Character extends Observable
 
     public void initChar()
     {
+        isDead = false;
         this.health = startHealth;
         this.damage = startDamage;
         this.direction = startDir;
@@ -59,6 +61,7 @@ public abstract class Character extends Observable
         }
         itemType = null;
         this.hitbox = new Hitbox(position,-20,-30,40,60);
+        getHitbox();
     }
 
 
@@ -140,12 +143,16 @@ public abstract class Character extends Observable
             damage /= 2;
         }
         health -= damage;
+        if (health <= 0) {
+            isDead = true;
+            health = 0;
+        }
     }
 
-    public void setHealth(double health)
-    {
-        this.health = health;
-    }
+//    public void setHealth(double health)
+//    {
+//        this.health = health;
+//    }
 
     public Hitbox getHitbox()
     {
@@ -267,5 +274,15 @@ public abstract class Character extends Observable
         int mult = isGold ? 2 : 1;
         sword.multiply(mult);
         return sword;
+    }
+
+    public void heal()
+    {
+        health = startHealth;
+    }
+
+    public boolean isDead()
+    {
+        return isDead;
     }
 }
