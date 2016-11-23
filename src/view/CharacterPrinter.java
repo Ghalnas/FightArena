@@ -44,6 +44,7 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
         remainingHealth.setFill(Color.LIGHTGREEN);
         Rectangle missingHealth = new Rectangle(character.getPosition().getX()+charRemainingHealth-40, character.getPosition().getY()-40, charWidth -charRemainingHealth,6);
         missingHealth.setFill(Color.RED);
+
         //PRINT Char position
 //        Position playerPos = character.getPosition();
 //        Rectangle rec = new Rectangle(playerPos.getX(),playerPos.getY(),2,2);
@@ -57,22 +58,7 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
 //        group.getChildren().add(bobby);
 
         //PRINT sword hitbox
-//        Hitbox sword = null;
-//        Position pos = character.getPosition();
-//        switch (character.getDirection()) {
-//            case UP:
-//                sword = new Hitbox(pos, -15, -40,30,25);
-//                break;
-//            case RIGHT:
-//                sword = new Hitbox(pos, 15, -10,25,30);
-//                break;
-//            case DOWN:
-//                sword = new Hitbox(pos, -15, 20,30,25);
-//                break;
-//            case LEFT:
-//                sword = new Hitbox(pos, -40, -10,25,30);
-//                break;
-//        }
+//        Hitbox sword = character.getSword();
 //        Rectangle bob = new Rectangle(sword.getX(),sword.getY(),sword.getWidth(),sword.getHeight());
 //        bob.setFill(Color.RED);
 //        group.getChildren().add(bob);
@@ -91,8 +77,9 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
                 playerView = characterSprite.getCharacterSprite();
                 lightning = new ImageView();
             }
-            playerView.setTranslateX(character.getPosition().getX()-40);
-            playerView.setTranslateY(character.getPosition().getY()-40);
+            int size = character.isGold() ? 80 : 40;
+            playerView.setTranslateX(character.getPosition().getX()-size);
+            playerView.setTranslateY(character.getPosition().getY()-size);
         } else if (arg instanceof Event) {
             if (arg == Event.SPIN) {
                 playerView = characterSprite.getSpinSprite();
@@ -106,8 +93,9 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
             } else if(arg == Event.STOPPED) {
                 playerView = characterSprite.getCharacterSprite();
             }
-            playerView.setTranslateX(character.getPosition().getX()-40);
-            playerView.setTranslateY(character.getPosition().getY()-40);
+            int size = character.isGold() ? 80 : 40;
+            playerView.setTranslateX(character.getPosition().getX()-size);
+            playerView.setTranslateY(character.getPosition().getY()-size);
         }
     }
 }
