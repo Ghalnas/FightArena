@@ -2,10 +2,12 @@ package controller;
 
 import model.*;
 import model.Character;
+import model.Logger;
 
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
+import java.util.logging.*;
 
 /**
  * Class Engine
@@ -31,6 +33,8 @@ public class Engine extends Observable implements Observer
     private final int PLAYER = 0;
     private final int BOT = 1;
     private final Item.ItemType[] itemTypes = {Item.ItemType.SPIN, Item.ItemType.LIGHTNING, Item.ItemType.GOLD, Item.ItemType.HEAL};
+    private String pseudoPlayer;
+    public enum Event { NAMED }
 
     public Engine(Character player, Bot bot, Item item, int slashFrames, int spinFrames, int goldFrames, double width, double height)
     {
@@ -265,6 +269,16 @@ public class Engine extends Observable implements Observer
                 }
         }
 
+    }
+
+    public void setPseudo(String pseudo) {
+        pseudoPlayer = pseudo;
+        setChanged();
+        notifyObservers(Event.NAMED);
+    }
+
+    public String getPseudo() {
+        return pseudoPlayer;
     }
 }
 

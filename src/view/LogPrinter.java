@@ -39,6 +39,10 @@ public class LogPrinter implements JavaFXPrinter,Observer
             listMessages.add((String[]) arg);
         }
 
+        if (arg instanceof String) {
+            listMessages.add((String[]) arg);
+        }
+
     }
 
     @Override
