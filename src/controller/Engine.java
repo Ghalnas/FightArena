@@ -85,12 +85,15 @@ public class Engine extends Observable implements Observer
         if (player.isDead()) {
             tabScores[BOT]++;
             statsWriter.addLose(pseudoPlayer);
-        } else {
+            setChanged();
+            notifyObservers(tabScores);
+        } else if (bot.isDead()){
             tabScores[PLAYER]++;
             statsWriter.addVictory(pseudoPlayer);
+            setChanged();
+            notifyObservers(tabScores);
         }
-        setChanged();
-        notifyObservers(tabScores);
+
 
         if(timerSpin > 0)
             timerSpin++;
@@ -361,6 +364,13 @@ public class Engine extends Observable implements Observer
                 }
         }
 
+    }
+
+    public void reinitScores()
+    {
+        tabScores = new int[]{0,0};
+        setChanged();
+        notifyObservers(tabScores);
     }
 
     public void setPseudo(String pseudo) {
