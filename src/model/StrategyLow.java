@@ -6,12 +6,13 @@ public class StrategyLow implements Strategy
 {
     private Character player;
     private Character bot;
+    private Item item;
 
-    public StrategyLow(Character player, Character bot)
+    public StrategyLow(Character player, Character bot, Item item)
     {
         this.player = player;
         this.bot = bot;
-        this.bot.setSpeed(this.bot.getSpeed() * 0.50);
+        this.item = item;
     }
 
     private Command applyStrategy()
@@ -20,6 +21,13 @@ public class StrategyLow implements Strategy
 
         double dirX = player.getPosition().getX();
         double dirY = player.getPosition().getY();
+
+        if (item.getHitbox() != null) {
+            if (bot.getHealth() < 100 && item.getType() == Item.ItemType.HEAL) {
+                dirX = item.getHitbox().getPosition().getX();
+                dirY = item.getHitbox().getPosition().getY();
+            }
+        }
 
         double botX = bot.getPosition().getX();
         double botY = bot.getPosition().getY();
@@ -56,6 +64,10 @@ public class StrategyLow implements Strategy
 
     private Action getAction()
     {
+        if (bot.isGold()) {
+            return Action.SLASH;
+        }
+
         return (player.getPosition().distanceTo(bot.getPosition()) <= 50) ? Action.SLASH : Action.NONE;
     }
 

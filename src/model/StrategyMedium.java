@@ -12,7 +12,6 @@ public class StrategyMedium implements Strategy
     {
         this.player = player;
         this.bot = bot;
-        this.bot.setSpeed(this.bot.getSpeed() * 0.75);
         this.item = item;
     }
 
@@ -63,6 +62,10 @@ public class StrategyMedium implements Strategy
 
     private Action getAction()
     {
+        if (bot.isGold()) {
+            return Action.SLASH;
+        }
+
         return (player.getPosition().distanceTo(bot.getPosition()) <= 50) ? Action.SLASH : Action.NONE;
     }
 
