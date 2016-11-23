@@ -61,7 +61,7 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
         fightButton.setPrefWidth(100);
 
         pseudoTextField = new TextField();
-        pseudoTextField.setPromptText("Unknow");
+        pseudoTextField.setPromptText("Unknown");
         pseudoTextField.setLayoutX(fightButton.getLayoutX() + fightButton.getPrefWidth() + 10);
         pseudoTextField.setLayoutY(fightButton.getLayoutY());
 
@@ -70,15 +70,15 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
                 gamePanelRequired = true;
                 mainMenuPanelRequired = false;
                 if(pseudoTextField.getText().isEmpty()){
-                    pseudo = "Unknow";
+                    pseudo = null;
                 }else{
                     pseudo = pseudoTextField.getText();
                 }
             }
         });
 
-        //Stats
-        statsButton = new Button("Stats");
+        //StatsWriter
+        statsButton = new Button("StatsWriter");
         statsButton.setFont(Font.loadFont(fontPixelPath, 10));
         statsButton.setLayoutX(screenWidth/1.30);
         statsButton.setLayoutY(screenHeight/3);
