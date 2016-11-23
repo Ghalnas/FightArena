@@ -12,7 +12,6 @@ public class StrategyMedium implements Strategy
     {
         this.player = player;
         this.bot = bot;
-        this.bot.setSpeed(this.bot.getSpeed() * 0.75);
         this.item = item;
     }
 
