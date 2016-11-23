@@ -61,7 +61,7 @@ public abstract class Character extends Observable
         }
         itemType = null;
         this.hitbox = new Hitbox(position,-20,-30,40,60);
-        getHitbox();
+        getSword();
     }
 
 
