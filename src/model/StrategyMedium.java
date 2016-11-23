@@ -63,6 +63,10 @@ public class StrategyMedium implements Strategy
 
     private Action getAction()
     {
+        if (bot.isGold()) {
+            return Action.SLASH;
+        }
+
         return (player.getPosition().distanceTo(bot.getPosition()) <= 50) ? Action.SLASH : Action.NONE;
     }
 
