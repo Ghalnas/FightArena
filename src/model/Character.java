@@ -72,13 +72,13 @@ public abstract class Character extends Observable
 
     public void move(Command c)
     {
-        if ((int)c.getX() == -1 && (int)c.getY() == 0) {
+        if (((int)c.getX() == -1 && (int)c.getY() == 0) || ((int)c.getX() == -1 && direction == Direction.RIGHT)) {
             direction = Direction.LEFT;
-        } else if ((int)c.getX() == 1 && (int)c.getY() == 0) {
+        } else if (((int)c.getX() == 1 && (int)c.getY() == 0) || ((int)c.getX() == 1 && direction == Direction.LEFT)) {
             direction = Direction.RIGHT;
-        } else if ((int)c.getX() == 0 && (int)c.getY() == 1) {
+        } else if (((int)c.getX() == 0 && (int)c.getY() == 1) || ((int)c.getY() == 1 && direction == Direction.UP)) {
             direction = Direction.DOWN;
-        } else if ((int)c.getX() == 0 && (int)c.getY() == -1) {
+        } else if (((int)c.getX() == 0 && (int)c.getY() == -1) || ((int)c.getY() == -1 && direction == Direction.DOWN)) {
             direction = Direction.UP;
         }
 
