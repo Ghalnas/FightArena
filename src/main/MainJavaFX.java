@@ -76,11 +76,9 @@ public class MainJavaFX extends Application {
             Engine engine = new Engine(player,(Bot)bot, item, slashFrames, spinFrames, goldFrames, arenaWidth, arenaHeight);
             player.addObserver(engine);
             bot.addObserver(engine);
-            player.addObserver(logger);
             player.addObserver(playerObs);
             bot.addObserver(botObs);
             engine.addObserver(scorePrinter);
-            engine.addObserver(logger);
             //engine.addObserver(mainMenuPrinter);
 
 

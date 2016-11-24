@@ -48,13 +48,4 @@ public class Logger extends BaseLogger
 
         return INSTANCE;
     }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof Player && arg instanceof Character.Event) {
-            info(o+" moved to "+((Player) o).getPosition());
-        } else if (arg instanceof String) {
-            warning((String)arg);
-        }
-    }
 }
