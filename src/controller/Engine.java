@@ -38,6 +38,7 @@ public class Engine extends Observable implements Observer
     private int timerGold, timerSpin, hit, miss, hitTaken, lightningUses;
     private boolean loseSpin, winSpin, winLightning, loseLightning, winGold, loseGold;
     private Logger logger;
+    private SongPlayer songPlayer;
 
     public Engine(Character player, Bot bot, Item item, int slashFrames, int spinFrames, int goldFrames, double width, double height)
     {
@@ -74,6 +75,7 @@ public class Engine extends Observable implements Observer
         this.tabScores = new int[]{0,0};
         logger = Logger.getInstance();
         statsWriter = new StatsWriter();
+        songPlayer = new SongPlayer();
     }
 
     public void init()
@@ -142,6 +144,7 @@ public class Engine extends Observable implements Observer
 
     public void reinit()
     {
+        songPlayer.reinit();
         player.initChar();
         bot.initChar(new StrategyEpic(player, bot, item));
         slashCptBot = 0;
@@ -169,14 +172,17 @@ public class Engine extends Observable implements Observer
         loseLightning = false;
         winGold = false;
         loseGold = false;
-
     }
 
     public void run(Command c)
     {
         frameCpt++;
+        songPlayer.startGame();
         if (bot.isDead() || player.isDead()) {
             deathCpt++;
+            if(deathCpt == 1) {
+                songPlayer.death();
+            }
         }
 
         if (goldCpt > 0 && !itemUser.isDead()) {
@@ -190,6 +196,7 @@ public class Engine extends Observable implements Observer
                 loseGold = true;
             }
             if (goldCpt == goldFrames) {
+                songPlayer.reinit();
                 goldCpt = 0;
                 itemUser.stopGold();
 
@@ -206,6 +213,7 @@ public class Engine extends Observable implements Observer
                 loseLightning = true;
             }
             if (lightningCpt == 40) {
+                songPlayer.reinit();
                 lightningCpt = 0;
                 itemUser.stopLightning();
                 itemUser = null;
@@ -233,6 +241,7 @@ public class Engine extends Observable implements Observer
                 }
             }
             if (spinCpt == spinFrames) {
+                songPlayer.reinit();
                 spinCpt = 0;
                 itemUser.stopSpin();
                 itemUser = null;
@@ -253,6 +262,10 @@ public class Engine extends Observable implements Observer
             item.init(itemTypes[r.nextInt(itemTypes.length)],new Position(rX,rY));
         }
         if (slashCptBot > 0 && !bot.isSpinning() && !bot.isDead()) {
+            if (slashCptBot == 1) {
+                songPlayer.swordSound();
+            }
+
             slashCptBot+=1;
             bot.slash();
             if (slashCptBot == slashFrames -1) {
@@ -274,6 +287,9 @@ public class Engine extends Observable implements Observer
         }
 
         if (slashCptPlayer > 0 && !player.isSpinning() && !player.isDead()) {
+            if (slashCptPlayer == 1) {
+                songPlayer.swordSound();
+            }
             slashCptPlayer++;
             player.slash();
             if (slashCptPlayer == slashFrames -1) {
@@ -365,6 +381,7 @@ public class Engine extends Observable implements Observer
         switch (item.getType()) {
             case SPIN:
                 character.startSpin();
+                songPlayer.playSpin();
                 itemUser = character;
                 spinCpt++;
                 item.remove();
@@ -377,6 +394,7 @@ public class Engine extends Observable implements Observer
                 break;
             case LIGHTNING:
                 lightningCpt++;
+                songPlayer.playLightning();
                 character.startLightning();
                 itemUser = character;
                 item.remove();
@@ -393,6 +411,7 @@ public class Engine extends Observable implements Observer
                 break;
             case GOLD:
                 goldCpt++;
+                songPlayer.playGold();
                 character.startGold();
                 itemUser = character;
                 item.remove();
@@ -406,6 +425,7 @@ public class Engine extends Observable implements Observer
             case HEAL:
                 double low = character.getHealth();
                 character.heal();
+                songPlayer.playHeal();
                 double high = character.getHealth();
                 itemUser = character;
                 item.remove();
@@ -425,6 +445,7 @@ public class Engine extends Observable implements Observer
 
     public void reinitScores()
     {
+        songPlayer.stopGame();
         tabScores = new int[]{0,0};
         setChanged();
         notifyObservers(tabScores);
@@ -439,5 +460,6 @@ public class Engine extends Observable implements Observer
     public String getPseudo() {
         return pseudoPlayer;
     }
+
 }
 

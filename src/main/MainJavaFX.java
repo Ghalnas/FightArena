@@ -66,11 +66,11 @@ public class MainJavaFX extends Application {
             ItemPrinter itemPrinter = new ItemPrinter(item);
             MainMenuPrinter mainMenuPrinter = new MainMenuPrinter(arenaWidth, arenaHeight);
 
-            Media media = new Media(new File("assets/music/fight_arena_theme_song.mp3").toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.setAutoPlay(true);
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            mediaPlayer.play();
+//            Media media = new Media(new File("assets/music/fight_arena_theme_song.mp3").toURI().toString());
+//            MediaPlayer mediaPlayer = new MediaPlayer(media);
+//            mediaPlayer.setAutoPlay(true);
+//            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+//            mediaPlayer.play();
 
             //instantiate game engine and set Observers
             Engine engine = new Engine(player,(Bot)bot, item, slashFrames, spinFrames, goldFrames, arenaWidth, arenaHeight);

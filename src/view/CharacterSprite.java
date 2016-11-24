@@ -23,10 +23,12 @@ public class CharacterSprite
     private Character character;
     private final int slashFrames;
     private final double slashFrames1, slashFrames2;
+    private final ImageView dead;
 
     public CharacterSprite(Character c,int spriteWidth, int spriteHeight, int slashFrames)
     {
         imageView = c instanceof Player ? new ImageView(new Image("file:assets/image/player80.png")) : new ImageView(new Image("file:assets/image/bot80.png"));
+        dead = c instanceof Player ? new ImageView(new Image("file:assets/image/player-dead.png")) : new ImageView(new Image("file:assets/image/bot-dead.png"));
         lightning = new ImageView(new Image("file:assets/image/lightning.png"));
         goldenPlayer = new ImageView(new Image("file:assets/image/gold-char.png"));
         character = c;
@@ -42,6 +44,11 @@ public class CharacterSprite
         this.slashFrames = slashFrames;
         slashFrames1 = slashFramesSlice;
         slashFrames2 = 2*slashFramesSlice;
+    }
+
+    public ImageView getDead()
+    {
+        return dead;
     }
 
     public ImageView getCharacterSprite()
