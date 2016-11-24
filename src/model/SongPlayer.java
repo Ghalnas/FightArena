@@ -16,6 +16,7 @@ public class SongPlayer
     private MediaPlayer death;
     private Media swordMedia;
     private Media lightningMedia;
+    private Media healMedia;
 
     public SongPlayer()
     {
@@ -26,6 +27,8 @@ public class SongPlayer
         death =new MediaPlayer(new Media(new File("assets/music/death.mp3").toURI().toString()));
         lightningMedia = new Media(new File("assets/music/lightning.mp3").toURI().toString());
         lightning = new MediaPlayer(lightningMedia);
+        healMedia = new Media(new File("assets/music/heal.mp3").toURI().toString());
+        heal = new MediaPlayer(healMedia);
         swordMedia = new Media(new File("assets/music/slash.mp3").toURI().toString());
         swordSound = new MediaPlayer(swordMedia);
         gameMusic = new MediaPlayer(new Media(new File("assets/music/fight_arena_theme_song.mp3").toURI().toString()));
@@ -60,8 +63,10 @@ public class SongPlayer
         gold.play();
     }
 
+
     public void playHeal()
     {
+        heal = new MediaPlayer(healMedia);
         heal.play();
     }
 

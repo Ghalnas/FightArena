@@ -72,6 +72,16 @@ public abstract class Character extends Observable
 
     public void move(Command c)
     {
+        if ((int)c.getX() == -1 && (int)c.getY() == 0) {
+            direction = Direction.LEFT;
+        } else if ((int)c.getX() == 1 && (int)c.getY() == 0) {
+            direction = Direction.RIGHT;
+        } else if ((int)c.getX() == 0 && (int)c.getY() == 1) {
+            direction = Direction.DOWN;
+        } else if ((int)c.getX() == 0 && (int)c.getY() == -1) {
+            direction = Direction.UP;
+        }
+
         // prevent double speed on diagonal
         if (Math.abs(c.getX()) + Math.abs(c.getY()) > 1.9) {
             c.setX(Math.signum(c.getX()) * Math.PI/4);
@@ -84,15 +94,7 @@ public abstract class Character extends Observable
         c.setX(Math.rint(c.getX()));
         c.setY(Math.rint(c.getY()));
 
-        if ((int)c.getX() == -1 && (int)c.getY() == 0) {
-            direction = Direction.LEFT;
-        } else if ((int)c.getX() == 1 && (int)c.getY() == 0) {
-            direction = Direction.RIGHT;
-        } else if ((int)c.getX() == 0 && (int)c.getY() == 1) {
-            direction = Direction.DOWN;
-        } else if ((int)c.getX() == 0 && (int)c.getY() == -1) {
-            direction = Direction.UP;
-        }
+
         Position p = new Position(position.getX() + speed * c.getX(), position.getY() + speed * c.getY());
         setPosition(p);
     }
@@ -249,7 +251,7 @@ public abstract class Character extends Observable
     {
         isGold = false;
         hitbox.divide(2);
-        hitbox.divide(2);
+        sword.divide(2);
         damage /= 2;
         setChanged();
         notifyObservers(Action.NONE);
