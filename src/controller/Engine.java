@@ -114,19 +114,19 @@ public class Engine extends Observable implements Observer
             itemWin = "with Gold";
             statsWriter.addGoldVictory(pseudoPlayer);
         } else if (loseGold) {
-            itemWin = "with Gold !";
+            itemWin = "with Gold";
             statsWriter.addGoldLose(pseudoPlayer);
         } else if (winLightning) {
-            itemWin = "with Lightning !";
+            itemWin = "with Lightning";
             statsWriter.addLightningWin(pseudoPlayer);
         } else if (loseLightning) {
-            itemWin = "with Lightning !";
+            itemWin = "with Lightning";
             statsWriter.addLightningLose(pseudoPlayer);
         } else if (winSpin) {
-            itemWin = "with Spin !";
+            itemWin = "with Spin";
             statsWriter.addSpinVictory(pseudoPlayer);
         } else if (loseSpin) {
-            itemWin = "with Spin !";
+            itemWin = "with Spin";
             statsWriter.addSpinLose(pseudoPlayer);
         }
 
@@ -265,7 +265,6 @@ public class Engine extends Observable implements Observer
             if (slashCptBot == 1) {
                 songPlayer.swordSound();
             }
-
             slashCptBot+=1;
             bot.slash();
             if (slashCptBot == slashFrames -1) {
