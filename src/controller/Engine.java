@@ -37,7 +37,8 @@ public class Engine extends Observable implements Observer
     private double healReceived;
     private int timerGold, timerSpin, hit, miss, hitTaken, lightningUses;
     private boolean loseSpin, winSpin, winLightning, loseLightning, winGold, loseGold;
-    
+    private Logger logger;
+
     public Engine(Character player, Bot bot, Item item, int slashFrames, int spinFrames, int goldFrames, double width, double height)
     {
         this.player = player;
@@ -71,6 +72,7 @@ public class Engine extends Observable implements Observer
         this.damageInstancePlayer = false;
         this.damageInstanceBot = false;
         this.tabScores = new int[]{0,0};
+        logger = Logger.getInstance();
         statsWriter = new StatsWriter();
     }
 
@@ -80,16 +82,20 @@ public class Engine extends Observable implements Observer
         bot.setStrategy(new StrategyEpic(player, bot, item));
     }
 
-    public void reinit()
+    public void writeStats()
     {
+        String winner = null;
+        String itemWin = "";
         if (player.isDead()) {
             tabScores[BOT]++;
             statsWriter.addLose(pseudoPlayer);
+            winner = "Bot";
             setChanged();
             notifyObservers(tabScores);
         } else if (bot.isDead()){
             tabScores[PLAYER]++;
             statsWriter.addVictory(pseudoPlayer);
+            winner = "Player";
             setChanged();
             notifyObservers(tabScores);
         }
@@ -103,24 +109,39 @@ public class Engine extends Observable implements Observer
         statsWriter.addSpinTime(pseudoPlayer,timerSpin);
         statsWriter.addHealReceived(pseudoPlayer,healReceived);
         if(winGold) {
+            itemWin = "with Gold";
             statsWriter.addGoldVictory(pseudoPlayer);
         } else if (loseGold) {
+            itemWin = "with Gold !";
             statsWriter.addGoldLose(pseudoPlayer);
         } else if (winLightning) {
+            itemWin = "with Lightning !";
             statsWriter.addLightningWin(pseudoPlayer);
         } else if (loseLightning) {
+            itemWin = "with Lightning !";
             statsWriter.addLightningLose(pseudoPlayer);
         } else if (winSpin) {
+            itemWin = "with Spin !";
             statsWriter.addSpinVictory(pseudoPlayer);
         } else if (loseSpin) {
+            itemWin = "with Spin !";
             statsWriter.addSpinLose(pseudoPlayer);
         }
+
+        if (winner != null) {
+            logger.info(winner + " wins " + itemWin + " !");
+        }
+
         statsWriter.addHit(pseudoPlayer,hit);
         statsWriter.addMiss(pseudoPlayer, miss);
         statsWriter.addHitTaken(pseudoPlayer,hitTaken);
         statsWriter.addLightningUse(pseudoPlayer,lightningUses);
         statsWriter.persist();
 
+    }
+
+    public void reinit()
+    {
         player.initChar();
         bot.initChar(new StrategyEpic(player, bot, item));
         slashCptBot = 0;
@@ -138,7 +159,7 @@ public class Engine extends Observable implements Observer
         damageInstancePlayer = false;
         itemUser = null;
         target = null;
-
+        item.remove();
         timerGold = 0;
         timerSpin = 0;
         healReceived = 0;
@@ -154,9 +175,6 @@ public class Engine extends Observable implements Observer
     public void run(Command c)
     {
         frameCpt++;
-        if (deathCpt== 40) {
-            reinit();
-        }
         if (bot.isDead() || player.isDead()) {
             deathCpt++;
         }
@@ -206,7 +224,13 @@ public class Engine extends Observable implements Observer
             }
             itemUser.spin();
             if (spinCpt%10 == 0 && checkCollision(itemUser,target)) {
-                target.damaged((5f/3f)*itemUser.getDamage());
+                double dmg = (5f/3f)*itemUser.getDamage();
+                target.damaged(dmg);
+                if (deathCpt < slashFrames) {
+                    String damage = String.format("%.2f", dmg);
+                    String wounded = target instanceof Player ? "Player" : "Bot";
+                    logger.info("Spin deals " + damage + " damage to " + wounded + " !");
+                }
             }
             if (spinCpt == spinFrames) {
                 spinCpt = 0;
@@ -233,8 +257,19 @@ public class Engine extends Observable implements Observer
             bot.slash();
             if (slashCptBot == slashFrames -1) {
                 slashCptBot = 0;
+                String hitMessage = null;
+                if (!damageInstanceBot && deathCpt < slashFrames) {
+                    hitMessage = "Bot misses !";
+                    miss++;
+                } else if (damageInstanceBot && deathCpt < slashFrames){
+                    double dmg = player.isGold() ? bot.getDamage()/2 : bot.getDamage();
+                    hitMessage = "Bot hits player for " + dmg + " damage !";
+                }
                 damageInstanceBot = false;
                 bot.endSlash();
+                if (hitMessage != null) {
+                    logger.info(hitMessage);
+                }
             }
         }
 
@@ -243,12 +278,20 @@ public class Engine extends Observable implements Observer
             player.slash();
             if (slashCptPlayer == slashFrames -1) {
                 slashCptPlayer = 0;
-                if (!damageInstancePlayer) {
+                String hitMessage = null;
+                if (!damageInstancePlayer && deathCpt < slashFrames) {
+                    hitMessage = "Player misses !";
                     miss++;
+                } else if (damageInstancePlayer && deathCpt < slashFrames) {
+                    double dmg = bot.isGold() ? player.getDamage()/2 : player.getDamage();
+                    hitMessage = "Player hits bot for " + dmg + " damage !";
                 }
                 damageInstancePlayer = false;
                 player.endSlash();
                 hit++;
+                if (hitMessage != null) {
+                    logger.info(hitMessage);
+                }
             }
         }
 
@@ -257,6 +300,12 @@ public class Engine extends Observable implements Observer
         }
         if (!bot.isDead()) {
             bot.move();
+        }
+        if (deathCpt == slashFrames) {
+            writeStats();
+        }
+        if (deathCpt== 40) {
+            reinit();
         }
     }
 
@@ -312,12 +361,14 @@ public class Engine extends Observable implements Observer
 
     private void useItem(Character character)
     {
+        String itemMessage = null;
         switch (item.getType()) {
             case SPIN:
                 character.startSpin();
                 itemUser = character;
                 spinCpt++;
                 item.remove();
+                itemMessage = " used Spin !";
                 if (character instanceof  Player) {
                     target = bot;
                 } else {
@@ -329,6 +380,7 @@ public class Engine extends Observable implements Observer
                 character.startLightning();
                 itemUser = character;
                 item.remove();
+                itemMessage = " used Lightning !";
                 if (character instanceof  Player) {
                     target = bot;
                     lightningUses++;
@@ -344,6 +396,7 @@ public class Engine extends Observable implements Observer
                 character.startGold();
                 itemUser = character;
                 item.remove();
+                itemMessage = " used Gold !";
                 if (character instanceof  Player) {
                     target = bot;
                 } else {
@@ -356,6 +409,7 @@ public class Engine extends Observable implements Observer
                 double high = character.getHealth();
                 itemUser = character;
                 item.remove();
+                itemMessage = " used Heal pack and healed for  " + String.format("%.2f", high-low) + " HPs !";
                 if (character instanceof  Player) {
                     healReceived += (high - low);
                     target = bot;
@@ -363,6 +417,9 @@ public class Engine extends Observable implements Observer
                     target = player;
                 }
         }
+        String userMessage = itemUser instanceof Player ? "Player" : "Bot";
+        logger.info(userMessage+itemMessage);
+
 
     }
 

@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * Class BaseLogger
  */
-abstract class BaseLogger extends Observable implements Observer
+abstract class BaseLogger extends Observable
 {
     private final String whiteColor = "\033[37m";
     private final String blueColor = "\033[34m";

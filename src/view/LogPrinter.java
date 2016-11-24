@@ -32,7 +32,7 @@ public class LogPrinter implements JavaFXPrinter,Observer
     @Override
     public void update(Observable o, Object arg)
     {
-        if (listMessages.size() > 5) {
+        if (listMessages.size() > 10) {
             listMessages.remove(0);
         }
         if (arg instanceof String[]) {
