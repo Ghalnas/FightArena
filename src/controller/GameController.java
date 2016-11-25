@@ -1,7 +1,8 @@
 package controller;
 
 import javafx.animation.AnimationTimer;
-import model.TimerEvent;
+import model.GameEvent;
+import view.MainMenuPrinter;
 import view.SceneFX;
 import view.TimerObserver;
 import view.WindowViewer;
@@ -31,16 +32,11 @@ public class GameController implements TimerObserver
     }
 
     @Override
-    public void update(TimerEvent e)
-    {
-        update(e,null);
-    }
-
-    @Override
-    public void update(TimerEvent e, String pseudo) {
-        switch (e) {
+    public void update(Object source, Object arg) {
+        if (arg instanceof GameEvent)
+        switch ((GameEvent)arg) {
             case REQUIRE_GAME:
-                engine.setPseudo(pseudo);
+                engine.setPseudo(((MainMenuPrinter)source).getPseudo());
                 scene.setRoot(window.getGamePanel(scene.getShrinkX(), scene.getShrinkY()));
                 animationTimer.start();
                 break;

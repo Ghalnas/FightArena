@@ -258,7 +258,7 @@ public class Engine extends Observable implements Observer
             Random r = new Random();
             int rX = r.nextInt((int)width-50-50)+50;
             int rY = r.nextInt((int)height-100-100)+100;
-            item.init(itemTypes[r.nextInt(itemTypes.length)],new Position(rX,rY));
+            item.init(itemTypes[2],new Position(rX,rY));
         }
         if (slashCptBot > 0 && !bot.isSpinning() && !bot.isDead()) {
             if (slashCptBot == 1) {
