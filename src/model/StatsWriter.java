@@ -21,7 +21,7 @@ public class StatsWriter
         try {
             File f = new File(path);
             if(!f.exists()) {
-                if(f.createNewFile()) {
+                if(f.getParentFile().mkdirs() && f.createNewFile()) {
                     HashMap<String, Stat> tmp = new HashMap<>();
                     tmp.put("General",new Stat());
                     map = tmp;
