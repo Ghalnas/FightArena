@@ -9,7 +9,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import model.Command;
 import model.Command.Action;
-import model.TimerEvent;
+import model.GameEvent;
 
 import java.util.Objects;
 
@@ -55,7 +55,7 @@ public class SceneFX extends Scene implements TimerObservable
                 if (Objects.equals(event.getText(), "d")) right = false;
                 if (Objects.equals(event.getText(), "z")) up = false;
                 if (Objects.equals(event.getText(), "s")) down = false;
-                if (event.getCode() == KeyCode.ESCAPE) notifyTimer(TimerEvent.REQUIRE_MENU);
+                if (event.getCode() == KeyCode.ESCAPE) notifyTimer(GameEvent.REQUIRE_MENU);
                 if (Objects.equals(event.getText(), "l")) {
                     slash = false;
                     isSlashing = false;
@@ -106,9 +106,10 @@ public class SceneFX extends Scene implements TimerObservable
     }
 
     @Override
-    public void notifyTimer(TimerEvent e) {
+    public void notifyTimer(Object arg) {
         if (o != null) {
-            o.update(e);
+            o.update(this, arg);
         }
     }
+
 }

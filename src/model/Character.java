@@ -39,14 +39,6 @@ public abstract class Character extends Observable
 
     public void initChar()
     {
-        isDead = false;
-        this.health = startHealth;
-        this.damage = startDamage;
-        this.direction = startDir;
-        setPosition(startPos.clone());
-        this.speed = startSpeed;
-        isMoving = false;
-        slashCpt = 0;
         if (isSlashing) {
             endSlash();
         }
@@ -59,6 +51,14 @@ public abstract class Character extends Observable
         if (isGold) {
             stopGold();
         }
+        isDead = false;
+        this.health = startHealth;
+        this.damage = startDamage;
+        this.direction = startDir;
+        setPosition(startPos.clone());
+        this.speed = startSpeed;
+        isMoving = false;
+        slashCpt = 0;
         itemType = null;
         this.hitbox = new Hitbox(position,-20,-30,40,60);
         getSword();

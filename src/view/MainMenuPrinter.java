@@ -12,10 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import model.TimerEvent;
-
-import java.util.Observable;
-import java.util.Observer;
+import model.GameEvent;
 
 public class MainMenuPrinter implements JavaFXPrinter, TimerObservable {
 
@@ -61,7 +58,7 @@ public class MainMenuPrinter implements JavaFXPrinter, TimerObservable {
                 }else{
                     pseudo = pseudoTextField.getText();
                 }
-                notifyTimer(TimerEvent.REQUIRE_GAME);
+                notifyTimer(GameEvent.REQUIRE_GAME);
             }
         });
 
@@ -74,7 +71,7 @@ public class MainMenuPrinter implements JavaFXPrinter, TimerObservable {
 
         statsButton.setOnMousePressed(new EventHandler<MouseEvent>(){
             @Override public void handle(MouseEvent me){
-                notifyTimer(TimerEvent.REQUIRE_STATS);
+                notifyTimer(GameEvent.REQUIRE_STATS);
             }
         });
 
@@ -87,7 +84,7 @@ public class MainMenuPrinter implements JavaFXPrinter, TimerObservable {
 
         settingsButton.setOnMousePressed(new EventHandler<MouseEvent>(){
             @Override public void handle(MouseEvent me){
-                notifyTimer(TimerEvent.REQUIRE_SETTING);
+                notifyTimer(GameEvent.REQUIRE_SETTING);
             }
         });
 
@@ -128,10 +125,15 @@ public class MainMenuPrinter implements JavaFXPrinter, TimerObservable {
     }
 
     @Override
-    public void notifyTimer(TimerEvent e) {
+    public void notifyTimer(Object arg) {
         if (o != null) {
-            o.update(e,pseudo);
+            o.update(this,arg);
         }
+    }
+
+    public String getPseudo()
+    {
+        return pseudo;
     }
 
 }
