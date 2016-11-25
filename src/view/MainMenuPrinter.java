@@ -1,7 +1,5 @@
 package view;
 
-import controller.Engine;
-import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -14,12 +12,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import model.TimerEvent;
+
 import java.util.Observable;
 import java.util.Observer;
 
-import static java.awt.SystemColor.window;
-
-public class MainMenuPrinter implements JavaFXPrinter,Observer {
+public class MainMenuPrinter implements JavaFXPrinter, TimerObservable {
 
     private Text title;
     private ImageView background;
@@ -30,18 +28,10 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
     private String fontPixelPath = "file:assets/font/Pixeled.ttf";
     private TextField pseudoTextField;
     private String pseudo;
-    private boolean gamePanelRequired;
-    private boolean statsPanelRequired;
-    private boolean settingsPanelRequired;
-    private boolean mainMenuPanelRequired;
+    private TimerObserver o;
 
 
     public MainMenuPrinter(double screenWidth, double screenHeight) {
-
-        gamePanelRequired = false;
-        statsPanelRequired = false;
-        settingsPanelRequired = false;
-        mainMenuPanelRequired = true;
 
         title = new Text(screenWidth/4, screenHeight/2,  "FightArena");
         title.setFill(Color.BLACK);
@@ -52,7 +42,6 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
         background = new ImageView(new Image("file:assets/image/background-medium.jpg"));
 
         //Buttons
-
         //Fight + Pseudo Textfield
         fightButton = new Button("Fight");
         fightButton.setFont(Font.loadFont(fontPixelPath, 10));
@@ -67,13 +56,12 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
 
         fightButton.setOnMousePressed(new EventHandler<MouseEvent>(){
             @Override public void handle(MouseEvent me){
-                gamePanelRequired = true;
-                mainMenuPanelRequired = false;
                 if(pseudoTextField.getText().isEmpty()){
                     pseudo = null;
                 }else{
                     pseudo = pseudoTextField.getText();
                 }
+                notifyTimer(TimerEvent.REQUIRE_GAME);
             }
         });
 
@@ -86,7 +74,7 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
 
         statsButton.setOnMousePressed(new EventHandler<MouseEvent>(){
             @Override public void handle(MouseEvent me){
-                statsPanelRequired = true;
+                notifyTimer(TimerEvent.REQUIRE_STATS);
             }
         });
 
@@ -99,7 +87,7 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
 
         settingsButton.setOnMousePressed(new EventHandler<MouseEvent>(){
             @Override public void handle(MouseEvent me){
-                settingsPanelRequired = true;
+                notifyTimer(TimerEvent.REQUIRE_SETTING);
             }
         });
 
@@ -120,12 +108,6 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg)
-    {
-
-    }
-
-    @Override
     public Node getNode()
     {
         Group panel = new Group();
@@ -140,72 +122,16 @@ public class MainMenuPrinter implements JavaFXPrinter,Observer {
         return panel;
     }
 
-    public boolean getGamePanelRequired(){
-        return gamePanelRequired;
+    @Override
+    public void bindTimer(TimerObserver o) {
+        this.o = o;
     }
 
-    public boolean getSettingsPanelRequired(){
-        return settingsPanelRequired;
-    }
-
-    public boolean getStatsPanelRequired(){
-        return statsPanelRequired;
-    }
-
-    public boolean getMainMenuPanelRequired(){
-        return mainMenuPanelRequired;
-    }
-
-    public String getPseudo(){
-        return pseudo;
-    }
-
-    public void setGamePanelRequired(boolean bool){
-        gamePanelRequired = bool;
-    }
-
-    public void setSettingsPanelRequired(boolean bool){
-        settingsPanelRequired = bool;
-    }
-
-    public void setStatsPanelRequired(boolean bool){
-        statsPanelRequired = bool;
-    }
-
-    public void setMainMenuPanelRequired(boolean bool){
-        mainMenuPanelRequired = bool;
-    }
-
-    public void requireGame()
-    {
-        gamePanelRequired = true;
-        statsPanelRequired = false;
-        settingsPanelRequired = false;
-        mainMenuPanelRequired = false;
-    }
-
-    public void requireStats()
-    {
-        gamePanelRequired = false;
-        statsPanelRequired = true;
-        settingsPanelRequired = false;
-        mainMenuPanelRequired = false;
-    }
-
-    public void requireSettings()
-    {
-        gamePanelRequired = false;
-        statsPanelRequired = false;
-        settingsPanelRequired = true;
-        mainMenuPanelRequired = false;
-    }
-
-    public void requireMenu()
-    {
-        gamePanelRequired = false;
-        statsPanelRequired = false;
-        settingsPanelRequired = false;
-        mainMenuPanelRequired = true;
+    @Override
+    public void notifyTimer(TimerEvent e) {
+        if (o != null) {
+            o.update(e,pseudo);
+        }
     }
 
 }
