@@ -1,17 +1,14 @@
 package main;
 
 import controller.Engine;
-import javafx.animation.AnimationTimer;
+import controller.GameController;
 import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import model.*;
 import model.Character;
 import view.*;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -96,7 +93,7 @@ public class MainJavaFX extends Application {
             stage.setResizable(true);
             stage.show();
 
-            GameTimer timer = new GameTimer(scene,engine,window);
+            GameController timer = new GameController(scene,engine,window);
             scene.bindTimer(timer);
             mainMenuPrinter.bindTimer(timer);
 
