@@ -21,7 +21,7 @@ public class LogPrinter implements JavaFXPrinter,Observer
     public LogPrinter(double startX, double startY, double width, double height)
     {
         background = new Rectangle(startX, startY, width, height);
-        background.setFill(Color.rgb(0, 0, 0, 0.7));
+        background.setFill(Color.rgb(0, 0, 0, 0));
         title = new Text(startX, startY+20, "Logs");
         title.setFill(Color.WHITE);
         listMessages = new ArrayList<>();
