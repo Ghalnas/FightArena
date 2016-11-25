@@ -33,7 +33,7 @@ public class ScorePrinter implements JavaFXPrinter, Observer {
         this.scoresViewHeight = scoresViewHeight;
 
         scores = new Rectangle(scoresViewX, scoresViewY, scoresViewWidth, scoresViewHeight);
-        scores.setFill(Color.rgb(0, 0, 0, 0.7));
+        scores.setFill(Color.rgb(0, 0, 0, 0));
         title = new Text((scoresViewX + scoresViewWidth / 2), scoresViewY + scoresViewCons, "Scores");
         title.setFill(Color.rgb(255, 255, 255));
     }

@@ -4,6 +4,7 @@ import controller.Engine;
 import controller.GameController;
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.*;
 import model.Character;
@@ -61,7 +62,7 @@ public class MainJavaFX extends Application {
             CharacterPrinter playerObs = new CharacterPrinter(player, spriteWidth, spriteHeight, slashFrames);
             CharacterPrinter botObs = new CharacterPrinter(bot, spriteWidth, spriteHeight, slashFrames);
             ItemPrinter itemPrinter = new ItemPrinter(item);
-            MainMenuPrinter mainMenuPrinter = new MainMenuPrinter(arenaWidth, arenaHeight);
+
 
             //instantiate game engine and set Observers
             Engine engine = new Engine(player,(Bot)bot, item, slashFrames, spinFrames, goldFrames, arenaWidth, arenaHeight);
@@ -77,8 +78,10 @@ public class MainJavaFX extends Application {
             stage.setHeight(arenaHeight);
             stage.setTitle("Fight Arena");
 
-            WindowViewer window = new WindowViewer(arenaWidth, arenaHeight, spriteScale);
-            window.addMainMenuPrinter(mainMenuPrinter);
+            MainMenuPrinter mainMenuPrinter = new MainMenuPrinter();
+            RightMenu rightMenu = new RightMenu(arenaWidth,arenaHeight);
+
+            WindowViewer window = new WindowViewer(arenaWidth, arenaHeight, spriteScale, mainMenuPrinter, rightMenu);
             window.addGamePrinter(playerObs);
             window.addGamePrinter(botObs);
             window.addGamePrinter(itemPrinter);
@@ -86,16 +89,17 @@ public class MainJavaFX extends Application {
             window.addLogPrinter(logPrinter);
 
 
+
             Group root = new Group();
             SceneFX scene = new SceneFX(root, arenaWidth, arenaHeight);
-
+            scene.setFill(Color.rgb(0,0,0,0.7));
             stage.setScene(scene);
             stage.setResizable(true);
             stage.show();
 
             GameController timer = new GameController(scene,engine,window);
             scene.bindTimer(timer);
-            mainMenuPrinter.bindTimer(timer);
+            rightMenu.bindTimer(timer);
 
         } catch (IOException ex) {
             ex.printStackTrace();

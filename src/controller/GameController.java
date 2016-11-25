@@ -2,10 +2,7 @@ package controller;
 
 import javafx.animation.AnimationTimer;
 import model.GameEvent;
-import view.MainMenuPrinter;
-import view.SceneFX;
-import view.TimerObserver;
-import view.WindowViewer;
+import view.*;
 
 public class GameController implements TimerObserver
 {
@@ -35,8 +32,11 @@ public class GameController implements TimerObserver
     public void update(Object source, Object arg) {
         if (arg instanceof GameEvent)
         switch ((GameEvent)arg) {
+            case SIZE_CHANGED:
+                window.resizePanel(scene.getShrinkX(), scene.getShrinkY());
+                break;
             case REQUIRE_GAME:
-                engine.setPseudo(((MainMenuPrinter)source).getPseudo());
+                engine.setPseudo(((RightMenu)source).getPseudo());
                 scene.setRoot(window.getGamePanel(scene.getShrinkX(), scene.getShrinkY()));
                 animationTimer.start();
                 break;
