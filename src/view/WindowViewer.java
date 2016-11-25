@@ -48,10 +48,10 @@ public class WindowViewer
 
     public void resizePanel(double shrinkX, double shrinkY)
     {
-        double scaleX = shrinkX/1600;
+        double scaleX = shrinkX/1280;
         panel.setScaleX(scaleX);
         panel.setScaleY(scaleX);
-        panel.setTranslateX((shrinkX/2)-(1600/2));
+        panel.setTranslateX((shrinkX/2)-(1280/2));
         panel.setTranslateY((shrinkY/2)-(720/2));
     }
 

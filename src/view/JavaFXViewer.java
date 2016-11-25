@@ -21,19 +21,7 @@ public class JavaFXViewer
         this.scale = scale;
         this.width = width;
         this.height = height;
-        switch ((int)width) {
-            case 800:
-                background = new ImageView(new Image("file:assets/image/background-small.jpg"));
-                break;
-            case 1280:
-                background = new ImageView(new Image("file:assets/image/background-medium.jpg"));
-                break;
-            case 1920:
-                background = new ImageView(new Image("file:assets/image/background-large.jpg"));
-                break;
-            default:
-                throw new InvalidParameterException("Parameters must be 800*600, 1280*720 or 1920*1080");
-        }
+        background = new ImageView(new Image("file:assets/image/background-1024.jpg"));
         listPrinters = new ArrayList<>();
     }
 

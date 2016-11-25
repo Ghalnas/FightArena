@@ -11,7 +11,7 @@ public class MainMenuPrinter {
 
     public MainMenuPrinter()
     {
-        background = new ImageView(new Image("file:assets/image/menu-1280.png"));
+        background = new ImageView(new Image("file:assets/image/menu-1024.jpg"));
     }
 
     public Node getPanel()

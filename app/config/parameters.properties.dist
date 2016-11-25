@@ -1,13 +1,13 @@
-arena_width=1280
+arena_width=1024
 arena_height=720
 
-player_start_x = 40
+player_start_x = 80
 player_start_y = 250
 player_speed = 3
 player_damage = 20
 player_health = 100
 
-bot_start_x = 750
+bot_start_x = 710
 bot_start_y = 250
 bot_speed = 2
 bot_damage = 20
