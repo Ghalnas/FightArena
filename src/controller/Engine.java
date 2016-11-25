@@ -14,6 +14,7 @@ public class Engine extends Observable implements Observer
 {
     private Character player;
     private Bot bot;
+    private Strategy strategy;
     private int frameCpt;
     private int slashFrames, spinFrames, goldFrames;
     private int slashCptPlayer;
@@ -45,6 +46,8 @@ public class Engine extends Observable implements Observer
         this.player = player;
         this.bot = bot;
         this.item = item;
+        strategy = new StrategyEpic(player,bot,item);
+        bot.setStrategy(strategy);
         this.slashFrames = slashFrames;
         this.spinFrames = spinFrames;
         this.goldFrames = goldFrames;
@@ -78,12 +81,6 @@ public class Engine extends Observable implements Observer
         songPlayer = new SongPlayer();
     }
 
-    public void init()
-    {
-        System.out.println("====================GAME STARTED====================");
-        bot.setStrategy(new StrategyEpic(player, bot, item));
-    }
-
     public void writeStats()
     {
         String winner = null;
@@ -107,6 +104,7 @@ public class Engine extends Observable implements Observer
             timerSpin++;
         if(timerGold > 0)
             timerGold++;
+
         statsWriter.addGoldTime(pseudoPlayer,timerGold);
         statsWriter.addSpinTime(pseudoPlayer,timerSpin);
         statsWriter.addHealReceived(pseudoPlayer,healReceived);
@@ -146,7 +144,7 @@ public class Engine extends Observable implements Observer
     {
         songPlayer.reinit();
         player.initChar();
-        bot.initChar(new StrategyEpic(player, bot, item));
+        bot.initChar(strategy);
         slashCptBot = 0;
         slashCptPlayer = 0;
         frameCpt = 1;
@@ -172,6 +170,7 @@ public class Engine extends Observable implements Observer
         loseLightning = false;
         winGold = false;
         loseGold = false;
+        logger.reset();
     }
 
     public void run(Command c)

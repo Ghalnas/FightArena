@@ -64,6 +64,12 @@ abstract class BaseLogger extends Observable
         notifyObservers(new String[]{level,message});
     }
 
+    public void reset()
+    {
+        setChanged();
+        notifyObservers(null);
+    }
+
     /**
      * Format log output
      *

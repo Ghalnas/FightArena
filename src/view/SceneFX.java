@@ -7,16 +7,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import model.Command;
 import model.Command.Action;
+import model.TimerEvent;
 
 import java.util.Objects;
 
-public class SceneFX extends Scene
+public class SceneFX extends Scene implements TimerObservable
 {
-    private boolean left,right,up,down,slash,isSlashing, backMenu;
+    private boolean left,right,up,down,slash,isSlashing;
     private double sizeX,sizeY;
+    private TimerObserver o;
 
     public SceneFX(Parent root, double width, double height)
     {
@@ -27,7 +28,6 @@ public class SceneFX extends Scene
         down = false;
         slash = false;
         isSlashing = false;
-        backMenu = false;
         sizeX = width;
         sizeY = height;
 
@@ -39,7 +39,6 @@ public class SceneFX extends Scene
                 if (Objects.equals(event.getText(), "d")) right = true;
                 if (Objects.equals(event.getText(), "z")) up = true;
                 if (Objects.equals(event.getText(), "s")) down = true;
-                if (event.getCode() == KeyCode.ESCAPE) backMenu = true;
                 if (Objects.equals(event.getText(), "l") && !slash) {
                     slash = true;
                     isSlashing = false;
@@ -56,7 +55,7 @@ public class SceneFX extends Scene
                 if (Objects.equals(event.getText(), "d")) right = false;
                 if (Objects.equals(event.getText(), "z")) up = false;
                 if (Objects.equals(event.getText(), "s")) down = false;
-                if (event.getCode() == KeyCode.ESCAPE) backMenu = false;
+                if (event.getCode() == KeyCode.ESCAPE) notifyTimer(TimerEvent.REQUIRE_MENU);
                 if (Objects.equals(event.getText(), "l")) {
                     slash = false;
                     isSlashing = false;
@@ -91,11 +90,6 @@ public class SceneFX extends Scene
         return new Command(vX,vY, action);
     }
 
-    public boolean getBackMenu()
-    {
-        return backMenu;
-    }
-
     public double getShrinkX()
     {
         return sizeX;
@@ -104,5 +98,17 @@ public class SceneFX extends Scene
     public double getShrinkY()
     {
         return sizeY;
+    }
+
+    @Override
+    public void bindTimer(TimerObserver o) {
+        this.o = o;
+    }
+
+    @Override
+    public void notifyTimer(TimerEvent e) {
+        if (o != null) {
+            o.update(e);
+        }
     }
 }

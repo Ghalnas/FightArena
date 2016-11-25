@@ -66,12 +66,6 @@ public class MainJavaFX extends Application {
             ItemPrinter itemPrinter = new ItemPrinter(item);
             MainMenuPrinter mainMenuPrinter = new MainMenuPrinter(arenaWidth, arenaHeight);
 
-//            Media media = new Media(new File("assets/music/fight_arena_theme_song.mp3").toURI().toString());
-//            MediaPlayer mediaPlayer = new MediaPlayer(media);
-//            mediaPlayer.setAutoPlay(true);
-//            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-//            mediaPlayer.play();
-
             //instantiate game engine and set Observers
             Engine engine = new Engine(player,(Bot)bot, item, slashFrames, spinFrames, goldFrames, arenaWidth, arenaHeight);
             player.addObserver(engine);
@@ -79,7 +73,6 @@ public class MainJavaFX extends Application {
             player.addObserver(playerObs);
             bot.addObserver(botObs);
             engine.addObserver(scorePrinter);
-            //engine.addObserver(mainMenuPrinter);
 
 
             // set window size
@@ -103,27 +96,9 @@ public class MainJavaFX extends Application {
             stage.setResizable(true);
             stage.show();
 
-            engine.init();
-
-            AnimationTimer timer = new AnimationTimer() {
-                @Override
-                public void handle(long l) {
-                    if(scene.getBackMenu()) {
-                        mainMenuPrinter.requireMenu();
-                        engine.reinitScores();
-                        engine.reinit();
-                    }
-                    if(mainMenuPrinter.getMainMenuPanelRequired()){
-                        scene.setRoot(window.getMainPanel(scene.getShrinkX(), scene.getShrinkY()));
-                    } else if (mainMenuPrinter.getGamePanelRequired()) {
-                        engine.setPseudo(mainMenuPrinter.getPseudo());
-                        scene.setRoot(window.getGamePanel(scene.getShrinkX(), scene.getShrinkY()));
-                        engine.run(scene.getCommand());
-                    }
-                }
-            };
-
-            timer.start();
+            GameTimer timer = new GameTimer(scene,engine,window);
+            scene.bindTimer(timer);
+            mainMenuPrinter.bindTimer(timer);
 
         } catch (IOException ex) {
             ex.printStackTrace();
