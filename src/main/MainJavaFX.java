@@ -11,11 +11,6 @@ import model.*;
 import model.Character;
 import view.*;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 public class MainJavaFX extends Application {
     public static void main(String[] args) {
         launch(args);
@@ -24,7 +19,6 @@ public class MainJavaFX extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         ParamWriter params = new ParamWriter();
-
 
         Arena arena = new Arena(params.arenaWidth, params.arenaHeight);
         Character player = new Player(new Position(params.playerX, params.playerY), params.playerSpeed, params.playerDamage, params.playerHealth);

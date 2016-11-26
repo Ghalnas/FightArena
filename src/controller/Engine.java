@@ -46,8 +46,8 @@ public class Engine extends Observable implements Observer
         this.player = player;
         this.bot = bot;
         this.item = item;
-        setStrategy(strategyIndex);
         this.slashFrames = slashFrames;
+        setStrategy(strategyIndex);
         this.spinFrames = spinFrames;
         this.goldFrames = goldFrames;
         this.item = item;
@@ -91,11 +91,13 @@ public class Engine extends Observable implements Observer
         switch (index) {
             case 0:
                 strategy = new StrategyLow(player,bot,item);
+                slashFrames = slashFrames * 4;
                 break;
             case 1:
-                strategy = new StrategyLow(player,bot,item);
+                strategy = new StrategyMedium(player,bot,item);
+                slashFrames = slashFrames * 2;
                 break;
-            case 2:
+            default:
                 strategy = new StrategyEpic(player,bot,item);
                 break;
         }
@@ -291,10 +293,10 @@ public class Engine extends Observable implements Observer
                 String hitMessage = null;
                 if (!damageInstanceBot && deathCpt < slashFrames) {
                     hitMessage = "Bot misses !";
-                    miss++;
                 } else if (damageInstanceBot && deathCpt < slashFrames){
                     double dmg = player.isGold() ? bot.getDamage()/2 : bot.getDamage();
                     hitMessage = "Bot hits player for " + dmg + " damage !";
+                    hitTaken++;
                 }
                 damageInstanceBot = false;
                 bot.endSlash();

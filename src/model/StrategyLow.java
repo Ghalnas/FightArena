@@ -31,6 +31,19 @@ public class StrategyLow implements Strategy
 
         double botX = bot.getPosition().getX();
         double botY = bot.getPosition().getY();
+        double[] direction;
+
+        if (bot.getHealth() < 50) {
+            direction = this.getDirection(dirX, dirY, botX, botY, true);
+        } else {
+            direction = this.getDirection(dirX, dirY, botX, botY, false);
+        }
+
+        return new Command(direction[0], direction[1], action);
+    }
+
+    private double[] getDirection(double dirX, double dirY, double botX, double botY, boolean isEscaping)
+    {
         double posX = 0, posY = 0;
 
         if (dirY > botY && dirX < botX) {
@@ -59,7 +72,12 @@ public class StrategyLow implements Strategy
             posY = Math.abs(botY - dirY) < 5 ? 0 : -1;
         }
 
-        return new Command(posX, posY, action);
+        if (isEscaping) {
+            posX = -posX;
+            posY = -posY;
+        }
+
+        return new double[] {posX, posY};
     }
 
     private Action getAction()
