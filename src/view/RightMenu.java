@@ -99,6 +99,11 @@ public class RightMenu implements TimerObservable
 
         statsButton.setOnMousePressed(new EventHandler<MouseEvent>(){
             @Override public void handle(MouseEvent me){
+                if(pseudoTextField.getText().isEmpty()){
+                    pseudo = null;
+                }else{
+                    pseudo = pseudoTextField.getText();
+                }
                 notifyTimer(GameEvent.REQUIRE_STATS);
             }
         });

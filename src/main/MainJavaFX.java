@@ -62,14 +62,14 @@ public class MainJavaFX extends Application {
         MainMenuPrinter mainMenuPrinter = new MainMenuPrinter();
         RightMenu rightMenu = new RightMenu(params.arenaWidth,params.arenaHeight, params.botDifficulty, params.selectedRes, params.fullscreen, params.musicVolume, params.fxVolume);
 
-        WindowViewer window = new WindowViewer(params.windowWidth, params.windowHeight, params.arenaWidth, params.arenaHeight, params.spriteScale, mainMenuPrinter, rightMenu);
+        StatsPrinter statsPrinter = new StatsPrinter();
+
+        WindowViewer window = new WindowViewer(params.windowWidth, params.windowHeight, params.arenaWidth, params.arenaHeight, params.spriteScale, mainMenuPrinter, rightMenu, statsPrinter);
         window.addGamePrinter(playerObs);
         window.addGamePrinter(botObs);
         window.addGamePrinter(itemPrinter);
         window.addScorePrinter(scorePrinter);
         window.addLogPrinter(logPrinter);
-
-
 
         Group root = new Group();
         SceneFX scene = new SceneFX(root, params.arenaWidth, params.arenaHeight);
