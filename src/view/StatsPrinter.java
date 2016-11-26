@@ -158,7 +158,6 @@ public class StatsPrinter {
         );
         victoriesLosesChart.setLayoutX(500);
         victoriesLosesChart.setLayoutY(200);
-        victoriesLosesChart.setLegendVisible(false);
 
     }
 
