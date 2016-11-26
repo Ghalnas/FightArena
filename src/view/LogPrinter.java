@@ -1,9 +1,12 @@
 package view;
 
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -13,20 +16,26 @@ import java.util.Observer;
 public class LogPrinter implements JavaFXPrinter,Observer
 {
 
-    private Rectangle background;
     private Text title;
-    private double startX,startY;
     private ArrayList<String[]> listMessages;
+    private StackPane panel;
+    private String fontPixelPath = "file:assets/font/Pixeled.ttf";
 
-    public LogPrinter(double startX, double startY, double width, double height)
+    public LogPrinter(double width, double translateX, double translateY)
     {
-        background = new Rectangle(startX, startY, width, height);
-        background.setFill(Color.rgb(0, 0, 0, 0));
-        title = new Text(startX, startY+20, "Logs");
+        title = new Text("Logs");
+        title.setFont(Font.loadFont(fontPixelPath,30));
+        title.setTranslateY(20);
         title.setFill(Color.WHITE);
+        title.setTranslateX(70);
         listMessages = new ArrayList<>();
-        this.startX = startX;
-        this.startY = startY;
+
+        panel = new StackPane();
+        panel.setPrefWidth(width);
+        panel.setTranslateX(translateX);
+        panel.setTranslateY(translateY);
+        panel.getChildren().add(title);
+        panel.setAlignment(Pos.CENTER_LEFT);
     }
 
     @Override
@@ -41,7 +50,7 @@ public class LogPrinter implements JavaFXPrinter,Observer
         else if (arg instanceof String) {
             listMessages.add((String[]) arg);
         }
-        if (listMessages.size() > 10) {
+        if (listMessages.size() > 13) {
             listMessages.remove(0);
         }
     }
@@ -49,9 +58,7 @@ public class LogPrinter implements JavaFXPrinter,Observer
     @Override
     public Node getNode()
     {
-        Group panel = new Group();
-        panel.getChildren().add(background);
-        panel.getChildren().add(title);
+        panel.getChildren().remove(1,panel.getChildren().size());
         for (int i = 0 ; i < listMessages.size() ; i++) {
             Color color = null;
             String[] message = listMessages.get(i);
@@ -66,13 +73,16 @@ public class LogPrinter implements JavaFXPrinter,Observer
                     color = Color.rgb(255,0,0);
                     break;
             }
-            Group log = new Group();
-            Text logLvl = new Text(startX+3, startY + 40 +i*20, "["+message[0].toUpperCase()+"] : ");
+            Group group = new Group();
+            Text logLvl = new Text("["+message[0].toUpperCase()+"] : ");
             logLvl.setFill(color);
-            Text logMessage = new Text(startX+3 + message[0].length()*12,startY  + 40 +i*20,message[1]);
+            Text logMessage = new Text(message[1]);
             logMessage.setFill(Color.WHITE);
-            log.getChildren().addAll(logLvl,logMessage);
-            panel.getChildren().add(log);
+            logMessage.setTranslateX(45);
+            group.getChildren().addAll(logLvl,logMessage);
+            group.setTranslateY(70 + i*20);
+
+            panel.getChildren().add(group);
         }
         return panel;
     }

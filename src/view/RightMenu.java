@@ -26,6 +26,7 @@ public class RightMenu implements TimerObservable
     private TimerObserver o;
     private double width, height;
     private double[][] tabSize;
+    private StackPane panel;
 
     private Rectangle separator;
 
@@ -124,7 +125,7 @@ public class RightMenu implements TimerObservable
         resolutionCB.setPrefWidth(150);
         resolutionCB.getSelectionModel().select(resIndex);
 
-        difficultyText = new Text("Difficulty");
+        difficultyText = new Text("DifficuIty");
         difficultyText.setFont(Font.loadFont(fontPixelPath,13));
         difficultyText.setFill(Color.WHITE);
         difficultyText.setTranslateY(320);
@@ -212,15 +213,16 @@ public class RightMenu implements TimerObservable
             }
         });
 
-    }
-
-    public Node getPanel()
-    {
-        StackPane panel = new StackPane();
+        panel = new StackPane();
         panel.setPrefWidth(256);
         panel.setTranslateX(width);
         panel.getChildren().addAll(pseudoText,pseudoTextField,fightButton,statsButton,separator,difficultyText,botDifficultyCB,
                 resolutionText,resolutionCB,fullscreenCB,musicVolText,sliderMusic,fxVolText,sliderFX,leaveButton);
+
+    }
+
+    public Node getPanel()
+    {
         return panel;
     }
 

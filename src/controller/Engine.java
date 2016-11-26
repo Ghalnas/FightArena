@@ -39,9 +39,9 @@ public class Engine extends Observable implements Observer
     private int timerGold, timerSpin, hit, miss, hitTaken, lightningUses;
     private boolean loseSpin, winSpin, winLightning, loseLightning, winGold, loseGold;
     private Logger logger;
-    private SongPlayer songPlayer;
+    private FXPlayer fxPlayer;
 
-    public Engine(Character player, Bot bot, Item item, SongPlayer songPlayer, int strategyIndex, int slashFrames, int spinFrames, int goldFrames, double width, double height)
+    public Engine(Character player, Bot bot, Item item, int strategyIndex, int slashFrames, int spinFrames, int goldFrames, double width, double height, double fxVol)
     {
         this.player = player;
         this.bot = bot;
@@ -77,7 +77,12 @@ public class Engine extends Observable implements Observer
         this.tabScores = new int[]{0,0};
         logger = Logger.getInstance();
         statsWriter = new StatsWriter();
-        this.songPlayer = songPlayer;
+        this.fxPlayer = new FXPlayer(fxVol);
+    }
+
+    public void setVolFx(double volFx)
+    {
+        fxPlayer.setVolFx(volFx);
     }
 
 
@@ -158,7 +163,7 @@ public class Engine extends Observable implements Observer
 
     public void reinit()
     {
-        songPlayer.reinit();
+        fxPlayer.reinit();
         player.initChar();
         bot.initChar(strategy);
         slashCptBot = 0;
@@ -192,11 +197,10 @@ public class Engine extends Observable implements Observer
     public void run(Command c)
     {
         frameCpt++;
-        songPlayer.startGame();
         if (bot.isDead() || player.isDead()) {
             deathCpt++;
             if(deathCpt == 1) {
-                songPlayer.death();
+                fxPlayer.death();
             }
         }
 
@@ -211,7 +215,7 @@ public class Engine extends Observable implements Observer
                 loseGold = true;
             }
             if (goldCpt == goldFrames) {
-                songPlayer.reinit();
+                fxPlayer.reinit();
                 goldCpt = 0;
                 itemUser.stopGold();
 
@@ -228,7 +232,7 @@ public class Engine extends Observable implements Observer
                 loseLightning = true;
             }
             if (lightningCpt == 40) {
-                songPlayer.reinit();
+                fxPlayer.reinit();
                 lightningCpt = 0;
                 itemUser.stopLightning();
                 itemUser = null;
@@ -256,7 +260,7 @@ public class Engine extends Observable implements Observer
                 }
             }
             if (spinCpt == spinFrames) {
-                songPlayer.reinit();
+                fxPlayer.reinit();
                 spinCpt = 0;
                 itemUser.stopSpin();
                 itemUser = null;
@@ -270,15 +274,15 @@ public class Engine extends Observable implements Observer
             useItem(bot);
         }
 
-        if (item.getType() == null && frameCpt%600 == 0 && deathCpt == 0) {
+        if (item.getType() == null && frameCpt%300 == 0 && deathCpt == 0) {
             Random r = new Random();
-            int rX = r.nextInt((int)width-50-50)+50;
+            int rX = r.nextInt((int)width-91-91)+91;
             int rY = r.nextInt((int)height-100-100)+100;
             item.init(itemTypes[r.nextInt(itemTypes.length)],new Position(rX,rY));
         }
         if (slashCptBot > 0 && !bot.isSpinning() && !bot.isDead()) {
             if (slashCptBot == 1) {
-                songPlayer.swordSound();
+                fxPlayer.swordSound();
             }
             slashCptBot+=1;
             bot.slash();
@@ -302,7 +306,7 @@ public class Engine extends Observable implements Observer
 
         if (slashCptPlayer > 0 && !player.isSpinning() && !player.isDead()) {
             if (slashCptPlayer == 1) {
-                songPlayer.swordSound();
+                fxPlayer.swordSound();
             }
             slashCptPlayer++;
             player.slash();
@@ -391,11 +395,12 @@ public class Engine extends Observable implements Observer
 
     private void useItem(Character character)
     {
+        frameCpt = 1;
         String itemMessage = null;
         switch (item.getType()) {
             case SPIN:
                 character.startSpin();
-                songPlayer.playSpin();
+                fxPlayer.playSpin();
                 itemUser = character;
                 spinCpt++;
                 item.remove();
@@ -408,7 +413,7 @@ public class Engine extends Observable implements Observer
                 break;
             case LIGHTNING:
                 lightningCpt++;
-                songPlayer.playLightning();
+                fxPlayer.playLightning();
                 character.startLightning();
                 itemUser = character;
                 item.remove();
@@ -425,7 +430,7 @@ public class Engine extends Observable implements Observer
                 break;
             case GOLD:
                 goldCpt++;
-                songPlayer.playGold();
+                fxPlayer.playGold();
                 character.startGold();
                 itemUser = character;
                 item.remove();
@@ -439,7 +444,7 @@ public class Engine extends Observable implements Observer
             case HEAL:
                 double low = character.getHealth();
                 character.heal();
-                songPlayer.playHeal();
+                fxPlayer.playHeal();
                 double high = character.getHealth();
                 itemUser = character;
                 item.remove();
@@ -459,7 +464,6 @@ public class Engine extends Observable implements Observer
 
     public void reinitScores()
     {
-        songPlayer.stopGame();
         tabScores = new int[]{0,0};
         setChanged();
         notifyObservers(tabScores);

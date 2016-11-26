@@ -31,6 +31,7 @@ public class SceneFX extends Scene implements TimerObservable
         sizeX = width;
         sizeY = height;
 
+
         this.setOnKeyPressed(new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent event)
@@ -75,6 +76,7 @@ public class SceneFX extends Scene implements TimerObservable
                 notifyTimer(GameEvent.SIZE_CHANGED);
             }
         });
+
     }
 
     public Command getCommand()

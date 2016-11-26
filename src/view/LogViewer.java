@@ -8,15 +8,17 @@ import java.util.ArrayList;
 public class LogViewer
 {
     private ArrayList<JavaFXPrinter> listPrinters;
+    private Group panel;
 
     public LogViewer()
     {
         listPrinters = new ArrayList<>();
+        panel = new Group();
     }
 
     public Parent getPanel()
     {
-        Group panel = new Group();
+        panel.getChildren().clear();
         for (JavaFXPrinter obs : listPrinters) {
             Node node = obs.getNode();
             panel.getChildren().add(node);
