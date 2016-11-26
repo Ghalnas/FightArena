@@ -69,6 +69,15 @@ public class StatsPrinter {
         fighters.setLayoutY(200);
         fighters.setLayoutX(100);
 
+    }
+
+    public Node getPanel(String pseudoPlayer)
+    {
+        Group panel = new Group();
+        panel.getChildren().add(background);
+        panel.getChildren().add(stats);
+        panel.getChildren().add(fighters);
+
         statsReader = new StatsReader();
 
         //General stats
@@ -158,15 +167,7 @@ public class StatsPrinter {
         );
         victoriesLosesChart.setLayoutX(500);
         victoriesLosesChart.setLayoutY(200);
-
-    }
-
-    public Node getPanel(String pseudoPlayer)
-    {
-        Group panel = new Group();
-        panel.getChildren().add(background);
-        panel.getChildren().add(stats);
-        panel.getChildren().add(fighters);
+        victoriesLosesChart.setLegendVisible(false);
 
         panel.getChildren().add(victoriesGeneral);
         panel.getChildren().add(losesGeneral);
@@ -185,7 +186,9 @@ public class StatsPrinter {
         panel.getChildren().add(healReceivedGeneral);
 
         if(pseudoPlayer == null){
+
             panel.getChildren().add(victoriesLosesChart);
+            
         }else if(statsReader.existPlayer(pseudoPlayer)){
                 player = new Text(pseudoPlayer + " count :");
                 player.setFont(Font.loadFont(fontPixelPath,20));
