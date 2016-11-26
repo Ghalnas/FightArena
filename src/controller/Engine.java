@@ -274,9 +274,9 @@ public class Engine extends Observable implements Observer
             useItem(bot);
         }
 
-        if (item.getType() == null && frameCpt%600 == 0 && deathCpt == 0) {
+        if (item.getType() == null && frameCpt%300 == 0 && deathCpt == 0) {
             Random r = new Random();
-            int rX = r.nextInt((int)width-50-50)+50;
+            int rX = r.nextInt((int)width-91-91)+91;
             int rY = r.nextInt((int)height-100-100)+100;
             item.init(itemTypes[r.nextInt(itemTypes.length)],new Position(rX,rY));
         }
@@ -395,6 +395,7 @@ public class Engine extends Observable implements Observer
 
     private void useItem(Character character)
     {
+        frameCpt = 1;
         String itemMessage = null;
         switch (item.getType()) {
             case SPIN:
