@@ -99,7 +99,7 @@ public class GameController implements TimerObserver
                     scene.setRoot(window.getMainPanel(scene.getShrinkX(), scene.getShrinkY()));
                     break;
                 case REQUIRE_STATS:
-
+                    scene.setRoot(window.getStatsPanel(scene.getShrinkX(), scene.getShrinkY(),((RightMenu)source).getPseudo() ) );
                     break;
             }
     }
