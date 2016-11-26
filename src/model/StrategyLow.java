@@ -7,6 +7,7 @@ public class StrategyLow implements Strategy
     private Character player;
     private Character bot;
     private Item item;
+    private int cmpt = 0;
 
     public StrategyLow(Character player, Character bot, Item item)
     {
@@ -17,6 +18,12 @@ public class StrategyLow implements Strategy
 
     private Command applyStrategy()
     {
+        if (cmpt > 0) {
+            cmpt++;
+            if (cmpt == 40) {
+                cmpt = 0;
+            }
+        }
         Action action = this.getAction();
 
         double dirX = player.getPosition().getX();
@@ -86,7 +93,12 @@ public class StrategyLow implements Strategy
             return Action.SLASH;
         }
 
-        return (player.getPosition().distanceTo(bot.getPosition()) <= 50) ? Action.SLASH : Action.NONE;
+        if (player.getPosition().distanceTo(bot.getPosition()) <= 50 && cmpt == 0) {
+            cmpt++;
+            return Action.SLASH;
+        } else {
+            return Action.NONE;
+        }
     }
 
     @Override

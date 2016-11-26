@@ -91,11 +91,9 @@ public class Engine extends Observable implements Observer
         switch (index) {
             case 0:
                 strategy = new StrategyLow(player,bot,item);
-                slashFrames = slashFrames * 4;
                 break;
             case 1:
                 strategy = new StrategyMedium(player,bot,item);
-                slashFrames = slashFrames * 2;
                 break;
             default:
                 strategy = new StrategyEpic(player,bot,item);
