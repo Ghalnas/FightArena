@@ -71,7 +71,7 @@ public class SceneFX extends Scene implements TimerObservable
         });
         this.heightProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                sizeY = newSceneHeight.doubleValue()+39;
+                sizeY = newSceneHeight.doubleValue();
                 notifyTimer(GameEvent.SIZE_CHANGED);
             }
         });

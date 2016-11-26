@@ -93,7 +93,6 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
             } else if (arg == Event.LIGHTNING) {
                 lightning = characterSprite.getLightning(character.getLightning());
                 lightning.setTranslateX(character.getLightning().getX()-40);
-                lightning.setTranslateY(-10);
             }
             else if (arg == Event.MOVED) {
                 playerView = characterSprite.getMovingCharacterSprite();

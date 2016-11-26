@@ -1,22 +1,25 @@
-arena_width=1024
+player_health=100
+fullscreen=false
+sprite_height=80
+fx_volume=100
+bot_start_y=250
+bot_damage=20
 arena_height=720
-
-player_start_x = 80
-player_start_y = 250
-player_speed = 3
-player_damage = 20
-player_health = 100
-
-bot_start_x = 710
-bot_start_y = 250
-bot_speed = 2
-bot_damage = 20
-bot_health = 100
-
-slash_frames = 20
-spin_frames = 240
-gold_frames = 180
-
-sprite_width = 80
-sprite_height = 80
-sprite_scale = 1
+bot_start_x=710
+window_width=1280.0
+music_volume=100
+player_speed=3
+sprite_scale=1
+arena_width=1024
+player_start_y=250
+player_damage=20
+player_start_x=80
+bot_speed=2
+window_height=720.0
+gold_frames=180
+window_size_index=1
+bot_difficulty_index=1
+spin_frames=240
+slash_frames=20
+bot_health=100
+sprite_width=80
