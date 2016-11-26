@@ -153,7 +153,8 @@ public class StatsPrinter {
         victoriesLosesChart.getData().setAll(
                 new PieChart.Data("Spin victories", statsReader.getSpinVictory("General")),
                 new PieChart.Data("Lightning victories", statsReader.getLightningWin("General")),
-                new PieChart.Data("Gold victories", statsReader.getGoldVictory("General"))
+                new PieChart.Data("Gold victories", statsReader.getGoldVictory("General")),
+                new PieChart.Data("Normal victories", statsReader.getVictory("General")-statsReader.getGoldVictory("General")-statsReader.getLightningWin("General")-statsReader.getSpinVictory("General"))
         );
         victoriesLosesChart.setLayoutX(500);
         victoriesLosesChart.setLayoutY(200);
