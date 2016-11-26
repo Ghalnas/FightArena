@@ -291,10 +291,10 @@ public class Engine extends Observable implements Observer
                 String hitMessage = null;
                 if (!damageInstanceBot && deathCpt < slashFrames) {
                     hitMessage = "Bot misses !";
-                    miss++;
                 } else if (damageInstanceBot && deathCpt < slashFrames){
                     double dmg = player.isGold() ? bot.getDamage()/2 : bot.getDamage();
                     hitMessage = "Bot hits player for " + dmg + " damage !";
+                    hitTaken++;
                 }
                 damageInstanceBot = false;
                 bot.endSlash();
