@@ -17,9 +17,12 @@ public class SongPlayer
     private Media swordMedia;
     private Media lightningMedia;
     private Media healMedia;
+    private double volMusic, volFx;
 
-    public SongPlayer()
+    public SongPlayer(double volMusic, double volFx)
     {
+        this.volMusic = volMusic;
+        this.volFx = volFx;
         spin = new MediaPlayer(new Media(new File("assets/music/spin.mp3").toURI().toString()));
         lightning = new MediaPlayer(new Media(new File("assets/music/lightning.mp3").toURI().toString()));
         gold = new MediaPlayer(new Media(new File("assets/music/gold.mp3").toURI().toString()));
@@ -55,6 +58,7 @@ public class SongPlayer
     public void playLightning()
     {
         lightning = new MediaPlayer(lightningMedia);
+        lightning.setVolume(volFx);
         lightning.play();
     }
 
@@ -67,12 +71,14 @@ public class SongPlayer
     public void playHeal()
     {
         heal = new MediaPlayer(healMedia);
+        heal.setVolume(volFx);
         heal.play();
     }
 
     public void swordSound()
     {
         swordSound = new MediaPlayer(swordMedia);
+        swordSound.setVolume(volFx);
         swordSound.play();
     }
 
@@ -88,4 +94,15 @@ public class SongPlayer
         death.stop();
     }
 
+    public void setVolMusic(double volMusic) {
+        this.volMusic = volMusic;
+        gameMusic.setVolume(volMusic);
+    }
+
+    public void setVolFx(double volFx) {
+        this.volFx = volFx;
+        spin.setVolume(volFx);
+        gold.setVolume(volFx);
+        death.setVolume(volFx);
+    }
 }

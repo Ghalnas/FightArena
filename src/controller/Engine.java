@@ -41,13 +41,12 @@ public class Engine extends Observable implements Observer
     private Logger logger;
     private SongPlayer songPlayer;
 
-    public Engine(Character player, Bot bot, Item item, int slashFrames, int spinFrames, int goldFrames, double width, double height)
+    public Engine(Character player, Bot bot, Item item, SongPlayer songPlayer, int strategyIndex, int slashFrames, int spinFrames, int goldFrames, double width, double height)
     {
         this.player = player;
         this.bot = bot;
         this.item = item;
-        strategy = new StrategyEpic(player,bot,item);
-        bot.setStrategy(strategy);
+        setStrategy(strategyIndex);
         this.slashFrames = slashFrames;
         this.spinFrames = spinFrames;
         this.goldFrames = goldFrames;
@@ -78,7 +77,24 @@ public class Engine extends Observable implements Observer
         this.tabScores = new int[]{0,0};
         logger = Logger.getInstance();
         statsWriter = new StatsWriter();
-        songPlayer = new SongPlayer();
+        this.songPlayer = songPlayer;
+    }
+
+
+    public void setStrategy(int index)
+    {
+        switch (index) {
+            case 0:
+                strategy = new StrategyLow(player,bot,item);
+                break;
+            case 1:
+                strategy = new StrategyLow(player,bot,item);
+                break;
+            case 2:
+                strategy = new StrategyEpic(player,bot,item);
+                break;
+        }
+        bot.setStrategy(strategy);
     }
 
     public void writeStats()
@@ -427,7 +443,7 @@ public class Engine extends Observable implements Observer
                 double high = character.getHealth();
                 itemUser = character;
                 item.remove();
-                itemMessage = " used Heal pack and healed for  " + String.format("%.2f", high-low) + " HPs !";
+                itemMessage = " used healed for  " + String.format("%.2f", high-low) + " HPs !";
                 if (character instanceof  Player) {
                     healReceived += (high - low);
                     target = bot;

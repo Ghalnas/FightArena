@@ -14,10 +14,13 @@ public class WindowViewer
     private MainMenuPrinter mainMenuPrinter;
     private RightMenu rightMenu;
     private Group panel;
+    private double width, height;
 
-    public WindowViewer(double width, double height, double scale, MainMenuPrinter mainMenuPrinter, RightMenu rightMenu)
+    public WindowViewer(double width, double height, double arenaWidth, double arenaHeight, double scale, MainMenuPrinter mainMenuPrinter, RightMenu rightMenu)
     {
-        this.gameViewer = new JavaFXViewer(scale,width,height);
+        this.width = width;
+        this.height = height;
+        this.gameViewer = new JavaFXViewer(scale,arenaWidth,arenaHeight);
         this.logViewer = new LogViewer();
         this.scoreViewer = new ScoreViewer();
         this.mainMenuPrinter = mainMenuPrinter;
@@ -48,11 +51,12 @@ public class WindowViewer
 
     public void resizePanel(double shrinkX, double shrinkY)
     {
-        double scaleX = shrinkX/1280;
+        double scaleX = shrinkX/width;
+        double scaleY = shrinkY/height;
         panel.setScaleX(scaleX);
-        panel.setScaleY(scaleX);
-        panel.setTranslateX((shrinkX/2)-(1280/2));
-        panel.setTranslateY((shrinkY/2)-(720/2));
+        panel.setScaleY(scaleY);
+        panel.setTranslateX((shrinkX/2)-(width/2));
+        panel.setTranslateY((shrinkY/2)-(height/2));
     }
 
     public void addGamePrinter(JavaFXPrinter printer)
