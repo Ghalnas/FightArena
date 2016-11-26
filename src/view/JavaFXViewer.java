@@ -15,6 +15,7 @@ public class JavaFXViewer
     private ArrayList<JavaFXPrinter> listPrinters;
     private ImageView background;
     private double width, height;
+    private Group panel;
 
     public JavaFXViewer(double scale, double width, double height)
     {
@@ -23,12 +24,13 @@ public class JavaFXViewer
         this.height = height;
         background = new ImageView(new Image("file:assets/image/background-1024.jpg"));
         listPrinters = new ArrayList<>();
+        panel = new Group();
+        panel.getChildren().add(background);
     }
 
     public Parent getPanel()
     {
-        Group panel = new Group();
-        panel.getChildren().add(background);
+        panel.getChildren().remove(1,panel.getChildren().size());
         for (JavaFXPrinter obs : listPrinters) {
             Node node = obs.getNode();
             if (node != null) {

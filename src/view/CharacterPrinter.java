@@ -20,6 +20,7 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
     private ImageView playerView;
     private Node lightning;
     private CharacterSprite characterSprite;
+    private Group panel;
 
 
     public CharacterPrinter(Character c, int charWidth, int charHeight, int slashFrames)
@@ -33,12 +34,13 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
         playerView = characterSprite.getCharacterSprite();
         playerView.setTranslateX(character.getPosition().getX()-40);
         playerView.setTranslateY(character.getPosition().getY()-40);
+        panel = new Group();
     }
 
     @Override
     public Node getNode()
     {
-        Group group = new Group();
+        panel.getChildren().clear();
         double charRemainingHealth = (charWidth * character.getHealth())/maxHealth;
         Rectangle remainingHealth = new Rectangle(character.getPosition().getX()-40, character.getPosition().getY()-40, charRemainingHealth,6);
         remainingHealth.setFill(Color.LIGHTGREEN);
@@ -70,9 +72,9 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
         } else {
             charac = playerView;
         }
-        group.getChildren().addAll(charac,lightning,remainingHealth,missingHealth);
+        panel.getChildren().addAll(charac,lightning,remainingHealth,missingHealth);
 
-        return group;
+        return panel;
     }
 
     @Override

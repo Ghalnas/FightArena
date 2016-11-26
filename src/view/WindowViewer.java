@@ -14,22 +14,21 @@ public class WindowViewer
     private MainMenuPrinter mainMenuPrinter;
     private RightMenu rightMenu;
     private Group panel;
-    private double width, height;
+    private final double width = 1280, height = 720;
 
-    public WindowViewer(double width, double height, double arenaWidth, double arenaHeight, double scale, MainMenuPrinter mainMenuPrinter, RightMenu rightMenu)
+    public WindowViewer(double arenaWidth, double arenaHeight, double scale, MainMenuPrinter mainMenuPrinter, RightMenu rightMenu)
     {
-        this.width = width;
-        this.height = height;
         this.gameViewer = new JavaFXViewer(scale,arenaWidth,arenaHeight);
         this.logViewer = new LogViewer();
         this.scoreViewer = new ScoreViewer();
         this.mainMenuPrinter = mainMenuPrinter;
         this.rightMenu = rightMenu;
+        panel = new Group();
     }
 
     public Parent getGamePanel(double shrinkX, double shrinkY)
     {
-        panel = new Group();
+        panel.getChildren().clear();
         Node gamePanel = gameViewer.getPanel();
         Node scorePanel = scoreViewer.getPanel();
         Node logPanel = logViewer.getPanel();
@@ -42,7 +41,7 @@ public class WindowViewer
 
     public Parent getMainPanel(double shrinkX, double shrinkY)
     {
-        panel = new Group();
+        panel.getChildren().clear();
         panel.getChildren().add(mainMenuPrinter.getPanel());
         panel.getChildren().add(rightMenu.getPanel());
         resizePanel(shrinkX, shrinkY);

@@ -5,37 +5,60 @@ import java.util.Observer;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import controller.Engine;
 
 
 public class ScorePrinter implements JavaFXPrinter, Observer {
 
-    private Rectangle scores;
     private Text title;
-    private double scoresViewX;
-    private double scoresViewY;
-    private double scoresViewWidth;
-    private double scoresViewHeight;
-    private final double scoresViewCons = 20;
+    private Text scorePlayerText;
+    private Text scoreBotText;
+    private Text separator;
+
+    private StackPane panel;
+
     private int scorePlayer;
     private int scoreBot;
     int PLAYER = 0;
     int BOT = 1;
+    private String fontPixelPath = "file:assets/font/Pixeled.ttf";
 
-    public ScorePrinter(double scoresViewX, double scoresViewY, double scoresViewWidth, double scoresViewHeight) {
+    public ScorePrinter(double width, double translateX, double translateY) {
+        scorePlayer = 0;
+        scoreBot = 0;
 
-        this.scoresViewX = scoresViewX;
-        this.scoresViewY = scoresViewY;
-        this.scoresViewWidth = scoresViewWidth;
-        this.scoresViewHeight = scoresViewHeight;
+        title = new Text("Scores");
+        title.setFont(Font.loadFont(fontPixelPath,30));
+        title.setFill(Color.WHITE);
+        title.setTranslateY(20);
 
-        scores = new Rectangle(scoresViewX, scoresViewY, scoresViewWidth, scoresViewHeight);
-        scores.setFill(Color.rgb(0, 0, 0, 0));
-        title = new Text((scoresViewX + scoresViewWidth / 2), scoresViewY + scoresViewCons, "Scores");
-        title.setFill(Color.rgb(255, 255, 255));
+        separator = new Text("-");
+        separator.setFont(Font.loadFont(fontPixelPath,50));
+        separator.setFill(Color.WHITE);
+        separator.setTranslateY(160);
+
+        scorePlayerText = new Text(Integer.toString(scorePlayer));
+        scorePlayerText.setFont(Font.loadFont(fontPixelPath,50));
+        scorePlayerText.setFill(Color.GREEN);
+        scorePlayerText.setTranslateY(150);
+        scorePlayerText.setTranslateX(-50);
+
+        scoreBotText = new Text();
+        scoreBotText.setFont(Font.loadFont(fontPixelPath,50));
+        scoreBotText.setFill(Color.GRAY);
+        scoreBotText.setTranslateY(150);
+        scoreBotText.setTranslateX(50);
+
+        panel = new StackPane();
+        panel.setPrefWidth(width);
+        panel.setTranslateX(translateX);
+        panel.setTranslateY(translateY);
+        panel.getChildren().add(title);
     }
 
     @Override
@@ -48,14 +71,13 @@ public class ScorePrinter implements JavaFXPrinter, Observer {
 
     @Override
     public Node getNode() {
-        Group group = new Group();
-        //Display score
-        Text scorePlayer = new Text(scoresViewX + scoresViewCons, scoresViewY + 2 * scoresViewCons, "Score Player : "+this.scorePlayer);
-        scorePlayer.setFill(Color.rgb(255, 255, 255));
-        Text scoreBot = new Text(scoresViewX + scoresViewCons, scoresViewY + 3 * scoresViewCons, "Score Bot : "+this.scoreBot);
-        scoreBot.setFill(Color.rgb(255, 255, 255));
-        group.getChildren().addAll(scores, title, scorePlayer, scoreBot);
-        return group;
+        panel.getChildren().remove(1, panel.getChildren().size());
+        scorePlayerText.setText(Integer.toString(scorePlayer));
+        scorePlayerText.setTranslateX(-30 - scorePlayerText.getText().length()*15);
+        scoreBotText.setText(Integer.toString(scoreBot));
+        scoreBotText.setTranslateX(30 + scoreBotText.getText().length()*15);
+        panel.getChildren().addAll(scorePlayerText, separator, scoreBotText);
+        return panel;
     }
 
 }
