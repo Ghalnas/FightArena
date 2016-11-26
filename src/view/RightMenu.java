@@ -120,7 +120,7 @@ public class RightMenu implements TimerObservable
         resolutionCB.setPrefWidth(150);
         resolutionCB.getSelectionModel().select(resIndex);
 
-        difficultyText = new Text("Difficulty");
+        difficultyText = new Text("DifficuIty");
         difficultyText.setFont(Font.loadFont(fontPixelPath,13));
         difficultyText.setFill(Color.WHITE);
         difficultyText.setTranslateY(320);
