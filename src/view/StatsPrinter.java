@@ -186,7 +186,9 @@ public class StatsPrinter {
         panel.getChildren().add(healReceivedGeneral);
 
         if(pseudoPlayer == null){
+
             panel.getChildren().add(victoriesLosesChart);
+            
         }else if(statsReader.existPlayer(pseudoPlayer)){
                 player = new Text(pseudoPlayer + " count :");
                 player.setFont(Font.loadFont(fontPixelPath,20));
