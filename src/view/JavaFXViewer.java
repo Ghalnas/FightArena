@@ -33,9 +33,7 @@ public class JavaFXViewer
         panel.getChildren().remove(1,panel.getChildren().size());
         for (JavaFXPrinter obs : listPrinters) {
             Node node = obs.getNode();
-            if (node != null) {
-                panel.getChildren().add(node);
-            }
+            panel.getChildren().add(node);
         }
         return panel;
     }

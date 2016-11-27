@@ -1,9 +1,9 @@
 package model;
 
 public class Stat {
-    private int victories, loses, hit, misses, hitTaken, spinTime, spinVictory, spinLose, lightningWin, lightningUsed,
-            lightningLose, goldVictory, goldLose, goldTime;
-    private double healReceived;
+    private int victories, loses, hit, misses, hitTaken, spinVictory, spinLose, lightningWin, lightningUsed,
+            lightningLose, goldVictory, goldLose;
+    private double healReceived, goldTime, spinTime;
 
     public Stat(){}
 
@@ -47,11 +47,11 @@ public class Stat {
         this.hitTaken = hitTaken;
     }
 
-    public int getSpinTime() {
+    public double getSpinTime() {
         return spinTime;
     }
 
-    public void setSpinTime(int spinTime) {
+    public void setSpinTime(double spinTime) {
         this.spinTime = spinTime;
     }
 
@@ -111,11 +111,11 @@ public class Stat {
         this.goldLose = goldLose;
     }
 
-    public int getGoldTime() {
+    public double getGoldTime() {
         return goldTime;
     }
 
-    public void setGoldTime(int goldTime) {
+    public void setGoldTime(double goldTime) {
         this.goldTime = goldTime;
     }
 

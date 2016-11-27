@@ -34,10 +34,11 @@ public class MainJavaFX extends Application {
         CharacterPrinter playerObs = new CharacterPrinter(player, params.spriteWidth, params.spriteHeight, params.slashFrames);
         CharacterPrinter botObs = new CharacterPrinter(bot, params.spriteWidth, params.spriteHeight, params.slashFrames);
         ItemPrinter itemPrinter = new ItemPrinter(item);
-
+        item.addObserver(itemPrinter);
+        StatsWriter statsWriter = new StatsWriter();
 
         //instantiate game engine and set Observers
-        Engine engine = new Engine(player,(Bot)bot, item, params.botDifficulty, params.slashFrames, params.spinFrames, params.goldFrames, params.arenaWidth, params.arenaHeight, params.fxVolume/100);
+        Engine engine = new Engine(player,(Bot)bot, item, statsWriter, params.botDifficulty, params.slashFrames, params.spinFrames, params.goldFrames, params.arenaWidth, params.arenaHeight, params.fxVolume/100);
         player.addObserver(engine);
         bot.addObserver(engine);
         player.addObserver(playerObs);
@@ -55,7 +56,7 @@ public class MainJavaFX extends Application {
         MainMenuPrinter mainMenuPrinter = new MainMenuPrinter();
         RightMenu rightMenu = new RightMenu(params.arenaWidth,params.arenaHeight, params.botDifficulty, params.selectedRes, params.fullscreen, params.musicVolume, params.fxVolume);
 
-        StatsPrinter statsPrinter = new StatsPrinter();
+        StatsPrinter statsPrinter = new StatsPrinter(statsWriter.getMap(), params.arenaWidth,0,0);
 
         WindowViewer window = new WindowViewer(params.arenaWidth, params.arenaHeight, params.spriteScale, mainMenuPrinter, rightMenu, statsPrinter);
         window.addGamePrinter(playerObs);

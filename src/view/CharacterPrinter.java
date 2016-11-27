@@ -21,6 +21,9 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
     private Node lightning;
     private CharacterSprite characterSprite;
     private Group panel;
+    private ImageView charac;
+    private Rectangle remainingHealth;
+    private Rectangle missingHealth;
 
 
     public CharacterPrinter(Character c, int charWidth, int charHeight, int slashFrames)
@@ -34,76 +37,91 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
         playerView = characterSprite.getCharacterSprite();
         playerView.setTranslateX(character.getPosition().getX()-40);
         playerView.setTranslateY(character.getPosition().getY()-40);
+        charac = playerView;
         panel = new Group();
+        remainingHealth = new Rectangle();
+        remainingHealth.setTranslateX(character.getPosition().getX()-40);
+        remainingHealth.setTranslateY(character.getPosition().getY()-40);
+        remainingHealth.setWidth(charWidth);
+        remainingHealth.setHeight(6);
+        remainingHealth.setFill(Color.LIGHTGREEN);
+        missingHealth = new Rectangle();
+        missingHealth.setHeight(6);
+        missingHealth.setFill(Color.RED);
+        panel.getChildren().addAll(charac,remainingHealth,missingHealth);
     }
 
     @Override
     public Node getNode()
     {
-        panel.getChildren().clear();
-        double charRemainingHealth = (charWidth * character.getHealth())/maxHealth;
-        Rectangle remainingHealth = new Rectangle(character.getPosition().getX()-40, character.getPosition().getY()-40, charRemainingHealth,6);
-        remainingHealth.setFill(Color.LIGHTGREEN);
-        Rectangle missingHealth = new Rectangle(character.getPosition().getX()+charRemainingHealth-40, character.getPosition().getY()-40, charWidth -charRemainingHealth,6);
-        missingHealth.setFill(Color.RED);
-
-        //PRINT Char position
-//        Position playerPos = character.getPosition();
-//        Rectangle rec = new Rectangle(playerPos.getX(),playerPos.getY(),2,2);
-//        rec.setFill(Color.BLUE);
-//        group.getChildren().add(rec);
-
-        //PRINT Char hitbox
-//        Hitbox hb = character.getHitbox();
-//        Rectangle bobby = new Rectangle(hb.getX(),hb.getY(),hb.getWidth(),hb.getHeight());
-//        bobby.setFill(Color.MAGENTA);
-//        group.getChildren().add(bobby);
-
-        //PRINT sword hitbox
-//        Hitbox sword = character.getSword();
-//        Rectangle bob = new Rectangle(sword.getX(),sword.getY(),sword.getWidth(),sword.getHeight());
-//        bob.setFill(Color.RED);
-//        group.getChildren().add(bob);
-        ImageView charac;
-        if (character.isDead()) {
-            charac = characterSprite.getDead();
-            charac.setTranslateX(character.getPosition().getX()-40);
-            charac.setTranslateY(character.getPosition().getY()-40);
-        } else {
-            charac = playerView;
-        }
-        panel.getChildren().addAll(charac,lightning,remainingHealth,missingHealth);
-
         return panel;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        if(arg instanceof Command.Action) {
-            if (arg == Command.Action.SLASH) {
-                playerView = characterSprite.getSlashCharacterSprite();
-            } else if (arg == Command.Action.NONE) {
-                playerView = characterSprite.getCharacterSprite();
-                lightning = new ImageView();
+        panel.getChildren().remove(charac);
+        if (arg instanceof Command.Action) {
+            switch ((Command.Action)arg) {
+                case SLASH:
+                    charac = characterSprite.getSlashCharacterSprite();
+                    break;
+                case NONE:
+                    charac = characterSprite.getCharacterSprite();
+                    break;
             }
-            int size = character.isGold() ? 80 : 40;
-            playerView.setTranslateX(character.getPosition().getX()-size);
-            playerView.setTranslateY(character.getPosition().getY()-size);
         } else if (arg instanceof Event) {
-            if (arg == Event.SPIN) {
-                playerView = characterSprite.getSpinSprite();
-            } else if (arg == Event.LIGHTNING) {
-                lightning = characterSprite.getLightning(character.getLightning());
-                lightning.setTranslateX(character.getLightning().getX()-40);
+            switch ((Event)arg) {
+                case DAMAGED:
+                    double charRemainingHealth = (charWidth * character.getHealth()) / maxHealth;
+                    remainingHealth.setWidth(charRemainingHealth);
+                    missingHealth.setTranslateX(character.getPosition().getX() + charRemainingHealth - 40);
+                    missingHealth.setWidth(charWidth - charRemainingHealth);
+                    break;
+                case DEAD:
+                    charac = characterSprite.getDead();
+                    break;
+                case SPIN:
+                    charac = characterSprite.getSpinSprite();
+                    break;
+                case LIGHTNING:
+                    panel.getChildren().remove(lightning);
+                    lightning = characterSprite.getLightning(character.getLightning());
+                    lightning.setTranslateX(character.getLightning().getX() - 40);
+                    panel.getChildren().add(lightning);
+                    break;
+                case STOP_LIGHTNING:
+                    panel.getChildren().remove(lightning);
+                    break;
+                case MOVED:
+                    charac = characterSprite.getMovingCharacterSprite();
+                    break;
+                case STOPPED:
+                    charac = characterSprite.getCharacterSprite();
+                    break;
             }
-            else if (arg == Event.MOVED) {
-                playerView = characterSprite.getMovingCharacterSprite();
-            } else if(arg == Event.STOPPED) {
-                playerView = characterSprite.getCharacterSprite();
-            }
-            int size = character.isGold() ? 80 : 40;
-            playerView.setTranslateX(character.getPosition().getX()-size);
-            playerView.setTranslateY(character.getPosition().getY()-size);
         }
+        panel.getChildren().add(charac);
+
+        if (character.isGold()) {
+            remainingHealth.setScaleX(2);
+            remainingHealth.setScaleY(2);
+            missingHealth.setScaleX(2);
+            missingHealth.setScaleY(2);
+        } else {
+            remainingHealth.setScaleX(1);
+            remainingHealth.setScaleY(1);
+            missingHealth.setScaleX(1);
+            missingHealth.setScaleY(1);
+        }
+        int size = character.isGold() ? 80 : 40;
+        double charRemainingHealth = (charWidth * character.getHealth())/maxHealth;
+        remainingHealth.setTranslateX(character.getPosition().getX()-40);
+        remainingHealth.setTranslateY(character.getPosition().getY()-size);
+        remainingHealth.setWidth(charRemainingHealth);
+        missingHealth.setTranslateX(character.getPosition().getX()+charRemainingHealth-40);
+        missingHealth.setTranslateY(character.getPosition().getY()-size);
+        missingHealth.setWidth(charWidth -charRemainingHealth);
+        charac.setTranslateX(character.getPosition().getX()-size);
+        charac.setTranslateY(character.getPosition().getY()-size);
     }
 }

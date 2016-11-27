@@ -14,7 +14,7 @@ public abstract class Character extends Observable
 
 
     public enum Direction { LEFT, RIGHT, UP, DOWN }
-    public enum Event { MOVED, STOPPED, ASKSLASH, SPIN, LIGHTNING }
+    public enum Event { MOVED, STOPPED, ASKSLASH, SPIN, LIGHTNING, STOP_LIGHTNING, DAMAGED, DEAD }
 
     protected Position position, startPos;
     protected double speed, startSpeed, damage, startDamage, health, startHealth;
@@ -63,6 +63,8 @@ public abstract class Character extends Observable
         itemType = null;
         this.hitbox = new Hitbox(position,-20,-30,40,60);
         getSword();
+        setChanged();
+        notifyObservers(Event.STOPPED);
     }
 
 
@@ -146,9 +148,13 @@ public abstract class Character extends Observable
             damage /= 2;
         }
         health -= damage;
+        setChanged();
+        notifyObservers(Event.DAMAGED);
         if (health <= 0) {
             isDead = true;
             health = 0;
+            setChanged();
+            notifyObservers(Event.DEAD);
         }
     }
 
@@ -222,7 +228,7 @@ public abstract class Character extends Observable
     {
         isLightning = false;
         setChanged();
-        notifyObservers(Action.NONE);
+        notifyObservers(Event.STOP_LIGHTNING);
     }
 
     public Hitbox getLightning() {

@@ -1,10 +1,7 @@
 package view;
 
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class WindowViewer
 {
@@ -31,12 +28,9 @@ public class WindowViewer
     public Parent getGamePanel(double shrinkX, double shrinkY)
     {
         panel.getChildren().clear();
-        Node gamePanel = gameViewer.getPanel();
-        Node scorePanel = scoreViewer.getPanel();
-        Node logPanel = logViewer.getPanel();
-        panel.getChildren().add(gamePanel);
-        panel.getChildren().add(scorePanel);
-        panel.getChildren().add(logPanel);
+        panel.getChildren().add(gameViewer.getPanel());
+        panel.getChildren().add(scoreViewer.getPanel());
+        panel.getChildren().add(logViewer.getPanel());
         resizePanel(shrinkX, shrinkY);
         return panel;
     }
@@ -61,9 +55,9 @@ public class WindowViewer
     }
 
     public Parent getStatsPanel(double shrinkX, double shrinkY, String pseudoPlayer){
-        panel = new Group();
-        Node statsPanel = statsPrinter.getPanel(pseudoPlayer);
-        panel.getChildren().add(statsPanel);
+        panel.getChildren().clear();
+        statsPrinter.statsPanel(pseudoPlayer);
+        panel.getChildren().add(statsPrinter.getPanel());
         panel.getChildren().add(rightMenu.getPanel());
         resizePanel(shrinkX, shrinkY);
         return panel;
