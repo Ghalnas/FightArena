@@ -49,10 +49,6 @@ public class StatsPrinter {
         return panel;
     }
 
-    public void setPseudo(String pseudo)
-    {
-        this.pseudo = pseudo;
-    }
 
     public void statsPanel(String pseudo)
     {

@@ -91,11 +91,9 @@ public class Engine extends Observable implements Observer
         switch (index) {
             case 0:
                 strategy = new StrategyLow(player,bot,item);
-                slashFrames = slashFrames * 4;
                 break;
             case 1:
                 strategy = new StrategyMedium(player,bot,item);
-                slashFrames = slashFrames * 2;
                 break;
             default:
                 strategy = new StrategyEpic(player,bot,item);
@@ -280,7 +278,7 @@ public class Engine extends Observable implements Observer
             Random r = new Random();
             int rX = r.nextInt((int)width-91-91)+91;
             int rY = r.nextInt((int)height-100-100)+100;
-            item.init(itemTypes[1],new Position(rX,rY));
+            item.init(itemTypes[r.nextInt(itemTypes.length)],new Position(rX,rY));
         }
         if (slashCptBot > 0 && !bot.isSpinning() && !bot.isDead()) {
             if (slashCptBot == 1) {
