@@ -1,7 +1,8 @@
 package model;
 
-import java.util.Observable;
 import model.Command.Action;
+
+import java.util.Observable;
 
 public abstract class Character extends Observable
 {
@@ -16,15 +17,15 @@ public abstract class Character extends Observable
     public enum Event { MOVED, STOPPED, ASKSLASH, SPIN, LIGHTNING }
 
     protected Position position, startPos;
-    private double speed, startSpeed, damage, startDamage, health, startHealth;
+    protected double speed, startSpeed, damage, startDamage, health, startHealth;
     private Direction direction, startDir;
-    private boolean isMoving, isSlashing, isSpinning, isLightning, isGold;
+    protected boolean isMoving, isSlashing, isSpinning, isLightning, isGold;
     private int slashCpt;
     private Item.ItemType itemType;
     private Hitbox hitbox;
     private Hitbox lightning;
     private Hitbox sword;
-    private boolean isDead;
+    protected boolean isDead;
 
     public Character(Position position, Direction direction, double speed, double damage, double health)
     {

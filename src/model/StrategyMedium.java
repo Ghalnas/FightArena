@@ -7,7 +7,7 @@ public class StrategyMedium implements Strategy
     private Character player;
     private Character bot;
     private Item item;
-    private int cmpt = 0;
+    protected int cmpt = 0;
 
     public StrategyMedium(Character player, Character bot, Item item)
     {
