@@ -24,6 +24,7 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
     private ImageView charac;
     private Rectangle remainingHealth;
     private Rectangle missingHealth;
+//    private Group charAndLifeBar;
 
 
     public CharacterPrinter(Character c, int charWidth, int charHeight, int slashFrames)
@@ -39,6 +40,7 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
         playerView.setTranslateY(character.getPosition().getY()-40);
         charac = playerView;
         panel = new Group();
+//        charAndLifeBar = new Group();
         remainingHealth = new Rectangle();
         remainingHealth.setTranslateX(character.getPosition().getX()-40);
         remainingHealth.setTranslateY(character.getPosition().getY()-40);
@@ -48,6 +50,7 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
         missingHealth = new Rectangle();
         missingHealth.setHeight(6);
         missingHealth.setFill(Color.RED);
+//        charAndLifeBar.getChildren().addAll(charac,remainingHealth,)
         panel.getChildren().addAll(charac,remainingHealth,missingHealth);
     }
 
@@ -102,26 +105,21 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
         }
         panel.getChildren().add(charac);
 
-        if (character.isGold()) {
-            remainingHealth.setScaleX(2);
-            remainingHealth.setScaleY(2);
-            missingHealth.setScaleX(2);
-            missingHealth.setScaleY(2);
-        } else {
-            remainingHealth.setScaleX(1);
-            remainingHealth.setScaleY(1);
-            missingHealth.setScaleX(1);
-            missingHealth.setScaleY(1);
-        }
-        int size = character.isGold() ? 80 : 40;
         double charRemainingHealth = (charWidth * character.getHealth())/maxHealth;
         remainingHealth.setTranslateX(character.getPosition().getX()-40);
-        remainingHealth.setTranslateY(character.getPosition().getY()-size);
+        remainingHealth.setTranslateY(character.getPosition().getY()-40);
         remainingHealth.setWidth(charRemainingHealth);
         missingHealth.setTranslateX(character.getPosition().getX()+charRemainingHealth-40);
-        missingHealth.setTranslateY(character.getPosition().getY()-size);
-        missingHealth.setWidth(charWidth -charRemainingHealth);
-        charac.setTranslateX(character.getPosition().getX()-size);
-        charac.setTranslateY(character.getPosition().getY()-size);
+        missingHealth.setTranslateY(character.getPosition().getY()-40);
+        missingHealth.setWidth(charWidth-charRemainingHealth);
+        if (character.isGold()) {
+            panel.setScaleX(2);
+            panel.setScaleY(2);
+        } else {
+            panel.setScaleX(1);
+            panel.setScaleY(1);
+        }
+        charac.setTranslateX(character.getPosition().getX()-40);
+        charac.setTranslateY(character.getPosition().getY()-40);
     }
 }

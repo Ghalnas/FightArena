@@ -4,33 +4,25 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class FXPlayer
 {
-    private MediaPlayer swordSound;
     private MediaPlayer spin;
     private MediaPlayer lightning;
     private MediaPlayer gold;
     private MediaPlayer heal;
     private MediaPlayer death;
-    private Media swordMedia;
-    private Media lightningMedia;
-    private Media healMedia;
+    private MediaPlayer swordSound;
     private double volFx;
+
 
     public FXPlayer(double volFx)
     {
         spin = new MediaPlayer(new Media(new File("assets/music/spin.mp3").toURI().toString()));
-        lightning = new MediaPlayer(new Media(new File("assets/music/lightning.mp3").toURI().toString()));
         gold = new MediaPlayer(new Media(new File("assets/music/gold.mp3").toURI().toString()));
-        heal =new MediaPlayer(new Media(new File("assets/music/heal.mp3").toURI().toString()));
-        death =new MediaPlayer(new Media(new File("assets/music/death.mp3").toURI().toString()));
-        lightningMedia = new Media(new File("assets/music/lightning.mp3").toURI().toString());
-        lightning = new MediaPlayer(lightningMedia);
-        healMedia = new Media(new File("assets/music/heal.mp3").toURI().toString());
-        heal = new MediaPlayer(healMedia);
-        swordMedia = new Media(new File("assets/music/slash.mp3").toURI().toString());
-        swordSound = new MediaPlayer(swordMedia);
+        death = new MediaPlayer(new Media(new File("assets/music/death.mp3").toURI().toString()));
         setVolFx(volFx);
     }
 
@@ -41,7 +33,7 @@ public class FXPlayer
 
     public void playLightning()
     {
-        lightning = new MediaPlayer(lightningMedia);
+        lightning = new MediaPlayer(new Media(new File("assets/music/lightning.mp3").toURI().toString()));
         lightning.setVolume(volFx);
         lightning.play();
     }
@@ -54,14 +46,14 @@ public class FXPlayer
 
     public void playHeal()
     {
-        heal = new MediaPlayer(healMedia);
+        heal = new MediaPlayer(new Media(new File("assets/music/heal.mp3").toURI().toString()));
         heal.setVolume(volFx);
         heal.play();
     }
 
     public void swordSound()
     {
-        swordSound = new MediaPlayer(swordMedia);
+        swordSound = new MediaPlayer(new Media(new File("assets/music/slash.mp3").toURI().toString()));
         swordSound.setVolume(volFx);
         swordSound.play();
     }

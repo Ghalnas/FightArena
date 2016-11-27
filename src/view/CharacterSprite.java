@@ -30,7 +30,7 @@ public class CharacterSprite
         imageView = c instanceof Player ? new ImageView(new Image("file:assets/image/player80.png")) : new ImageView(new Image("file:assets/image/bot80.png"));
         dead = c instanceof Player ? new ImageView(new Image("file:assets/image/player-dead.png")) : new ImageView(new Image("file:assets/image/bot-dead.png"));
         lightning = new ImageView(new Image("file:assets/image/lightning.png"));
-        goldenPlayer = new ImageView(new Image("file:assets/image/gold-char.png"));
+        goldenPlayer = new ImageView(new Image("file:assets/image/gold-char-80.png"));
         character = c;
         cpt = 1;
         cptSlash = 1;
@@ -138,16 +138,16 @@ public class CharacterSprite
     {
         switch (character.getDirection()) {
             case UP:
-                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth*2, 0, spriteWidth*2, spriteHeight*2));
+                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth, 0, spriteWidth, spriteHeight));
                 break;
             case RIGHT:
-                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth*2, spriteHeight*2, spriteWidth*2, spriteHeight*2));
+                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth, spriteHeight, spriteWidth, spriteHeight));
                 break;
             case DOWN:
-                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth*2, 2*spriteHeight*2, spriteWidth*2, spriteHeight*2));
+                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth, 2*spriteHeight, spriteWidth, spriteHeight));
                 break;
             case LEFT:
-                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth*2, 3*spriteHeight*2, spriteWidth*2, spriteHeight*2));
+                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth, 3*spriteHeight, spriteWidth, spriteHeight));
                 break;
         }
     }
