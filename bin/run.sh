@@ -7,4 +7,4 @@ if [ ! -f $loggerPath ] || [ ! -f $parametersPath ]; then
     sh bin/compile.sh
 fi
 
-java -cp out/production/ main.MainJavaFX
+java -classpath out/production:lib/gson-2.8.0.jar main.MainJavaFX

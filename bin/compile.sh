@@ -9,5 +9,5 @@ cp $parametersPath.dist $parametersPath
 rm -rf out
 mkdir -p out/production
 find ./src/ -name "*.java" > sourcefiles
-javac -s src/ -d out/production/ @sourcefiles
+javac -classpath lib/\* -s src/ -d out/production/ @sourcefiles
 rm sourcefiles
