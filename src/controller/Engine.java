@@ -41,7 +41,7 @@ public class Engine extends Observable implements Observer
     private Logger logger;
     private FXPlayer fxPlayer;
 
-    public Engine(Character player, Bot bot, Item item, int strategyIndex, int slashFrames, int spinFrames, int goldFrames, double width, double height, double fxVol)
+    public Engine(Character player, Bot bot, Item item, StatsWriter statsWriter, int strategyIndex, int slashFrames, int spinFrames, int goldFrames, double width, double height, double fxVol)
     {
         this.player = player;
         this.bot = bot;
@@ -76,7 +76,7 @@ public class Engine extends Observable implements Observer
         this.damageInstanceBot = false;
         this.tabScores = new int[]{0,0};
         logger = Logger.getInstance();
-        statsWriter = new StatsWriter();
+        this.statsWriter = statsWriter;
         this.fxPlayer = new FXPlayer(fxVol);
     }
 
@@ -280,7 +280,7 @@ public class Engine extends Observable implements Observer
             Random r = new Random();
             int rX = r.nextInt((int)width-91-91)+91;
             int rY = r.nextInt((int)height-100-100)+100;
-            item.init(itemTypes[r.nextInt(itemTypes.length)],new Position(rX,rY));
+            item.init(itemTypes[1],new Position(rX,rY));
         }
         if (slashCptBot > 0 && !bot.isSpinning() && !bot.isDead()) {
             if (slashCptBot == 1) {

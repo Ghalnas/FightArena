@@ -15,10 +15,12 @@ public class ItemPrinter implements JavaFXPrinter, Observer
     private ImageView lightning;
     private ImageView gold;
     private ImageView heal;
+    private ImageView itemView;
 
     public ItemPrinter(Item item)
     {
         this.item = item;
+        itemView = new ImageView();
         spin = new ImageView(new Image("file:assets/image/spin.png"));
         lightning = new ImageView(new Image("file:assets/image/lightning-item.png"));
         gold = new ImageView(new Image("file:assets/image/fist.png"));
@@ -27,30 +29,29 @@ public class ItemPrinter implements JavaFXPrinter, Observer
 
     @Override
     public Node getNode() {
-        if (item.getType() != null) {
-            ImageView img = null;
-            switch (item.getType()) {
-                case SPIN:
-                    img = spin;
-                    break;
-                case LIGHTNING:
-                    img = lightning;
-                    break;
-                case GOLD:
-                    img = gold;
-                    break;
-                case HEAL:
-                    img = heal;
-            }
-            img.setTranslateX(item.getHitbox().getX());
-            img.setTranslateY(item.getHitbox().getY());
-            return img;
-        }
-        return null;
+        return itemView;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-
+        if (arg instanceof Item.ItemType) {
+            switch (item.getType()) {
+                case SPIN:
+                    itemView = spin;
+                    break;
+                case LIGHTNING:
+                    itemView = lightning;
+                    break;
+                case GOLD:
+                    itemView = gold;
+                    break;
+                case HEAL:
+                    itemView = heal;
+            }
+            itemView.setTranslateX(item.getHitbox().getX());
+            itemView.setTranslateY(item.getHitbox().getY());
+        } else {
+            itemView = new ImageView();
+        }
     }
 }

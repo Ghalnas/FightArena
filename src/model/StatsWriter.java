@@ -211,4 +211,9 @@ public class StatsWriter
         }
     }
 
+    public Map<String, Stat> getMap()
+    {
+        return map;
+    }
+
 }
