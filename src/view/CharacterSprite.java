@@ -30,7 +30,7 @@ public class CharacterSprite
         imageView = c instanceof Player ? new ImageView(new Image("file:assets/image/player80.png")) : new ImageView(new Image("file:assets/image/bot80.png"));
         dead = c instanceof Player ? new ImageView(new Image("file:assets/image/player-dead.png")) : new ImageView(new Image("file:assets/image/bot-dead.png"));
         lightning = new ImageView(new Image("file:assets/image/lightning.png"));
-        goldenPlayer = new ImageView(new Image("file:assets/image/gold-char-80.png"));
+        goldenPlayer = new ImageView(new Image("file:assets/image/gold-char.png"));
         character = c;
         cpt = 1;
         cptSlash = 1;
