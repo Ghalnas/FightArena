@@ -6,14 +6,14 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class StrategyEpicTest
+public class StrategyLowTest
 {
-    private StrategyEpic strategyEpic;
+    private StrategyLow strategyLow;
 
     @Before
     public void setUp()
     {
-        this.strategyEpic = new StrategyEpic(
+        this.strategyLow = new StrategyLow(
             new Player(new Position(1, 1), 1, 1, 2),
             new Bot(new Position(1, 1), 1, 1, 2),
             new Item()
@@ -23,13 +23,13 @@ public class StrategyEpicTest
     @BeforeClass
     public static void testClassName()
     {
-        assertEquals("model.StrategyEpic", StrategyEpic.class.getName());
+        assertEquals("model.StrategyLow", StrategyLow.class.getName());
     }
 
     @Test
     public void testGetCommand()
     {
-        assertEquals(true, strategyEpic.getCommand() != null);
+        assertEquals(true, strategyLow.getCommand() != null);
     }
 
     @Test
@@ -37,33 +37,30 @@ public class StrategyEpicTest
     {
         Bot bot = new Bot(new Position(1, 1), 1, 1, 2);
         bot.isGold = true;
-        this.strategyEpic = new StrategyEpic(
+        this.strategyLow = new StrategyLow(
                 new Player(new Position(1, 1), 1, 1, 2),
                 bot,
                 new Item()
         );
-        assertEquals(true, strategyEpic.getCommand() != null);
+        assertEquals(true, strategyLow.getCommand() != null);
     }
 
     @Test
     public void testBotGetHeal()
     {
         Bot bot = new Bot(new Position(200, 200), 1, 1, 2);
-        bot.health = 48;
-
-        Player player = new Player(new Position(1, 1), 1, 1, 2);
-        player.health = 49;
-        player.isGold = true;
+        bot.health = 51;
 
         Item item = new Item();
         item.init(Item.ItemType.HEAL, new Position(1, 1));
 
-        this.strategyEpic = new StrategyEpic(
-                player,
+        this.strategyLow = new StrategyLow(
+                new Player(new Position(1, 1), 1, 1, 2),
                 bot,
                 item
         );
-        assertEquals(true, strategyEpic.getCommand() != null);
+        this.strategyLow.cmpt = 39;
+        assertEquals(true, strategyLow.getCommand() != null);
     }
 
     @Test
@@ -71,65 +68,65 @@ public class StrategyEpicTest
     {
         Bot bot = new Bot(new Position(49, 49), 1, 1, 2);
 
-        this.strategyEpic = new StrategyEpic(
+        this.strategyLow = new StrategyLow(
                 new Player(new Position(50, 50), 1, 1, 2),
                 bot,
                 new Item()
         );
-        assertEquals(true, strategyEpic.getCommand() != null);
+        assertEquals(true, strategyLow.getCommand() != null);
 
         bot = new Bot(new Position(51, 49), 1, 1, 2);
 
-        this.strategyEpic = new StrategyEpic(
+        this.strategyLow = new StrategyLow(
                 new Player(new Position(50, 50), 1, 1, 2),
                 bot,
                 new Item()
         );
-        assertEquals(true, strategyEpic.getCommand() != null);
+        assertEquals(true, strategyLow.getCommand() != null);
 
         bot = new Bot(new Position(49, 51), 1, 1, 2);
 
-        this.strategyEpic = new StrategyEpic(
+        this.strategyLow = new StrategyLow(
                 new Player(new Position(50, 50), 1, 1, 2),
                 bot,
                 new Item()
         );
-        assertEquals(true, strategyEpic.getCommand() != null);
+        assertEquals(true, strategyLow.getCommand() != null);
 
         bot = new Bot(new Position(51, 50), 1, 1, 2);
 
-        this.strategyEpic = new StrategyEpic(
+        this.strategyLow = new StrategyLow(
                 new Player(new Position(50, 50), 1, 1, 2),
                 bot,
                 new Item()
         );
-        assertEquals(true, strategyEpic.getCommand() != null);
+        assertEquals(true, strategyLow.getCommand() != null);
 
         bot = new Bot(new Position(49, 50), 1, 1, 2);
 
-        this.strategyEpic = new StrategyEpic(
+        this.strategyLow = new StrategyLow(
                 new Player(new Position(50, 50), 1, 1, 2),
                 bot,
                 new Item()
         );
-        assertEquals(true, strategyEpic.getCommand() != null);
+        assertEquals(true, strategyLow.getCommand() != null);
 
         bot = new Bot(new Position(50, 51), 1, 1, 2);
 
-        this.strategyEpic = new StrategyEpic(
+        this.strategyLow = new StrategyLow(
                 new Player(new Position(50, 50), 1, 1, 2),
                 bot,
                 new Item()
         );
-        assertEquals(true, strategyEpic.getCommand() != null);
+        assertEquals(true, strategyLow.getCommand() != null);
 
         bot = new Bot(new Position(50, 49), 1, 1, 2);
 
-        this.strategyEpic = new StrategyEpic(
+        this.strategyLow = new StrategyLow(
                 new Player(new Position(50, 50), 1, 1, 2),
                 bot,
                 new Item()
         );
-        assertEquals(true, strategyEpic.getCommand() != null);
+        assertEquals(true, strategyLow.getCommand() != null);
     }
 }

@@ -7,7 +7,7 @@ public class StrategyLow implements Strategy
     private Character player;
     private Character bot;
     private Item item;
-    private int cmpt = 0;
+    protected int cmpt = 0;
 
     public StrategyLow(Character player, Character bot, Item item)
     {
