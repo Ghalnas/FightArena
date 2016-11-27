@@ -60,34 +60,45 @@ public class CharacterPrinter implements JavaFXPrinter, Observer
     @Override
     public void update(Observable o, Object arg) {
         panel.getChildren().remove(charac);
-            if (arg instanceof Command.Action) {
-                if (arg == Command.Action.SLASH) {
+        if (arg instanceof Command.Action) {
+            switch ((Command.Action)arg) {
+                case SLASH:
                     charac = characterSprite.getSlashCharacterSprite();
-                } else if (arg == Command.Action.NONE) {
+                    break;
+                case NONE:
                     charac = characterSprite.getCharacterSprite();
-                }
-            } else if (arg instanceof Event) {
-                if (arg == Event.DAMAGED) {
+                    break;
+            }
+        } else if (arg instanceof Event) {
+            switch ((Event)arg) {
+                case DAMAGED:
                     double charRemainingHealth = (charWidth * character.getHealth()) / maxHealth;
                     remainingHealth.setWidth(charRemainingHealth);
                     missingHealth.setTranslateX(character.getPosition().getX() + charRemainingHealth - 40);
                     missingHealth.setWidth(charWidth - charRemainingHealth);
-                } else if (arg == Event.DEAD) {
+                    break;
+                case DEAD:
                     charac = characterSprite.getDead();
-                } else if (arg == Event.SPIN) {
+                    break;
+                case SPIN:
                     charac = characterSprite.getSpinSprite();
-                } else if (arg == Event.LIGHTNING) {
+                    break;
+                case LIGHTNING:
                     panel.getChildren().remove(lightning);
                     lightning = characterSprite.getLightning(character.getLightning());
                     lightning.setTranslateX(character.getLightning().getX() - 40);
                     panel.getChildren().add(lightning);
-                }else if (arg == Event.STOP_LIGHTNING) {
+                    break;
+                case STOP_LIGHTNING:
                     panel.getChildren().remove(lightning);
-                } else if (arg == Event.MOVED) {
+                    break;
+                case MOVED:
                     charac = characterSprite.getMovingCharacterSprite();
-                } else if (arg == Event.STOPPED) {
+                    break;
+                case STOPPED:
                     charac = characterSprite.getCharacterSprite();
-                }
+                    break;
+            }
         }
         panel.getChildren().add(charac);
 

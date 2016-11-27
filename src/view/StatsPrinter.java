@@ -31,12 +31,8 @@ public class StatsPrinter {
         this.width = width;
         background = new ImageView(new Image("file:assets/image/background-1024.jpg"));
 
-        stats = new Text("STATS");
-        stats.setFont(Font.loadFont(fontPixelPath,40));
-        stats.setLayoutX(425);
-        stats.setLayoutY(150);
         panel = new StackPane();
-        panel.setAlignment(Pos.TOP_LEFT);
+        panel.setAlignment(Pos.TOP_CENTER);
         panel.setPrefWidth(width);
         panel.setTranslateX(translateX);
         panel.setTranslateY(translateY);
@@ -53,18 +49,19 @@ public class StatsPrinter {
     public void statsPanel(String pseudo)
     {
         panel.getChildren().remove(1,panel.getChildren().size());
-        panel.getChildren().add(getStats(general,0));
         if (pseudo != null) {
-            panel.getChildren().add(getStats(pseudo,width/2));
+            panel.getChildren().add(getStats(pseudo,0));
+            panel.getChildren().add(drawPie(pseudo,width/2));
         } else {
-            panel.getChildren().add(drawPie(width/2));
+            panel.getChildren().add(getStats(general,0));
+            panel.getChildren().add(drawPie(general,width/2));
         }
     }
 
     private StackPane getStats(String pseudo, double alignX)
     {
         StackPane sp = new StackPane();
-        sp.setTranslateX(alignX-256);
+        sp.setTranslateX(alignX);
         sp.setPrefWidth(width/2);
         sp.setAlignment(Pos.TOP_LEFT);
         int startY = 190;
@@ -72,6 +69,7 @@ public class StatsPrinter {
 
         StackPane center = new StackPane();
         center.setAlignment(Pos.TOP_CENTER);
+        center.setTranslateX(-256);
 
         Text general = new Text(pseudo.toUpperCase() + " :");
         general.setFont(Font.loadFont(fontPixelPath,20));
@@ -142,21 +140,28 @@ public class StatsPrinter {
         return sp;
     }
 
-    private StackPane drawPie(double alignX)
+    private StackPane drawPie(String pseudo, double alignX)
     {
         StackPane sp = new StackPane();
-        sp.setTranslateX(alignX-256);
+        sp.setTranslateX(alignX);
         sp.setPrefWidth(width/2);
         sp.setAlignment(Pos.TOP_LEFT);
         PieChart chart = new PieChart();
+        int all = map.get(pseudo).getVictories();
+        int spin = map.get(pseudo).getSpinVictory();
+        int lightning = map.get(pseudo).getLightningWin();
+        int gold = map.get(pseudo).getGoldVictory();
+        int normal = all - spin -lightning - gold;
         chart.setTitle("Victories");
         chart.getData().setAll(
-                new PieChart.Data("Normal", map.get(general).getVictories()-map.get(general).getSpinVictory()-map.get(general).getLightningWin()-map.get(general).getGoldVictory()),
-                new PieChart.Data("Spin", map.get(general).getSpinVictory()),
-                new PieChart.Data("Lightning", map.get(general).getLightningWin()),
-                new PieChart.Data("Gold", map.get(general).getGoldVictory())
+                new PieChart.Data("Normal ("+String.format("%.2f", (normal*100f)/all)+" %)", normal),
+                new PieChart.Data("Spin ("+String.format("%.2f", (spin*100f)/all)+" %)", spin),
+                new PieChart.Data("Lightning ("+String.format("%.2f", (lightning*100f)/all)+" %)", lightning),
+                new PieChart.Data("Gold ("+String.format("%.2f", (gold*100f)/all)+" %)", gold)
         );
-        chart.setLabelsVisible(false);
+        chart.setTranslateX(-256);
+        chart.setLabelsVisible(true);
+        chart.setLegendVisible(false);
         chart.setStyle("-fx-font-size:40px;");
         chart.setScaleX(0.5);
         chart.setScaleY(0.5);

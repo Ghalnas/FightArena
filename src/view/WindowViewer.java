@@ -58,6 +58,7 @@ public class WindowViewer
         panel.getChildren().clear();
         statsPrinter.statsPanel(pseudoPlayer);
         panel.getChildren().add(statsPrinter.getPanel());
+        panel.getChildren().add(rightMenu.getPanel());
         resizePanel(shrinkX, shrinkY);
         return panel;
     }
