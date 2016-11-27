@@ -61,7 +61,7 @@ public class StatTest
     public void testGetSpinTime()
     {
         stat.setSpinTime(7);
-        assertEquals(7, stat.getSpinTime());
+        assertEquals(7, stat.getSpinTime(), 0.001);
     }
 
     @Test
@@ -117,7 +117,7 @@ public class StatTest
     public void testGetGoldTime()
     {
         stat.setGoldTime(14);
-        assertEquals(14, stat.getGoldTime());
+        assertEquals(14, stat.getGoldTime(), 0.001);
     }
 
     @Test
