@@ -138,16 +138,16 @@ public class CharacterSprite
     {
         switch (character.getDirection()) {
             case UP:
-                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth*2, 0, spriteWidth*2, spriteHeight*2));
+                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth, 0, spriteWidth, spriteHeight));
                 break;
             case RIGHT:
-                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth*2, spriteHeight*2, spriteWidth*2, spriteHeight*2));
+                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth, spriteHeight, spriteWidth, spriteHeight));
                 break;
             case DOWN:
-                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth*2, 2*spriteHeight*2, spriteWidth*2, spriteHeight*2));
+                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth, 2*spriteHeight, spriteWidth, spriteHeight));
                 break;
             case LEFT:
-                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth*2, 3*spriteHeight*2, spriteWidth*2, spriteHeight*2));
+                goldenPlayer.setViewport(new Rectangle2D(multiplier*spriteWidth, 3*spriteHeight, spriteWidth, spriteHeight));
                 break;
         }
     }

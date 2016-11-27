@@ -196,7 +196,9 @@ public class Engine extends Observable implements Observer
 
     public void run(Command c)
     {
-        frameCpt++;
+        if (item.getType() == null) {
+            frameCpt++;
+        }
         if (bot.isDead() || player.isDead()) {
             deathCpt++;
             if(deathCpt == 1) {
@@ -218,7 +220,7 @@ public class Engine extends Observable implements Observer
                 fxPlayer.reinit();
                 goldCpt = 0;
                 itemUser.stopGold();
-
+                frameCpt = 1;
                 itemUser = null;
                 target = null;
             }
@@ -262,6 +264,7 @@ public class Engine extends Observable implements Observer
             if (spinCpt == spinFrames) {
                 fxPlayer.reinit();
                 spinCpt = 0;
+                frameCpt = 1;
                 itemUser.stopSpin();
                 itemUser = null;
                 target = null;
@@ -395,7 +398,7 @@ public class Engine extends Observable implements Observer
 
     private void useItem(Character character)
     {
-        frameCpt = 1;
+        frameCpt++;
         String itemMessage = null;
         switch (item.getType()) {
             case SPIN:
@@ -412,6 +415,7 @@ public class Engine extends Observable implements Observer
                 }
                 break;
             case LIGHTNING:
+                frameCpt = 1;
                 lightningCpt++;
                 fxPlayer.playLightning();
                 character.startLightning();
@@ -442,6 +446,7 @@ public class Engine extends Observable implements Observer
                 }
                 break;
             case HEAL:
+                frameCpt = 1;
                 double low = character.getHealth();
                 character.heal();
                 fxPlayer.playHeal();
